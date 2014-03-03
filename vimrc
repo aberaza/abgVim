@@ -1,8 +1,18 @@
 " Environment {
     " Basics {
         set nocompatible " Must be first line
+        " If linux
         set shell=/bin/sh
+        " else if windows and mingw
+        " set shell=D:\MinGW\msys\1.0\bin\bash
+        " set shellcmdflag=--login\ -c
+        " set shellxquote=\"e, if windows and mingw
+        let mapleader = ","
     " }
+    "
+
+    " Setup Bundle
+    " Bundle {
 
     let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
     if !filereadable(vundle_readme)
@@ -14,28 +24,12 @@
         filetype off
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
+
+        " Deps {
+            Bundle 'gmarik/vundle'
+        " }
     " }
     endif
-" }
-
-" Bundles {
-" Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install (update) bundles
-" :BundleSearch(!) foo - search (or refresh cache first) for foo
-" :BundleClean(!)      - confirm (or auto-approve) removal of unused bundles
-"
-" see :h vundle for more details or wiki for FAQ
-    " Deps {
-        Bundle 'gmarik/vundle'
-
-
-        Bundle 'majutsushi/tagbar'
-        Bundle 'tpope/vim-fugitive'
-        Bundle 'scrooloose/syntastic'
-        Bundle 'kien/ctrlp.vim'
-        Bundle 'scrooloose/nerdtree'
-    " }
 " }
 
 " Start of good config file items
@@ -58,23 +52,86 @@
     set history=1000 " Store a ton of history (default is 20)
     " set spell " Spell checking on
     set hidden " Allow buffer switching without saving
-
-
+    "set ignorecase                  " Case insensitive search
+    "set smartcase                   " Case sensitive when uc present
+    set wildmenu                    " Show list instead of just completing
+    set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
+    " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+    set scrolljump=5                " Lines to scroll when cursor leaves screen
+    set scrolloff=3                 " Minimum lines to keep above and below cursor
+    "set foldenable                  " Auto fold code
+    set backspace=indent,eol,start  " Backspace for dummies
+    set linespace=0                 " No extra spaces between rows
+    
+"if windows
+	" Manage backup files {
+		set backup
+		set backupdir=C:\WINDOWS\Temp
+		set backupskip=C:\WINDOWS\Temp\*
+		set directory=C:\WINDOWS\Temp
+	" }
+"endif
 " }
 
-" Vim UI {
-
+" UI enhancements {
+    " Solarizez theme or molokai or fruity
     if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
         let g:solarized_termcolors=256
         let g:solarized_termtrans=1
         let g:solarized_contrast="normal"
         let g:solarized_visibility="normal"
         color solarized " Load a colorscheme
+    else
+		set background=dark
+		color molokai " fruity
     endif
+
+    " comandline info {
+        set ruler                   " Show the ruler
+        set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
+        set showcmd                 " Show partial commands in status line and
+    " }
+
+    " statusline {
+        set laststatus=2                         " Always show the status line
+        set statusline=%<%f\                     " Filename
+        set statusline+=%w%h%m%r                 " Options
+        set statusline+=%{fugitive#statusline()} " Git Hotness
+        set statusline+=\ [%{&ff}/%Y]            " Filetype
+        set statusline+=\ [%{getcwd()}]          " Current dir
+        set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+    " }
+
+    " GVIM- (here instead of .gvimrc)
+        if has('gui_running')
+            set guioptions-=T " Remove the toolbar
+            set lines=40 " 40 lines of text instead of 24
+            set guifont=Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
+        else
+            if &term == 'xterm' || &term == 'screen'
+                set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+            endif
+    "set term=builtin_ansi " Make arrow and other keys work
+        endif
+    " }
+
+    " Formatting {
+        set nowrap                      " Do not wrap long lines
+        set autoindent                  " Indent at the same level of the previous line
+        set shiftwidth=4                " Use indents of 4 spaces
+        set expandtab                   " Tabs are spaces, not tabs
+        set tabstop=4                   " An indentation every four columns
+        set softtabstop=4               " Let backspace delete indent
+        set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
+        set splitright                  " Puts new vsplit windows to the right of the current
+        set splitbelow                  " Puts new split windows to the bottom of the current
+        "set matchpairs+=<:>             " Match, to be used with %
+        set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
+        " autocmd FileType c,cpp,java,go,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+    " }
 
     set tabpagemax=15 " Only show 15 tabs
     set showmode " Display the current mode
-
     set cursorline " Highlight current line
 
     highlight clear SignColumn " SignColumn should match background
@@ -82,22 +139,7 @@
     let g:CSApprox_hook_post = ['hi clear SignColumn']
 "highlight clear CursorLineNr " Remove highlight color from current line number
 
-" Ruler settings
-    set ruler " Show the ruler
-    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
-    set showcmd " Show partial commands in status line and
-                " Selected characters/lines in visual mode
-
-" Status bar settings
-    set laststatus=2
-
 " Broken down into easily includeable segments
-    set statusline=%<%f\ " Filename
-    set statusline+=%w%h%m%r " Options
-    "set statusline+=%{fugitive#statusline()} " Git Hotness
-    set statusline+=\ [%{&ff}/%Y] " Filetype
-    set statusline+=\ [%{getcwd()}] " Current dir
-    set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
 
     set backspace=indent,eol,start " Backspace for dummies
     set linespace=0 " No extra spaces between rows
@@ -108,11 +150,7 @@
     set winminheight=0 " Windows can be 0 line high
     set ignorecase " Case insensitive search
     set smartcase " Case sensitive when uc present
-    set wildmenu " Show list instead of just completing
-    set wildmode=list:longest,full " Command <Tab> completion, list matches, then longest common part, then all.
     set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
-    set scrolljump=5 " Lines to scroll when cursor leaves screen
-    set scrolloff=3 " Minimum lines to keep above and below cursor
     " set foldenable " Auto fold code
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
@@ -150,22 +188,17 @@
 
 " GUI Settings {
 
-" GVIM- (here instead of .gvimrc)
-    if has('gui_running')
-        set guioptions-=T " Remove the toolbar
-        set lines=40 " 40 lines of text instead of 24
-        set guifont=Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
-    else
-        if &term == 'xterm' || &term == 'screen'
-            set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-        endif
-"set term=builtin_ansi " Make arrow and other keys work
-    endif
-" }
 
 
 
 " Bundles {
+
+
+        Bundle 'majutsushi/tagbar'
+        Bundle 'tpope/vim-fugitive'
+        Bundle 'scrooloose/syntastic'
+        Bundle 'kien/ctrlp.vim'
+        Bundle 'scrooloose/nerdtree'
     " General {
         " ctrlp {
             let g:ctrlp_working_path_mode = 'ra'
