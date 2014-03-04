@@ -196,6 +196,7 @@
         Bundle 'scrooloose/syntastic'
         Bundle 'kien/ctrlp.vim'
         Bundle 'scrooloose/nerdtree'
+        Bundle 'rking/ag.vim'
     " }
 
     " Configurations {
@@ -232,7 +233,9 @@
                 \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
                 \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
 
-            if executable('ack')
+            if executable('ag')
+                let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+            elseif executable('ack')
                 let s:ctrlp_fallback = 'ack %s --nocolor -f'
             elseif has("win32")
                 " On Windows use "dir" as fallback command.
@@ -240,6 +243,12 @@
             endif
         " }
 
+        "Syntastic {
+            let g:syntastic_javascript_checkers=['jslint', 'jshint']
+            " uncomment both to enable auto check on file save
+            " let g:syntastic_enable_signs=1 
+            " let g:syntastic_auto_loc_list=1
+        "}
         " Fugitive {
             " nnoremap <silent> <leader>gs :Gstatus<CR>
             " nnoremap <silent> <leader>gd :Gdiff<CR>
