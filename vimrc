@@ -1,41 +1,46 @@
 " Environment {
     " Basics {
         set nocompatible " Must be first line
-        " If linux
-        set shell=/bin/sh
-        " else if windows and mingw
-        " set shell=D:\MinGW\msys\1.0\bin\bash
-        " set shellcmdflag=--login\ -c
-        " set shellxquote=\"e, if windows and mingw
+        if has("win32")
+            " else if windows and mingw
+            " set shell=D:\MinGW\msys\1.0\bin\bash
+            " set shellcmdflag=--login\ -c
+            " set shellxquote=\"e, if windows and mingw
+            source $VIMRUNTIME/vimrc_example.vim
+            source $VIMRUNTIME/mswin.vim
+            behave mswin
+
+            if has("multi_byte")
+                " Windows cmd.exe still uses cp850. If Windows ever moved to
+                set terggencoding=cp850
+                " Let Vim use utf-8 internally, because many scripts require this
+                set encoding=utf-8
+                set fileencoding=utf-8
+                " set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
+            endif
+            cd D:\WORKSPACE
+        else
+            set shell=/bin/sh
+        endif
         let mapleader = ","
     " }
-    "
 
-    " Setup Bundle
-    " Bundle {
-
-    let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-    if !filereadable(vundle_readme)
-        echo "Could not find Vundle.."
-        echo ""
-    else
-    " Setup Bundle Support {
+    " Setup Bundle {
         " The next three lines ensure that the ~/.vim/bundle/ system works
         filetype off
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
-
         " Deps {
             Bundle 'gmarik/vundle'
         " }
     " }
-    endif
 " }
 
 " Start of good config file items
 
 " General {
     filetype plugin indent on " Automatically detect file types.
+    " set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles,$HOME/.vim,~/.vim/bundle/vundle " Needed for windows?
     syntax on " Syntax highlighting
     set mouse=a " Automatically enable mouse usage
     set mousehide " Hide the mouse cursor while typing
@@ -64,15 +69,20 @@
     set backspace=indent,eol,start  " Backspace for dummies
     set linespace=0                 " No extra spaces between rows
     
-"if windows
 	" Manage backup files {
+    if 0
 		set backup
-		set backupdir=C:\WINDOWS\Temp
-		set backupskip=C:\WINDOWS\Temp\*
-		set directory=C:\WINDOWS\Temp
-	" }
-"endif
+		set backupdir=~/vimtmp
+		set backupskip=~/vimptmp/*
+		set directory=~/vimtmp
+    else
+        set nobackup
+        set nowritebackup
+        set noswapfile
+    endif
+    " }
 " }
+
 
 " UI enhancements {
     " Solarizez theme or molokai or fruity
@@ -176,23 +186,10 @@
     autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 " }
 
-
-" Key (re)Mappings {
-
-" The default leader is '\', but many people prefer ',' as it's in a standard
-" location. To override this behavior and set it back to '\' (or any other
-" character) add the following to your .vimrc.before.local file:
-" let g:spf13_leader='\'
-    let mapleader = ','
-" }
-
-
 " GUI Settings {
-
-
-
-
 " Bundles {
+
+    " Installed Bundles {
 
 
         Bundle 'majutsushi/tagbar'
@@ -200,36 +197,24 @@
         Bundle 'scrooloose/syntastic'
         Bundle 'kien/ctrlp.vim'
         Bundle 'scrooloose/nerdtree'
-    " General {
-        " ctrlp {
-            let g:ctrlp_working_path_mode = 'ra'
-            let g:ctrlp_custom_ignore = {
-                \ 'dir': '\.git$\|\.hg$\|\.svn$\|node_modules$',
-                \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
+        Bundle 'rking/ag.vim'
+    " }
 
-            if executable('ag')
-                let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
-            elseif executable('ack')
-                let s:ctrlp_fallback = 'ack %s --nocolor -f'
-            else
-                let s:ctrlp_fallback = 'find %s -type f'
-            endif
-            let g:ctrlp_user_command = {
-                \ 'types': {
-                    \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-                    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-                \ },
-                \ 'fallback': s:ctrlp_fallback
-            \ }
+    " Configurations {
+        " Tagbar {
+            "if executable('ctags')
+                nmap <F6> :TagbarToggle<CR>
+                nnoremap <silent> <leader>tt :TagbarToggle<CR>
+            "endif
         " }
-        
+
         " NerdTREE {
-            map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
-            map <leader>e :NERDTreeFind<CR>
-            nmap <leader>nt :NERDTreeFind<CR>
+            map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
+            map <Leader>f :NERDTreeFind<CR>
+            map <F5> :let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
 
             let NERDTreeShowBookmarks=1
-            let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node_modules']
+            let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node\-modules']
             let NERDTreeChDirMode=0
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
@@ -237,14 +222,48 @@
             let NERDTreeKeepTreeInNewTab=1
             let g:nerdtree_tabs_open_on_gui_startup=0
         " }
-    " }
 
-        
-     " General Programming {
-            " TagBar {
-                nmap <F8> :TagbarToggle<CR>
-                nnoremap <silent> <leader>tt :TagbarToggle<CR>
-            " }
+        " CtrlP {
+            Bundle 'kien/ctrlp.vim'
+
+            nnoremap <leader>b :CtrlPBuffer<CR>
+            nnoremap <leader>p :CtrlPMixed<CR>
+
+            let g:ctrlp_working_path_mode = 'ra'
+            let g:ctrlp_custom_ignore = {
+                \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
+                \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
+
+            if executable('ag')
+                let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+            elseif executable('ack')
+                let s:ctrlp_fallback = 'ack %s --nocolor -f'
+            elseif has("win32")
+                " On Windows use "dir" as fallback command.
+                let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
+            endif
+        " }
+
+        "Syntastic {
+            let g:syntastic_javascript_checkers=['jslint', 'jshint']
+            " uncomment both to enable auto check on file save
+            " let g:syntastic_enable_signs=1 
+            " let g:syntastic_auto_loc_list=1
+        "}
+        " Fugitive {
+            " nnoremap <silent> <leader>gs :Gstatus<CR>
+            " nnoremap <silent> <leader>gd :Gdiff<CR>
+            " nnoremap <silent> <leader>gc :Gcommit<CR>
+            " nnoremap <silent> <leader>gb :Gblame<CR>
+            " nnoremap <silent> <leader>gl :Glog<CR>
+            " nnoremap <silent> <leader>gp :Git push<CR>
+            " nnoremap <silent> <leader>gr :Gread<CR>
+            " nnoremap <silent> <leader>gw :Gwrite<CR>
+            " nnoremap <silent> <leader>ge :Gedit<CR>
+            " nnoremap <silent> <leader>gi :Git add -p %<CR>
+            " nnoremap <silent> <leader>gg :SignifyToggle<CR>
+        " }
+
     " }
 
 " }
