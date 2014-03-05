@@ -40,6 +40,7 @@
     set mouse=a " Automatically enable mouse usage
     set mousehide " Hide the mouse cursor while typing
     scriptencoding utf-8
+    set ffs=unix,dos,mac
 
     if has('clipboard')
         set clipboard=unnamedplus " use + register for copy-paste
