@@ -1,7 +1,7 @@
 " Environment {
     " Basics {
         set nocompatible " Must be first line
-        if has("win32")
+        if has('win32') || has('win64')
             " else if windows and mingw
             " set shell=D:\MinGW\msys\1.0\bin\bash
             " set shellcmdflag=--login\ -c
@@ -12,7 +12,7 @@
 
             if has("multi_byte")
                 " Windows cmd.exe still uses cp850. If Windows ever moved to
-                set terggencoding=cp850
+                set termencoding=cp850
                 " Let Vim use utf-8 internally, because many scripts require this
                 set encoding=utf-8
                 set fileencoding=utf-8
@@ -62,11 +62,11 @@
     "set smartcase                   " Case sensitive when uc present
     set wildmenu                    " Show list instead of just completing
     set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-    " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     "set foldenable                  " Auto fold code
     set backspace=indent,eol,start  " Backspace for dummies
+    " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
     set linespace=0                 " No extra spaces between rows
     
 	" Manage backup files {
@@ -115,9 +115,15 @@
 
     " GVIM- (here instead of .gvimrc)
         if has('gui_running')
-            set guioptions-=T " Remove the toolbar
-            set lines=40 " 40 lines of text instead of 24
-            set guifont=Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
+            set guioptions-=T   " Remove the toolbar
+            set go-=r           " Hide right scrollbars
+            set lines=40        " 40 lines of text instead of 24
+            if has('win32')
+                set guifont=Adale_Mono:h9,Menlo:h9,Consolas:h9,Courier_New:h9
+            else
+                set guifont=Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
+            endif
+
         else
             if &term == 'xterm' || &term == 'screen'
                 set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
