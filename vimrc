@@ -36,8 +36,6 @@
     " }
 " }
 
-" Start of good config file items
-
 " General {
     filetype plugin indent on " Automatically detect file types.
     " set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles,$HOME/.vim,~/.vim/bundle/vundle " Needed for windows?
@@ -47,7 +45,7 @@
     scriptencoding utf-8
     set ffs=unix,dos,mac
 
-    if has('clipboard')
+    if has('clipboard') && has('unnamedplus')
         set clipboard=unnamedplus " use + register for copy-paste
     endif
 
@@ -196,14 +194,15 @@
 " Bundles {
 
     " Installed Bundles {
-
-
         Bundle 'majutsushi/tagbar'
         Bundle 'tpope/vim-fugitive'
         Bundle 'scrooloose/syntastic'
         Bundle 'kien/ctrlp.vim'
         Bundle 'scrooloose/nerdtree'
         Bundle 'rking/ag.vim'
+        Bundle 'Shougo/neocomplcache'
+        Bundle 'Shougo/neosnippet'
+        Bundle 'honza/vim-snippets'
     " }
 
     " Configurations {
@@ -270,6 +269,68 @@
             " nnoremap <silent> <leader>gg :SignifyToggle<CR>
         " }
 
+        "Neocomplcache {
+            let g:acp_enableAtStartup = 0   " Disable built in autocmplete
+            let g:neocomplcache_enable_at_startup = 1 " use neocompl cache
+            let g:neocomplcache_enable_cursor_hold_i = 1
+            let g:neocomplcache_enable_ignore_case = 1 " ignore case...
+            let g:neocomplcache_enable_smart_case = 1 " unless word starts by capital letter
+            let g:neocomplcache_enable_auto_delimiter = 1 " Insert delimiter (parenthesis for functions, etc)
+            " let g:neocomplcache_max_list = 20
+            " let g:neocomplcache_force_overwrite_completefunc = 1
+            let g:neocomplcache_auto_completion_start_length = 3
+            let g:neocomplcache_enable_insert_char_pre = 1 " Prevent popup to display when moving using arrows
+            " Define dictionary.
+            let g:neocomplcache_dictionary_filetype_lists = {
+                \ 'default' : '',
+                \ 'vimshell' : $HOME.'/.vimshell_hist',
+                \ 'scheme' : $HOME.'/.gosh_completions'
+                \ }
+
+            " Define keyword.
+            if !exists('g:neocomplcache_keyword_patterns')
+                let g:neocomplcache_keyword_patterns = {}
+            endif
+            let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+            
+            " Key Mappings
+            " CR: select and close the popup
+            inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+
+            " Enable omni completion.
+            autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+            autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+            autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+            autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+            autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+            autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+        " }
+
+        " neosnippet (needs Nocomplcache) {
+            let g:neosnippet#enable_snipmate_compatibility = 1 " Enable neosnippet snipmate compatibility mode
+            let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets' " Use honza's snippets
+            " Mappings
+            " map <F7> :NeoComplCacheToggle<CR>
+            imap <C-k> <Plug>(neosnippet_expand_or_jump)
+            smap <C-k> <Plug>(neosnippet_expand_or_jump) 
+            imap <expr><TAB> neosnippet#expandable_or_jumpable()?
+                \ "\<Plug>(neosnippet_expand_or_jump)"
+                \: pumvisible() ? "\<C-n>" : "\<TAB>"
+            smap <expr><TAB> neosnippet#expandable_or_jumpable()?
+                \ "\<Plug>(neosnippet_expand_or_jump)"
+                \: "\<TAB>"
+            " xmap <C-k> <Plug>(neosnippet_expand_target)
+            " If selected is not a snippet, go to previous
+            " imap <silent><expr><C-k> neosnippet#expandable() ?
+            "        \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
+            "        \ "\<C-n>" : "\<Plug>(neosnippet_expand_or_jump)")
+            " smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
+
+            " For snippet_complete marker.
+            if has('conceal')
+                set conceallevel=2 concealcursor=i
+            endif
+        " }
     " }
 
 " }
