@@ -119,7 +119,7 @@
             if has('win32')
                 set guifont=Adale_Mono:h9,Menlo:h9,Consolas:h9,Courier_New:h9
             else
-                set guifont=Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
+                set guifont=DejaVu\ Sans\ Mono\ 9,Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
 
         else
