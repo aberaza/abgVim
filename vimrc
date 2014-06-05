@@ -102,13 +102,13 @@
     " }
 
     " statusline {
-        set laststatus=2                         " Always show the status line
-        set statusline=%<%f\                     " Filename
-        set statusline+=%w%h%m%r                 " Options
-        set statusline+=%{fugitive#statusline()} " Git Hotness
-        set statusline+=\ [%{&ff}/%Y]            " Filetype
-        set statusline+=\ [%{getcwd()}]          " Current dir
-        set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+        "set laststatus=2                         " Always show the status line
+        "set statusline=%<%f\                     " Filename
+        "set statusline+=%w%h%m%r                 " Options
+        "set statusline+=%{fugitive#statusline()} " Git Hotness
+        "set statusline+=\ [%{&ff}/%Y]            " Filetype
+        "set statusline+=\ [%{getcwd()}]          " Current dir
+        "set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
     " }
 
     " GVIM- (here instead of .gvimrc)
@@ -117,7 +117,8 @@
             set go-=r           " Hide right scrollbars
             set lines=40        " 40 lines of text instead of 24
             if has('win32')
-                set guifont=Adale_Mono:h9,Menlo:h9,Consolas:h9,Courier_New:h9
+                "set guifont=DejaVu_LGC_Sans_Mono:h8,Consolas:h9,Courier_New:h9
+                set guifont=DejaVu_Sans_Mono_for_Powerline:h8,Consolas:h9,Courier_New:h9
             else
                 set guifont=Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
@@ -130,20 +131,6 @@
         endif
     " }
 
-    " Formatting {
-        set nowrap                      " Do not wrap long lines
-        set autoindent                  " Indent at the same level of the previous line
-        set shiftwidth=4                " Use indents of 4 spaces
-        set expandtab                   " Tabs are spaces, not tabs
-        set tabstop=4                   " An indentation every four columns
-        set softtabstop=4               " Let backspace delete indent
-        set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-        set splitright                  " Puts new vsplit windows to the right of the current
-        set splitbelow                  " Puts new split windows to the bottom of the current
-        "set matchpairs+=<:>             " Match, to be used with %
-        set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-        " autocmd FileType c,cpp,java,go,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
-    " }
 
     set tabpagemax=15 " Only show 15 tabs
     set showmode " Display the current mode
@@ -203,6 +190,9 @@
         Bundle 'Shougo/neocomplcache'
         Bundle 'Shougo/neosnippet'
         Bundle 'honza/vim-snippets'
+        Bundle 'bling/vim-airline'
+        Bundle 'spf13/PIV'
+        Bundle 'todotxt.vim'
     " }
 
     " Configurations {
@@ -229,7 +219,7 @@
         " }
 
         " CtrlP {
-            Bundle 'kien/ctrlp.vim'
+        "   Bundle 'kien/ctrlp.vim'
 
             nnoremap <leader>b :CtrlPBuffer<CR>
             nnoremap <leader>p :CtrlPMixed<CR>
@@ -250,7 +240,7 @@
         " }
 
         "Syntastic {
-            let g:syntastic_javascript_checkers=['jslint', 'jshint']
+            let g:syntastic_javascript_checkers=['jslint']
             " uncomment both to enable auto check on file save
             " let g:syntastic_enable_signs=1 
             " let g:syntastic_auto_loc_list=1
@@ -269,6 +259,19 @@
             " nnoremap <silent> <leader>gg :SignifyToggle<CR>
         " }
 
+         " PIV {
+            let g:DisableAutoPHPFolding = 0
+            let g:PIVAutoClose = 0
+        " }
+        " Airline {
+            let g:airline_powerline_fonts=1
+            let g:airline#extensions#tabline#enabled = 1
+            " See `:echo g:airline_theme_map` for some more choices
+            "
+            let g:airline_theme = 'dark'
+            "let g:airline_left_sep='›' " Slightly fancier than '>'
+            "let g:airline_right_sep='‹' " Slightly fancier than '<'
+        " }
         "Neocomplcache {
             let g:acp_enableAtStartup = 0   " Disable built in autocmplete
             let g:neocomplcache_enable_at_startup = 1 " use neocompl cache
