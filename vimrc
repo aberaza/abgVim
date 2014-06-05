@@ -120,7 +120,7 @@
                 "set guifont=DejaVu_LGC_Sans_Mono:h8,Consolas:h9,Courier_New:h9
                 set guifont=DejaVu_Sans_Mono_for_Powerline:h8,Consolas:h9,Courier_New:h9
             else
-                set guifont=Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
+                set guifont=DejaVu\ Sans\ Mono\ 9,Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
 
         else
