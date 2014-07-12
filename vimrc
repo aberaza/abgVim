@@ -114,15 +114,16 @@
     " GVIM- (here instead of .gvimrc)
         if has('gui_running')
             set guioptions-=T   " Remove the toolbar
+            set go-=L           " Hide left scrollbars
             set go-=r           " Hide right scrollbars
             set lines=40        " 40 lines of text instead of 24
             if has('win32')
                 "set guifont=DejaVu_LGC_Sans_Mono:h8,Consolas:h9,Courier_New:h9
-                set guifont=DejaVu_Sans_Mono_for_Powerline:h8,Consolas:h9,Courier_New:h9
+                set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:h8,Consolas:h9,Courier_New:h9
             else
-                set guifont=DejaVu\ Sans\ Mono\ 9,Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
+                set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
-
+            nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
         else
             if &term == 'xterm' || &term == 'screen'
                 set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
@@ -207,6 +208,7 @@
             map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
             map <Leader>f :NERDTreeFind<CR>
             map <F5> :let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
+            map! <F5> <Esc>:let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
 
             let NERDTreeShowBookmarks=1
             let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node\-modules']
