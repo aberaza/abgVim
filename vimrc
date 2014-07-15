@@ -36,6 +36,13 @@
     " }
 " }
 
+" Temporary hack
+" QuickFix window wills the bottom of the screen (like in eclipse)
+" QuickFix windows is the one where jshing shows the results and errors
+" au FileType qf wincmd J " Open QuickFix horizontally
+" end of temporary hack
+
+
 " General {
     filetype plugin indent on " Automatically detect file types.
     " set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles,$HOME/.vim,~/.vim/bundle/vundle " Needed for windows?
@@ -87,9 +94,14 @@
     if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
         let g:solarized_termcolors=256
         let g:solarized_termtrans=1
-        let g:solarized_contrast="normal"
-        let g:solarized_visibility="normal"
+        let g:solarized_contrast="high" " normal low high
+        let g:solarized_visibility="normal" " normal low high
         color solarized " Load a colorscheme
+        if(strftime("%H") >= 6 && strftime("%H")<=19
+            set background=light
+        else
+            set background=dark
+        endif
     else
 		set background=dark
 		color molokai " fruity
@@ -120,7 +132,7 @@
                 "set guifont=DejaVu_LGC_Sans_Mono:h8,Consolas:h9,Courier_New:h9
                 set guifont=DejaVu_Sans_Mono_for_Powerline:h8,Consolas:h9,Courier_New:h9
             else
-                set guifont=DejaVu\ Sans\ Mono\ 9,Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
+                set guifont=Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
 
         else
@@ -184,15 +196,20 @@
         Bundle 'majutsushi/tagbar'
         Bundle 'tpope/vim-fugitive'
         Bundle 'scrooloose/syntastic'
+        Bundle 'rking/ag.vim'
         Bundle 'kien/ctrlp.vim'
         Bundle 'scrooloose/nerdtree'
-        Bundle 'rking/ag.vim'
         Bundle 'Shougo/neocomplcache'
         Bundle 'Shougo/neosnippet'
         Bundle 'honza/vim-snippets'
         Bundle 'bling/vim-airline'
         Bundle 'spf13/PIV'
         Bundle 'todotxt.vim'
+        Bundle 'tikhomirov/vim-glsl'
+        Bundle 'plasticboy/vim-markdown'
+        Bundle 'emacs.vim'
+        Bundle 'mayansmoke'
+        
     " }
 
     " Configurations {
@@ -209,13 +226,14 @@
             map <F5> :let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
 
             let NERDTreeShowBookmarks=1
-            let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node\-modules']
-            let NERDTreeChDirMode=0
+            let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node_modules']
+            let g:NERDTreeChDirMode=1
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
-            let NERDTreeShowHidden=1
-            let NERDTreeKeepTreeInNewTab=1
-            let g:nerdtree_tabs_open_on_gui_startup=0
+            let g:NERDTreeShowHidden=1
+            let g:NERDTreeKeepTreeInNewTab=1
+            let g:NERDTreeMinimalUI = 1
+            "let g:nerdtree_tabs_open_on_gui_startup=0
         " }
 
         " CtrlP {
@@ -229,7 +247,7 @@
                 \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
                 \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
 
-            if executable('ag')
+            if executable('ag') " Silver searcher 
                 let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
             elseif executable('ack')
                 let s:ctrlp_fallback = 'ack %s --nocolor -f'
@@ -242,9 +260,10 @@
         "Syntastic {
             let g:syntastic_javascript_checkers=['jslint']
             " uncomment both to enable auto check on file save
-            " let g:syntastic_enable_signs=1 
-            " let g:syntastic_auto_loc_list=1
-        "}
+            
+            let g:syntastic_enable_signs=1 
+            "let g:syntastic_auto_loc_list=1
+            "}
         " Fugitive {
             " nnoremap <silent> <leader>gs :Gstatus<CR>
             " nnoremap <silent> <leader>gd :Gdiff<CR>
