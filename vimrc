@@ -33,6 +33,10 @@
         " Deps {
             Bundle 'gmarik/vundle'
         " }
+
+        " Themes {
+            Plugin 'molokai'
+        " }
     " }
 " }
 
@@ -182,18 +186,25 @@
 " Bundles {
 
     " Installed Bundles {
-        Bundle 'majutsushi/tagbar'
-        Bundle 'tpope/vim-fugitive'
-        Bundle 'scrooloose/syntastic'
-        Bundle 'kien/ctrlp.vim'
-        Bundle 'scrooloose/nerdtree'
-        Bundle 'rking/ag.vim'
-        Bundle 'Shougo/neocomplcache'
-        Bundle 'Shougo/neosnippet'
-        Bundle 'honza/vim-snippets'
-        Bundle 'bling/vim-airline'
-        Bundle 'spf13/PIV'
-        Bundle 'todotxt.vim'
+        Plugin 'majutsushi/tagbar'
+        Plugin 'tpope/vim-fugitive'
+        Plugin 'scrooloose/syntastic'
+        Plugin 'kien/ctrlp.vim'
+        Plugin 'scrooloose/nerdtree'
+        Plugin 'rking/ag.vim'
+        Plugin 'Shougo/neocomplcache'
+        Plugin 'Shougo/neosnippet'
+        Plugin 'honza/vim-snippets'
+        Plugin 'bling/vim-airline'
+        Plugin 'spf13/PIV'
+        Plugin 'todotxt.vim'
+"        Plugin 'Shougo/vimproc.vim'
+        Plugin 'dart-lang/dart-vim-plugin'
+        " Plugin 'dart'
+        Plugin 'elzr/vim-json'
+        Plugin 'airblade/vim-gitgutter'
+        Plugin 'tpope/vim-dispatch'
+        Plugin 'pangloss/vim-javascript'
     " }
 
     " Configurations {
@@ -212,7 +223,7 @@
 
             let NERDTreeShowBookmarks=1
             let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node\-modules']
-            let NERDTreeChDirMode=0
+            let NERDTreeChDirMode=2
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
             let NERDTreeShowHidden=1
@@ -230,9 +241,16 @@
             let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
                 \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
-
             if executable('ag')
-                let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+                " Replace native grep with ag
+                set grepprg=ag\ --nogroup\ --nocolor\ --column
+                set grepformat=%f:%l:%c%m
+                nmap <silent> <C-DOWN> :cnext<CR>
+                nmap <silent> <C-UP> :cprevious<CR>
+                " set ctrlp to use ag
+                let g:ctrlp_user_command = 'ag --nocolor -l -g "" %s'
+                " let g:ctrlp_use_caching=0
+                " let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
             elseif executable('ack')
                 let s:ctrlp_fallback = 'ack %s --nocolor -f'
             elseif has("win32")
@@ -246,6 +264,13 @@
             " uncomment both to enable auto check on file save
             " let g:syntastic_enable_signs=1 
             " let g:syntastic_auto_loc_list=1
+            " Run dart analyzer on file
+            autocmd FileType dart set errorformat+=%.%#\\\|%.%#\\\|%.%#\\\|%f\\\|%l\\\|%c\\\|%.%#\\\|%m
+            " set makeprg=dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
+            autocmd FileType dart set makeprg=dartanalyzer\ --machine\ %
+            autocmd BufWritePre *.dart Make
+            let g:syntastic_mode_map = {"mode" : "active",
+                \ "passive_filetypes" : ["dart"] }
         "}
         " Fugitive {
             " nnoremap <silent> <leader>gs :Gstatus<CR>
@@ -335,6 +360,16 @@
             if has('conceal')
                 set conceallevel=2 concealcursor=i
             endif
+        " }
+        "
+        " dart lang {
+        " set makeprg=$DART_SDK/bin/dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
+       " if has('vim_starting')
+            " set nocompatible
+            " set runtimepath+=~/.vim/bundle/dart-vim-plugin
+            autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
+        "endif
+        "filetype plugin indent on
         " }
     " }
 
