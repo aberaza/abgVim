@@ -190,13 +190,14 @@
         Plugin 'tpope/vim-fugitive'
         Plugin 'scrooloose/syntastic'
         Plugin 'kien/ctrlp.vim'
+        Plugin 'unite.vim'
         Plugin 'scrooloose/nerdtree'
         Plugin 'rking/ag.vim'
         Plugin 'Shougo/neocomplcache'
         Plugin 'Shougo/neosnippet'
         Plugin 'honza/vim-snippets'
         Plugin 'bling/vim-airline'
-        Plugin 'spf13/PIV'
+        "Plugin 'spf13/PIV'
         Plugin 'todotxt.vim'
 "        Plugin 'Shougo/vimproc.vim'
         Plugin 'dart-lang/dart-vim-plugin'
@@ -231,6 +232,23 @@
             let g:nerdtree_tabs_open_on_gui_startup=0
         " }
 
+        " Unite {
+        let g:unite_enable_start_insert=1
+        if executable('ag')
+            let g:unite_source_grep_command='ag'
+            let g:unite_source_grep_default_opts= '--nogroup --nocolor -i
+                \ --ignore .git
+                \ --ignore .pub
+                \ --ignore packages '
+            let g:unite_source_grep_recursive_opt=''
+
+            let g:unite_source_rec_async_command='ag --follow --nocolor
+                \ --nogroup -g ""'
+
+            let g:unite_source_file_async_command='ag --follow --nocolor
+                \--nogroup -g ""'
+        endif
+        "}
         " CtrlP {
         "   Bundle 'kien/ctrlp.vim'
 
@@ -248,7 +266,12 @@
                 nmap <silent> <C-DOWN> :cnext<CR>
                 nmap <silent> <C-UP> :cprevious<CR>
                 " set ctrlp to use ag
-                let g:ctrlp_user_command = 'ag --nocolor -l -g "" %s'
+                " let g:ctrlp_user_command = 'ag --nocolor -l -g "" %s'
+                let g:ctrlp_user_command = 'ag --nocolor 
+                    \ --ignore .git
+                    \ --ignore .pub
+                    \ --ignore packages
+                    \-l -g "" %s'
                 " let g:ctrlp_use_caching=0
                 " let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
             elseif executable('ack')
@@ -260,15 +283,18 @@
         " }
 
         "Syntastic {
-            let g:syntastic_javascript_checkers=['jslint']
+            let g:syntastic_javascript_checkers=['jshint']
             " uncomment both to enable auto check on file save
             " let g:syntastic_enable_signs=1 
             " let g:syntastic_auto_loc_list=1
+            let g:syntastic_check_on_open=0
+            let g:syntastic_check_on_wq=0
+            " let g:syntastic_always_populate_loc_list=1
             " Run dart analyzer on file
-            autocmd FileType dart set errorformat+=%.%#\\\|%.%#\\\|%.%#\\\|%f\\\|%l\\\|%c\\\|%.%#\\\|%m
+            " autocmd FileType dart set errorformat+=%.%#\\\|%.%#\\\|%.%#\\\|%f\\\|%l\\\|%c\\\|%.%#\\\|%m
             " set makeprg=dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
-            autocmd FileType dart set makeprg=dartanalyzer\ --machine\ %
-            autocmd BufWritePre *.dart Make
+            " autocmd FileType dart set makeprg=dartanalyzer\ --machine\ %
+            " autocmd BufWritePre *.dart Make
             let g:syntastic_mode_map = {"mode" : "active",
                 \ "passive_filetypes" : ["dart"] }
         "}
@@ -294,7 +320,6 @@
             let g:airline_powerline_fonts=1
             let g:airline#extensions#tabline#enabled = 1
             " See `:echo g:airline_theme_map` for some more choices
-            "
             let g:airline_theme = 'dark'
             "let g:airline_left_sep='›' " Slightly fancier than '>'
             "let g:airline_right_sep='‹' " Slightly fancier than '<'
