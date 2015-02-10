@@ -201,11 +201,12 @@
         Plugin 'todotxt.vim'
 "        Plugin 'Shougo/vimproc.vim'
         Plugin 'dart-lang/dart-vim-plugin'
-        " Plugin 'dart'
         Plugin 'elzr/vim-json'
         Plugin 'airblade/vim-gitgutter'
         Plugin 'tpope/vim-dispatch'
         Plugin 'pangloss/vim-javascript'
+        Plugin 'godlygeek/tabular' "Needed by vim-markdown
+        Plugin 'plasticboy/vim-markdown'
     " }
 
     " Configurations {
@@ -223,7 +224,7 @@
             map! <F5> <Esc>:let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
 
             let NERDTreeShowBookmarks=1
-            let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node\-modules']
+            let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$', '\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node-modules$[[dir]]', 'packages$[[dir]]', '.pub$[[dir]]']
             let NERDTreeChDirMode=2
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
@@ -311,11 +312,6 @@
             " nnoremap <silent> <leader>gi :Git add -p %<CR>
             " nnoremap <silent> <leader>gg :SignifyToggle<CR>
         " }
-
-         " PIV {
-            let g:DisableAutoPHPFolding = 0
-            let g:PIVAutoClose = 0
-        " }
         " Airline {
             let g:airline_powerline_fonts=1
             let g:airline#extensions#tabline#enabled = 1
@@ -388,14 +384,20 @@
         " }
         "
         " dart lang {
+            let g:dart_style_guide = 1
         " set makeprg=$DART_SDK/bin/dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
-       " if has('vim_starting')
+        " if has('vim_starting')
             " set nocompatible
             " set runtimepath+=~/.vim/bundle/dart-vim-plugin
             autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
         "endif
         "filetype plugin indent on
         " }
+        
+        " Markdown {
+            
+        " }
+
     " }
 
 " }
