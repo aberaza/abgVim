@@ -24,16 +24,16 @@
         endif
         let mapleader = ","
     " }
-
     " Setup Bundle {
         " The next three lines ensure that the ~/.vim/bundle/ system works
         filetype off
         set rtp+=~/.vim/bundle/vundle/
-        call vundle#rc()
+        call vundle#begin()
         " Deps {
             Bundle 'gmarik/vundle'
         " }
     " }
+
 " }
 
 " General {
@@ -56,8 +56,12 @@
     set history=1000 " Store a ton of history (default is 20)
     " set spell " Spell checking on
     set hidden " Allow buffer switching without saving
-    "set ignorecase                  " Case insensitive search
-    "set smartcase                   " Case sensitive when uc present
+    set showmatch " Show matching brackets/parenthesis
+    set incsearch " Find as you type search
+    set hlsearch " Highlight search terms
+    set winminheight=0 " Windows can be 0 line high
+    set ignorecase " Case insensitive search
+    set smartcase " Case sensitive when uc present
     set wildmenu                    " Show list instead of just completing
     set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
     set scrolljump=5                " Lines to scroll when cursor leaves screen
@@ -65,7 +69,6 @@
     "set foldenable                  " Auto fold code
     set backspace=indent,eol,start  " Backspace for dummies
     " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
-    set linespace=0                 " No extra spaces between rows
     
 	" Manage backup files {
     if 0
@@ -116,9 +119,9 @@
             set guioptions-=T   " Remove the toolbar
             set go-=L           " Hide left scrollbars
             set go-=r           " Hide right scrollbars
+            set go+=e           " Native toolkit tabs
             set lines=40        " 40 lines of text instead of 24
             if has('win32')
-                "set guifont=DejaVu_LGC_Sans_Mono:h8,Consolas:h9,Courier_New:h9
                 set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:h8,Consolas:h9,Courier_New:h9
             else
                 set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
@@ -133,7 +136,6 @@
     " }
 
 
-    set tabpagemax=15 " Only show 15 tabs
     set showmode " Display the current mode
     set cursorline " Highlight current line
 
@@ -144,15 +146,6 @@
 
 " Broken down into easily includeable segments
 
-    set backspace=indent,eol,start " Backspace for dummies
-    set linespace=0 " No extra spaces between rows
-    set nu " Line numbers on
-    set showmatch " Show matching brackets/parenthesis
-    set incsearch " Find as you type search
-    set hlsearch " Highlight search terms
-    set winminheight=0 " Windows can be 0 line high
-    set ignorecase " Case insensitive search
-    set smartcase " Case sensitive when uc present
     set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
     " set foldenable " Auto fold code
     set list
@@ -164,12 +157,15 @@
 
 " Formatting {
 
+    set linespace=0                 " No extra spaces between rows
+    set nu " Line numbers on
     set nowrap " Do not wrap long lines
     set autoindent " Indent at the same level of the previous line
     set shiftwidth=4 " Use indents of 4 spaces
     set expandtab " Tabs are spaces, not tabs
     set tabstop=4 " An indentation every four columns
     set softtabstop=4 " Let backspace delete indent
+    set tabpagemax=15 " Only show 15 tabs
     set nojoinspaces " Prevents inserting two spaces after punctuation on a join (J)
     set splitright " Puts new vsplit windows to the right of the current
     set splitbelow " Puts new split windows to the bottom of the current
@@ -195,6 +191,7 @@
         Bundle 'spf13/PIV'
         Bundle 'todotxt.vim'
     " }
+        call vundle#end()
 
     " Configurations {
         " Tagbar {
@@ -266,13 +263,15 @@
             let g:PIVAutoClose = 0
         " }
         " Airline {
-            let g:airline_powerline_fonts=1
+            if has('gui_running')
+                let g:airline_powerline_fonts=1
+            else
+                let g:airline_left_sep='›' " Slightly fancier than '>'
+                let g:airline_right_sep='‹' " Slightly fancier than '<'
+            endif
             let g:airline#extensions#tabline#enabled = 1
             " See `:echo g:airline_theme_map` for some more choices
-            "
             let g:airline_theme = 'dark'
-            "let g:airline_left_sep='›' " Slightly fancier than '>'
-            "let g:airline_right_sep='‹' " Slightly fancier than '<'
         " }
         "Neocomplcache {
             let g:acp_enableAtStartup = 0   " Disable built in autocmplete
