@@ -203,6 +203,8 @@
         Plugin 'pangloss/vim-javascript'
         Plugin 'godlygeek/tabular' "Needed by vim-markdown
         Plugin 'plasticboy/vim-markdown'
+        Plugin 'digitaltoad/vim-jade'
+        Plugin 'jszakmeister/vim-togglecursor'
     " }
         call vundle#end()
 
@@ -221,7 +223,7 @@
             map! <F5> <Esc>:let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
 
             let NERDTreeShowBookmarks=1
-            let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$', '\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node-modules$[[dir]]', 'packages$[[dir]]', '.pub$[[dir]]']
+            let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$', '\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'packages$[[dir]]', '.pub$[[dir]]']
             let NERDTreeChDirMode=2
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
