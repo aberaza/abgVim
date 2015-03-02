@@ -20,7 +20,7 @@
             endif
             cd D:\WORKSPACE
         else
-            set shell=/bin/sh
+            set shell=/bin/bash
         endif
         let mapleader = ","
     " }
@@ -35,6 +35,7 @@
 
         " Themes {
             Plugin 'molokai'
+            Plugin 'Solarized'
         " }
     " }
 
@@ -42,7 +43,7 @@
 
 " General {
     filetype plugin indent on " Automatically detect file types.
-    " set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles,$HOME/.vim,~/.vim/bundle/vundle " Needed for windows?
+    set runtimepath+=$HOME/.vim " Needed for windows?
     syntax on " Syntax highlighting
     set mouse=a " Automatically enable mouse usage
     set mousehide " Hide the mouse cursor while typing
@@ -90,17 +91,6 @@
 
 
 " UI enhancements {
-    " Solarizez theme or molokai or fruity
-    if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-        let g:solarized_termcolors=256
-        let g:solarized_termtrans=1
-        let g:solarized_contrast="normal"
-        let g:solarized_visibility="normal"
-        color solarized " Load a colorscheme
-    else
-		set background=dark
-		color molokai " fruity
-    endif
 
     " comandline info {
         set ruler                   " Show the ruler
@@ -186,10 +176,13 @@
         Plugin 'tpope/vim-fugitive'
         Plugin 'scrooloose/syntastic'
         Plugin 'kien/ctrlp.vim'
-        Plugin 'unite.vim'
         Plugin 'scrooloose/nerdtree'
         Plugin 'rking/ag.vim'
-        Plugin 'Shougo/neocomplcache'
+        if has("lua")
+            Plugin 'Shougo/neocomplete.vim'
+        else
+            Plugin 'Shougo/neocomplcache'
+        endif
         Plugin 'Shougo/neosnippet'
         Plugin 'honza/vim-snippets'
         Plugin 'bling/vim-airline'
@@ -206,22 +199,28 @@
     " }
         call vundle#end()
 
-    " Configurations {
+    " Coigurations {
         " Tagbar {
             "if executable('ctags')
                 nmap <F6> :TagbarToggle<CR>
                 nnoremap <silent> <leader>tt :TagbarToggle<CR>
             "endif
         " }
+        
+        " Ag {
+            " bind K to  search for word under cursor
+            nnoremap <Leader>s :Ag "<C-R><C-W>"<CR>
+            nnoremap <Leader>f :Ag<SPACE>
+        " }
 
         " NerdTREE {
             map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
-            map <Leader>f :NERDTreeFind<CR>
+            map <Leader>l :NERDTreeFind<CR>
             map <F5> :let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
             map! <F5> <Esc>:let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
 
             let NERDTreeShowBookmarks=1
-            let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$', '\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node-modules$[[dir]]', 'packages$[[dir]]', '.pub$[[dir]]']
+            let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$', '\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node-modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', '.pub$[[dir]]']
             let NERDTreeChDirMode=2
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
@@ -229,24 +228,6 @@
             let NERDTreeKeepTreeInNewTab=1
             let g:nerdtree_tabs_open_on_gui_startup=0
         " }
-
-        " Unite {
-        let g:unite_enable_start_insert=1
-        if executable('ag')
-            let g:unite_source_grep_command='ag'
-            let g:unite_source_grep_default_opts= '--nogroup --nocolor -i
-                \ --ignore .git
-                \ --ignore .pub
-                \ --ignore packages '
-            let g:unite_source_grep_recursive_opt=''
-
-            let g:unite_source_rec_async_command='ag --follow --nocolor
-                \ --nogroup -g ""'
-
-            let g:unite_source_file_async_command='ag --follow --nocolor
-                \--nogroup -g ""'
-        endif
-        "}
         " CtrlP {
         "   Bundle 'kien/ctrlp.vim'
 
@@ -270,7 +251,7 @@
                     \ --ignore .pub
                     \ --ignore packages
                     \-l -g "" %s'
-                " let g:ctrlp_use_caching=0
+                let g:ctrlp_use_caching=1
                 " let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
             elseif executable('ack')
                 let s:ctrlp_fallback = 'ack %s --nocolor -f'
@@ -297,14 +278,14 @@
                 \ "passive_filetypes" : ["dart"] }
         "}
         " Fugitive {
-            " nnoremap <silent> <leader>gs :Gstatus<CR>
-            " nnoremap <silent> <leader>gd :Gdiff<CR>
-            " nnoremap <silent> <leader>gc :Gcommit<CR>
-            " nnoremap <silent> <leader>gb :Gblame<CR>
+            nnoremap <silent> <leader>gs :Gstatus<CR>
+            nnoremap <silent> <leader>gd :Gdiff<CR>
+            nnoremap <silent> <leader>gc :Gcommit<CR>
+            nnoremap <silent> <leader>gb :Gblame<CR>
             " nnoremap <silent> <leader>gl :Glog<CR>
-            " nnoremap <silent> <leader>gp :Git push<CR>
-            " nnoremap <silent> <leader>gr :Gread<CR>
-            " nnoremap <silent> <leader>gw :Gwrite<CR>
+            nnoremap <silent> <leader>gp :Git push<CR>
+            nnoremap <silent> <leader>gr :Gread<CR>
+            nnoremap <silent> <leader>gw :Gwrite<CR>
             " nnoremap <silent> <leader>ge :Gedit<CR>
             " nnoremap <silent> <leader>gi :Git add -p %<CR>
             " nnoremap <silent> <leader>gg :SignifyToggle<CR>
@@ -321,32 +302,55 @@
             let g:airline_theme = 'dark'
         " }
         "Neocomplcache {
-            let g:acp_enableAtStartup = 0   " Disable built in autocmplete
-            let g:neocomplcache_enable_at_startup = 1 " use neocompl cache
-            let g:neocomplcache_enable_cursor_hold_i = 1
-            let g:neocomplcache_enable_ignore_case = 1 " ignore case...
-            let g:neocomplcache_enable_smart_case = 1 " unless word starts by capital letter
-            let g:neocomplcache_enable_auto_delimiter = 1 " Insert delimiter (parenthesis for functions, etc)
-            " let g:neocomplcache_max_list = 20
-            " let g:neocomplcache_force_overwrite_completefunc = 1
-            let g:neocomplcache_auto_completion_start_length = 3
-            let g:neocomplcache_enable_insert_char_pre = 1 " Prevent popup to display when moving using arrows
-            " Define dictionary.
-            let g:neocomplcache_dictionary_filetype_lists = {
-                \ 'default' : '',
-                \ 'vimshell' : $HOME.'/.vimshell_hist',
-                \ 'scheme' : $HOME.'/.gosh_completions'
-                \ }
+            if has("lua")
+                let g:acp_enableAtStartup = 0   " Disable built in autocmplete
+                let g:neocomplete#enable_at_startup = 1 " use neocompl cache
+                let g:neocomplete#enable_cursor_hold_i = 1
+                let g:neocomplete#enable_ignore_case = 1 " ignore case...
+                let g:neocomplete#enable_smart_case = 1 " unless word starts by capital letter
+                let g:neocomplete#enable_auto_delimiter = 1 " Insert delimiter (parenthesis for functions, etc)
+                let g:neocomplete#sources#syntax#min_keyword_length = 3
+                let g:neocomplete#auto_completion_start_length = 3
+                let g:neocomplete#enable_insert_char_pre = 1 " Prevent popup to display when moving using arrows
+                " Define dictionary.
+                let g:neocomplete#dictionary_filetype_lists = {
+                    \ 'default' : '',
+                    \ 'vimshell' : $HOME.'/.vimshell_hist',
+                    \ 'scheme' : $HOME.'/.gosh_completions'
+                    \ }
 
-            " Define keyword.
-            if !exists('g:neocomplcache_keyword_patterns')
-                let g:neocomplcache_keyword_patterns = {}
+                " Define keyword.
+                if !exists('g:neocomplete#keyword_patterns')
+                    let g:neocomplete#keyword_patterns = {}
+                endif
+                let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+            else
+                let g:neocomplcache_enable_at_startup = 1 " use neocompl cache
+                let g:neocomplcache_enable_cursor_hold_i = 1
+                let g:neocomplcache_enable_ignore_case = 1 " ignore case...
+                let g:neocomplcache_enable_smart_case = 1 " unless word starts by capital letter
+                let g:neocomplcache_enable_auto_delimiter = 1 " Insert delimiter (parenthesis for functions, etc)
+                " let g:neocomplcache_max_list = 20
+                " let g:neocomplcache_force_overwrite_completefunc = 1
+                let g:neocomplcache_auto_completion_start_length = 3
+                let g:neocomplcache_enable_insert_char_pre = 1 " Prevent popup to display when moving using arrows
+                " Define dictionary.
+                let g:neocomplcache_dictionary_filetype_lists = {
+                    \ 'default' : '',
+                    \ 'vimshell' : $HOME.'/.vimshell_hist',
+                    \ 'scheme' : $HOME.'/.gosh_completions'
+                    \ }"
+
+                " Define keyword.
+                if !exists('g:neocomplcache_keyword_patterns')
+                    let g:neocomplcache_keyword_patterns = {}
+                endif
+                let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
             endif
-            let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-            
-            " Key Mappings
-            " CR: select and close the popup
-            inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+"            " Key Mappings
+"            " CR: select and close the popup
+"            inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() :
+"            "\<CR>""
 
             " Enable omni completion.
             autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -361,9 +365,10 @@
             let g:neosnippet#enable_snipmate_compatibility = 1 " Enable neosnippet snipmate compatibility mode
             let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets' " Use honza's snippets
             " Mappings
-            " map <F7> :NeoComplCacheToggle<CR>
+            map <F7> :NeoComplCacheToggle<CR>
             imap <C-k> <Plug>(neosnippet_expand_or_jump)
-            smap <C-k> <Plug>(neosnippet_expand_or_jump) 
+            smap <C-k> <Plug>(neosnippet_expand_or_jump)
+            xmap <C-k> <Plug>(neosnippet_expand_target)
             imap <expr><TAB> neosnippet#expandable_or_jumpable()?
                 \ "\<Plug>(neosnippet_expand_or_jump)"
                 \: pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -388,7 +393,6 @@
         " set makeprg=$DART_SDK/bin/dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
         " if has('vim_starting')
             " set nocompatible
-            " set runtimepath+=~/.vim/bundle/dart-vim-plugin
             autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
         "endif
         "filetype plugin indent on
@@ -397,6 +401,17 @@
         " Markdown {
             
         " }
+        " Solarizez theme or molokai or fruity
+        if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+            let g:solarized_termcolors=256
+            let g:solarized_termtrans=1
+            let g:solarized_contrast="normal"
+            let g:solarized_visibility="normal"
+            color solarized " Load a colorscheme
+        else
+            set background=dark
+            colo molokai " fruity
+        endif
 
     " }
 
