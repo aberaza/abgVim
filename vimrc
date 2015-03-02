@@ -196,6 +196,8 @@
         Plugin 'pangloss/vim-javascript'
         Plugin 'godlygeek/tabular' "Needed by vim-markdown
         Plugin 'plasticboy/vim-markdown'
+        Plugin 'digitaltoad/vim-jade'
+        Plugin 'jszakmeister/vim-togglecursor'
     " }
         call vundle#end()
 
