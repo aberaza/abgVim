@@ -7,7 +7,8 @@
             " set shellcmdflag=--login\ -c
             " set shellxquote=\"e, if windows and mingw
             source $VIMRUNTIME/vimrc_example.vim
-            source $VIMRUNTIME/mswin.vim
+            " source $VIMRUNTIME/mswin.vim
+            " set 'selection', 'selectmode', 'mousemodel' and 'keymodel' for MS-Windows
             behave mswin
 
             if has("multi_byte")
@@ -15,10 +16,10 @@
                 set termencoding=cp850
                 " Let Vim use utf-8 internally, because many scripts require this
                 set encoding=utf-8
-                set fileencoding=utf-8
-                " set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
+                setglobal fileencoding=utf-8
+                set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
             endif
-            cd D:\WORKSPACE
+            cd $HOME/WORKSPACE
         else
             set shell=/bin/bash
         endif
@@ -76,11 +77,11 @@
     " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
     
 	" Manage backup files {
+    set backupdir=~/vimtmp
+    set backupskip=~/vimptmp/*
+    set directory=~/vimtmp
     if 0
 		set backup
-		set backupdir=~/vimtmp
-		set backupskip=~/vimptmp/*
-		set directory=~/vimtmp
     else
         set nobackup
         set nowritebackup
@@ -114,9 +115,12 @@
             set go-=L           " Hide left scrollbars
             set go-=r           " Hide right scrollbars
             set go+=e           " Native toolkit tabs
+            set guioptions-=a   " For CTRL-V to work disable autoselect
             set lines=40        " 40 lines of text instead of 24
             if has('win32')
-                set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:h8,Consolas:h9,Courier_New:h9
+                "command -nargs=? Guifont call rpcnotify(o, 'Gui', 'SetFont',"<args>")
+                set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
+                "let g:Guifont="DejaVu_Sans_Mono_for_Powerline:h9"
             else
                 set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
@@ -172,36 +176,53 @@
 " Bundles {
 
     " Installed Bundles {
-        Plugin 'majutsushi/tagbar'
-        Plugin 'tpope/vim-fugitive'
-        Plugin 'scrooloose/syntastic'
         Plugin 'kien/ctrlp.vim'
         Plugin 'scrooloose/nerdtree'
         Plugin 'rking/ag.vim'
-        if has("lua")
-            Plugin 'Shougo/neocomplete.vim'
-        else
-            Plugin 'Shougo/neocomplcache'
-        endif
-        Plugin 'Shougo/neosnippet'
-        Plugin 'honza/vim-snippets'
         Plugin 'bling/vim-airline'
-        "Plugin 'spf13/PIV'
-        Plugin 'todotxt.vim'
 "        Plugin 'Shougo/vimproc.vim'
-        Plugin 'dart-lang/dart-vim-plugin'
-        Plugin 'elzr/vim-json'
-        Plugin 'airblade/vim-gitgutter'
         Plugin 'tpope/vim-dispatch'
-        Plugin 'pangloss/vim-javascript'
-        Plugin 'godlygeek/tabular' "Needed by vim-markdown
-        Plugin 'plasticboy/vim-markdown'
-        Plugin 'digitaltoad/vim-jade'
         Plugin 'jszakmeister/vim-togglecursor'
+        " Programming basics {
+            if has("lua")
+                Plugin 'Shougo/neocomplete.vim'
+            else
+                Plugin 'Shougo/neocomplcache'
+            endif
+            Plugin 'Shougo/neosnippet'
+            Plugin 'honza/vim-snippets'
+            Plugin 'majutsushi/tagbar'
+            Plugin 'tpope/vim-fugitive'
+            Plugin 'tpope/vim-commentary'
+            Plugin 'mhinz/vim-signify'
+            " Plugin 'airblade/vim-gitgutter'
+            Plugin 'todotxt.vim'
+            Plugin 'scrooloose/syntastic'
+            Plugin 'luochen1990/rainbow'
+            Plugin 'godlygeek/tabular' "Needed by vim-markdown
+        "}
+        " JavaScript {
+            Plugin 'pangloss/vim-javascript'
+            Plugin 'elzr/vim-json'
+            Plugin 'groenewege/vim-less'
+            "Plugin 'briancollins/vim-jst'
+            "Plugin 'kchmck/vim-coffee-script'
+        "}
+        " QML {
+            " Plugin 'crucerucalin/qml.vim'
+            " Plugin 'crucerucalin/qml.vim'
+            Plugin 'peterhoeg/vim-qml'
+        " }
+        " Misc {
+            Plugin 'plasticboy/vim-markdown'
+            Plugin 'spf13/vim-preview'
+            Plugin 'digitaltoad/vim-jade'
+            Plugin 'dart-lang/dart-vim-plugin'
+        " }
     " }
         call vundle#end()
 
-    " Coigurations {
+    " Configurations {
         " Tagbar {
             "if executable('ctags')
                 nmap <F6> :TagbarToggle<CR>
@@ -266,18 +287,16 @@
         "Syntastic {
             let g:syntastic_javascript_checkers=['jshint']
             " uncomment both to enable auto check on file save
-            " let g:syntastic_enable_signs=1 
-            " let g:syntastic_auto_loc_list=1
-            let g:syntastic_check_on_open=0
+            let g:syntastic_auto_loc_list=1
+            let g:syntastic_check_on_open=1
             let g:syntastic_check_on_wq=0
+            let g:syntastic_enable_signs=1
             " let g:syntastic_always_populate_loc_list=1
             " Run dart analyzer on file
-            " autocmd FileType dart set errorformat+=%.%#\\\|%.%#\\\|%.%#\\\|%f\\\|%l\\\|%c\\\|%.%#\\\|%m
             " set makeprg=dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
-            " autocmd FileType dart set makeprg=dartanalyzer\ --machine\ %
-            " autocmd BufWritePre *.dart Make
-            let g:syntastic_mode_map = {"mode" : "active",
-                \ "passive_filetypes" : ["dart"] }
+            "autocmd FileType dart set errorformat+=%.%#\\\|%.%#\\\|%.%#\\\|%f\\\|%l\\\|%c\\\|%.%#\\\|%m
+            "autocmd FileType dart set makeprg=dartanalyzer.bat\ --machine\ %
+            "autocmd BufWritePre *.dart Make
         "}
         " Fugitive {
             nnoremap <silent> <leader>gs :Gstatus<CR>
@@ -299,7 +318,8 @@
                 let g:airline_left_sep='›' " Slightly fancier than '>'
                 let g:airline_right_sep='‹' " Slightly fancier than '<'
             endif
-            let g:airline#extensions#tabline#enabled = 1
+            " let g:airline#extensions#tabline#enabled = 1 " Enable viewing
+            " all buffers in top line
             " See `:echo g:airline_theme_map` for some more choices
             let g:airline_theme = 'dark'
         " }
@@ -390,6 +410,9 @@
             endif
         " }
         "
+        " qml {
+           " autocmd BufRead,BufNewFile,BufRead *.qml set filetype=qml
+        " }
         " dart lang {
             let g:dart_style_guide = 1
         " set makeprg=$DART_SDK/bin/dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
@@ -418,3 +441,72 @@
     " }
 
 " }
+"
+" KeyMappings for general behavior {
+"
+" CTRL-Z is Undo; not in cmdline though
+noremap <C-Z> u
+inoremap <C-Z> <C-O>u
+
+" CTRL-Y is Redo (although not repeat); not in cmdline though
+noremap <C-Y> <C-R>
+inoremap <C-Y> <C-O><C-R>
+
+
+" CTRL-A is Select all
+noremap <C-A> gggH<C-O>G
+inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
+cnoremap <C-A> <C-C>gggH<C-O>G
+onoremap <C-A> <C-C>gggH<C-O>G
+snoremap <C-A> <C-C>gggH<C-O>G
+xnoremap <C-A> <C-C>ggVG
+
+" CTRL-Tab is Next window
+noremap <C-Tab> <C-W>w
+inoremap <C-Tab> <C-O><C-W>w
+cnoremap <C-Tab> <C-C><C-W>w
+onoremap <C-Tab> <C-C><C-W>w
+
+" CTRL-F4 is Close window
+noremap <C-F4> <C-W>c
+inoremap <C-F4> <C-O><C-W>c
+cnoremap <C-F4> <C-C><C-W>c
+onoremap <C-F4> <C-C><C-W>c
+
+" backspace in Visual mode deletes selection
+vnoremap <BS> d
+
+" CTRL-X and SHIFT-Del are Cut
+vnoremap <C-X> "+x
+vnoremap <S-Del> "+x
+
+" CTRL-C and CTRL-Insert are Copy
+vnoremap <C-C> "+y
+vnoremap <C-Insert> "+y
+
+" CTRL-V and SHIFT-Insert are Paste
+map <C-V>		"+gP
+map <S-Insert>		"+gP
+
+cmap <C-V>		<C-R>+
+cmap <S-Insert>		<C-R>+
+
+" Pasting blockwise and linewise selections is not possible in Insert and
+" Visual mode without the +virtualedit feature.  They are pasted as if they
+" were characterwise instead.
+" Uses the paste.vim autoload script.
+" Use CTRL-G u to have CTRL-Z only undo the paste.
+
+exe 'inoremap <script> <C-V> <C-G>u' . paste#paste_cmd['i']
+exe 'vnoremap <script> <C-V> ' . paste#paste_cmd['v']
+
+imap <S-Insert>		<C-V>
+vmap <S-Insert>		<C-V>
+" Use CTRL-Q to do what CTRL-V used to do
+noremap <C-Q>		<C-V>
+
+" Use CTRL-S for saving, also in Insert mode
+noremap <C-S>		:update<CR>
+vnoremap <C-S>		<C-C>:update<CR>
+inoremap <C-S>		<C-O>:update<CR>
+" 
