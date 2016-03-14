@@ -462,7 +462,7 @@
         " }
 
         " neosnippet (needs Nocomplcache) {
-            let g:neosnippet#enable_snipmate_compatibility = 1 " Enable neosnippet snipmate compatibility mode
+            let g:neosnippet#enable_snipmate_compatibility = 0 " Enable neosnippet snipmate compatibility mode
             let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets' " Use honza's snippets
             " Mappings
             map <F7> :NeoComplCacheToggle<CR>
