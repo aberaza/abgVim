@@ -28,15 +28,28 @@
     " Setup Bundle {
         " The next three lines ensure that the ~/.vim/bundle/ system works
         filetype off
-        set rtp+=~/.vim/bundle/vundle/
-        call vundle#begin()
+        set rtp+=~/.vim/bundle/Vundle.vim/
+        if has('nvim')
+            "call plug#begin('~/.vim/bundle/Vundle.vim/')
+            call vundle#begin()
         " Deps {
-            Bundle 'gmarik/vundle'
+             Plugin 'VundleVim/Vundle.vim'
+            "call plug#begin()
+            "command Plugin Plug
+        else
+            call vundle#begin()
+        " Deps {
+            Plugin 'VundleVim/Vundle.vim'
         " }
+        endif
 
         " Themes {
             Plugin 'molokai'
             Plugin 'Solarized'
+            Plugin 'chriskempson/vim-tomorrow-theme'
+            Plugin 'NLKNguyen/papercolor-theme'
+            Plugin 'wombat256.vim'
+            Plugin 'sickill/vim-monokai'
         " }
     " }
 
@@ -70,12 +83,14 @@
     set smartcase " Case sensitive when uc present
     set wildmenu                    " Show list instead of just completing
     set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
+    set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     "set foldenable                  " Auto fold code
     set backspace=indent,eol,start  " Backspace for dummies
     " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
-    
+    set visualbell "don't beep
+    "set noerrorbells "do nothing on error
 	" Manage backup files {
     set backupdir=~/vimtmp
     set backupskip=~/vimptmp/*
@@ -118,9 +133,13 @@
             set guioptions-=a   " For CTRL-V to work disable autoselect
             set lines=40        " 40 lines of text instead of 24
             if has('win32')
-                "command -nargs=? Guifont call rpcnotify(o, 'Gui', 'SetFont',"<args>")
-                set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
-                "let g:Guifont="DejaVu_Sans_Mono_for_Powerline:h9"
+                if has('nvim')
+                    "echo("We're in the good path")
+                    "command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+                    "Guifont DejaVu Sans Mono for PowerLine:h8
+                else
+                    set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
+                endif
             else
                 set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
@@ -159,6 +178,8 @@
     set nu " Line numbers on
     set nowrap " Do not wrap long lines
     set autoindent " Indent at the same level of the previous line
+    set copyindent  " copy previous inddentation on autoindent
+    set smarttab " insert tabs on start of line accoding to shiftwidth
     set shiftwidth=4 " Use indents of 4 spaces
     set expandtab " Tabs are spaces, not tabs
     set tabstop=4 " An indentation every four columns
@@ -176,9 +197,16 @@
 " Bundles {
 
     " Installed Bundles {
+        Plugin 'mhinz/vim-startify'
         Plugin 'kien/ctrlp.vim'
         Plugin 'scrooloose/nerdtree'
-        Plugin 'rking/ag.vim'
+        "if has('nvim')
+        "    Plugin 'mhinz/vim-grepper'
+        "else
+            Plugin 'rking/ag.vim'
+        "endif
+        " Plugin 'bling/vim-bufferline' " Show open buffers in airline (too
+        " much clutter
         Plugin 'bling/vim-airline'
 "        Plugin 'Shougo/vimproc.vim'
         Plugin 'tpope/vim-dispatch'
@@ -196,7 +224,8 @@
             Plugin 'tpope/vim-commentary'
             Plugin 'mhinz/vim-signify'
             " Plugin 'airblade/vim-gitgutter'
-            Plugin 'todotxt.vim'
+            " Plugin 'todotxt.vim'
+            Plugin 'freitass/todo.txt-vim'
             Plugin 'scrooloose/syntastic'
             Plugin 'luochen1990/rainbow'
             Plugin 'godlygeek/tabular' "Needed by vim-markdown
@@ -219,10 +248,32 @@
             Plugin 'digitaltoad/vim-jade'
             Plugin 'dart-lang/dart-vim-plugin'
         " }
+        " NVIM only {
+            if has('nvim')
+
+            endif
     " }
+    if has('nvim')
+       "  call plug#end()
         call vundle#end()
+    else
+        call vundle#end()
+    endif
 
     " Configurations {
+        " Startify {
+        " let g:startify_bookmarks = [{'w':'~/WORKSPACE/'},{'c':'~/WORKSPACE/vgw/ctap3'},{'s':'~/WORKSPACE/vgw/ih_qml_ui" }]
+        let g:startify_list_order =[
+                    \ ['    Bookmarks:'],
+                    \ 'bookmarks',
+                    \ ['    Recientes:'],
+                    \ 'files',
+                    \ ['    Sesiones:'],
+                    \ 'sessions',
+                    \ ]
+        let g:startify_files_number = 5
+        let g:startify_session_autoload = 0
+        
         " Tagbar {
             "if executable('ctags')
                 nmap <F6> :TagbarToggle<CR>
@@ -231,9 +282,19 @@
         " }
         
         " Ag {
+            "if has('nvim')
+            "    command! -nargs=* -complete=file Ag Grepper! -tool ag -query <args>
+            "endif
             " bind K to  search for word under cursor
             nnoremap <Leader>s :Ag "<C-R><C-W>"<CR>
+            nnoremap <Leader>* :Ag "<C-R><C-W>"<CR>
             nnoremap <Leader>f :Ag<SPACE>
+            " This breaks original Ctrl F (scroll on page down)
+            nnoremap <C-F> :Ag<SPACE>
+            " This breaks nothing but is not quite practical
+            inoremap <C-F> <C-O>:Ag<SPACE> 
+            
+
         " }
 
         " NerdTREE {
@@ -283,7 +344,17 @@
                 let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
             endif
         " }
-
+        " Vim-Javascript {
+            "let g:javascript_conceal_function   = "ƒ"
+            let g:javascript_conceal_null       = "ø"
+            "let g:javascript_conceal_this       = "@"
+            " let g:javascript_conceal_return     = "⇚"
+            "let g:javascript_conceal_undefined  = "¿"
+            let g:javascript_conceal_NaN        = "ℕ"
+            "let g:javascript_conceal_prototype  = "¶"
+            "let g:javascript_conceal_static     = "•"
+            "let g:javascript_conceal_super      = "Ω"
+        " }
         "Syntastic {
             let g:syntastic_javascript_checkers=['jshint']
             " uncomment both to enable auto check on file save
@@ -318,8 +389,14 @@
                 let g:airline_left_sep='›' " Slightly fancier than '>'
                 let g:airline_right_sep='‹' " Slightly fancier than '<'
             endif
-            " let g:airline#extensions#tabline#enabled = 1 " Enable viewing
-            " all buffers in top line
+            if has('nvim')
+                let g:airline#extensions#tabline#enabled = 1 " Enable viewing buffers/tabs in the top line
+                let g:airline#extensions#tabline#show_buffers = 0 " Don't show buffers
+                let g:airline#extensions#tabline#show_tabs = 1 " Don't show tabs
+                " all buffers in top line
+            else
+                let g:airline#extensions#tabline#show_buffers = 0 " Don't show buffers
+            endif
             " See `:echo g:airline_theme_map` for some more choices
             let g:airline_theme = 'dark'
         " }
@@ -327,6 +404,7 @@
             if has("lua")
                 let g:acp_enableAtStartup = 0   " Disable built in autocmplete
                 let g:neocomplete#enable_at_startup = 1 " use neocompl cache
+                let g:neocomplete#enable_auto_select = 1 "automatically select first candidate
                 let g:neocomplete#enable_cursor_hold_i = 1
                 let g:neocomplete#enable_ignore_case = 1 " ignore case...
                 let g:neocomplete#enable_smart_case = 1 " unless word starts by capital letter
@@ -411,7 +489,7 @@
         " }
         "
         " qml {
-           " autocmd BufRead,BufNewFile,BufRead *.qml set filetype=qml
+            autocmd BufRead,BufNewFile,BufRead *.qml set filetype=qml
         " }
         " dart lang {
             let g:dart_style_guide = 1
@@ -435,7 +513,7 @@
             color solarized " Load a colorscheme
         else
             set background=dark
-            colo molokai " fruity
+            color molokai " fruity
         endif
 
     " }
