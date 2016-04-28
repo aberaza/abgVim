@@ -50,6 +50,7 @@
             Plugin 'NLKNguyen/papercolor-theme'
             Plugin 'wombat256.vim'
             Plugin 'sickill/vim-monokai'
+            Plugin 'goatslacker/mango.vim'
         " }
     " }
 
@@ -94,14 +95,15 @@
 	" Manage backup files {
     set backupdir=~/vimtmp
     set backupskip=~/vimptmp/*
-    set directory=~/vimtmp
-    if 0
-		set backup
-    else
+    set directory=~/vimptmp
+    set undodir=~/.vimtmp/
+    "if 0
+	"	set backup
+    "else
         set nobackup
         set nowritebackup
         set noswapfile
-    endif
+    "endif
     " }
 " }
 
@@ -130,20 +132,23 @@
             set go-=L           " Hide left scrollbars
             set go-=r           " Hide right scrollbars
             set go+=e           " Native toolkit tabs
+            set go-=m           " Remove top text menu
             set guioptions-=a   " For CTRL-V to work disable autoselect
             set lines=40        " 40 lines of text instead of 24
-            if has('win32')
+            nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
+            if has('win32') || has('win64')
                 if has('nvim')
                     "echo("We're in the good path")
                     "command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
                     "Guifont DejaVu Sans Mono for PowerLine:h8
                 else
                     set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
+                    " Use direct x for rendering
+                    set rop=type:directx,level:0.75,contrast:0.5;taamode:0;renmode:0
                 endif
             else
                 set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
-            nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
         else
             if &term == 'xterm' || &term == 'screen'
                 set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
@@ -262,7 +267,7 @@
 
     " Configurations {
         " Startify {
-        " let g:startify_bookmarks = [{'w':'~/WORKSPACE/'},{'c':'~/WORKSPACE/vgw/ctap3'},{'s':'~/WORKSPACE/vgw/ih_qml_ui" }]
+        let g:startify_bookmarks = [{'w':'~/WORKSPACE/'},{'c':'~/WORKSPACE/vgw/ctap3'},{'s':'~/WORKSPACE/vgw/ih_qml_ui' }]
         let g:startify_list_order =[
                     \ ['    Bookmarks:'],
                     \ 'bookmarks',
@@ -303,8 +308,11 @@
             map <F5> :let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
             map! <F5> <Esc>:let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
 
+            let g:NERDTreeDirArrowExpandable = '▸'
+            let g:NERDTreeDirArrowCollapsible = '▾'
             let NERDTreeShowBookmarks=1
-            let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$', '\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node-modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', '.pub$[[dir]]']
+            let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$','\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', 'pub$[[dir]]']
+            let NERDTreeRespectWildIgnore=1 "Respect wildingore setting
             let NERDTreeChDirMode=2
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
@@ -348,7 +356,7 @@
             "let g:javascript_conceal_function   = "ƒ"
             let g:javascript_conceal_null       = "ø"
             "let g:javascript_conceal_this       = "@"
-            " let g:javascript_conceal_return     = "⇚"
+            "let g:javascript_conceal_return     = "⇚"
             "let g:javascript_conceal_undefined  = "¿"
             let g:javascript_conceal_NaN        = "ℕ"
             "let g:javascript_conceal_prototype  = "¶"
@@ -399,6 +407,9 @@
             endif
             " See `:echo g:airline_theme_map` for some more choices
             let g:airline_theme = 'dark'
+            let g:airline#extensions#syntastic#enabled = 1
+            let g:airline#extensions#tagbar#enabled = 1
+            let g:airline#extensions#wordcount#enabled = 0
         " }
         "Neocomplcache {
             if has("lua")
@@ -462,6 +473,7 @@
         " }
 
         " neosnippet (needs Nocomplcache) {
+            let g:neosnippet#disable_runtime_snippets = { "_": 1, }
             let g:neosnippet#enable_snipmate_compatibility = 0 " Enable neosnippet snipmate compatibility mode
             let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets' " Use honza's snippets
             " Mappings
@@ -587,4 +599,9 @@ noremap <C-Q>		<C-V>
 noremap <C-S>		:update<CR>
 vnoremap <C-S>		<C-C>:update<CR>
 inoremap <C-S>		<C-O>:update<CR>
-" 
+
+
+" Some autocommands
+if has('nvim')
+    au FocusGained,BufWinEnter * checktime
+endif
