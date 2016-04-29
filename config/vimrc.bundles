@@ -1,0 +1,68 @@
+" Setup Bundle {
+    " The next three lines ensure that the ~/.vim/bundle/ system works
+    filetype off
+    set rtp+=~/.vim/bundle/Vundle.vim/
+    call vundle#begin()
+" }
+"Bundles
+    " Deps {
+        Plugin 'VundleVim/Vundle.vim'
+    " }
+    " Themes {
+        Plugin 'molokai'
+        Plugin 'Solarized'
+        Plugin 'chriskempson/vim-tomorrow-theme'
+        Plugin 'NLKNguyen/papercolor-theme'
+        Plugin 'wombat256.vim'
+        Plugin 'sickill/vim-monokai'
+        Plugin 'goatslacker/mango.vim'
+    " }
+    " Basics {
+        Plugin 'mhinz/vim-startify'
+        Plugin 'kien/ctrlp.vim'
+        Plugin 'scrooloose/nerdtree'
+        Plugin 'rking/ag.vim'
+        Plugin 'bling/vim-airline'
+        Plugin 'tpope/vim-dispatch'
+        Plugin 'jszakmeister/vim-togglecursor'
+    " }
+
+    " Tools and Extras {
+        Plugin 'freitass/todo.txt-vim'
+
+    " }
+    " Programming basics {
+        if has("lua")
+            Plugin 'Shougo/neocomplete.vim'
+        else
+            Plugin 'Shougo/neocomplcache'
+        endif
+        Plugin 'Shougo/neosnippet'
+        Plugin 'honza/vim-snippets'
+        Plugin 'majutsushi/tagbar'
+        Plugin 'tpope/vim-fugitive'
+        Plugin 'tpope/vim-commentary'
+        Plugin 'mhinz/vim-signify'
+        Plugin 'scrooloose/syntastic'
+        Plugin 'luochen1990/rainbow'
+        Plugin 'godlygeek/tabular' "Needed by vim-markdown
+        " JavaScript {
+            Plugin 'pangloss/vim-javascript'
+            Plugin 'elzr/vim-json'
+            Plugin 'groenewege/vim-less'
+            Plugin 'digitaltoad/vim-jade'
+            Plugin 'dart-lang/dart-vim-plugin'
+        "}
+        " QML {
+            " Plugin 'crucerucalin/qml.vim'
+            " Plugin 'crucerucalin/qml.vim'
+            Plugin 'peterhoeg/vim-qml'
+        " }
+    "}
+    " Misc {
+        Plugin 'plasticboy/vim-markdown'
+        Plugin 'spf13/vim-preview'
+    " }
+" }
+
+call vundle#end()

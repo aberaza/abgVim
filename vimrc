@@ -24,34 +24,7 @@
             set shell=/bin/bash
         endif
         let mapleader = ","
-    " }
-    " Setup Bundle {
-        " The next three lines ensure that the ~/.vim/bundle/ system works
-        filetype off
-        set rtp+=~/.vim/bundle/Vundle.vim/
-        if has('nvim')
-            "call plug#begin('~/.vim/bundle/Vundle.vim/')
-            call vundle#begin()
-        " Deps {
-             Plugin 'VundleVim/Vundle.vim'
-            "call plug#begin()
-            "command Plugin Plug
-        else
-            call vundle#begin()
-        " Deps {
-            Plugin 'VundleVim/Vundle.vim'
-        " }
-        endif
 
-        " Themes {
-            Plugin 'molokai'
-            Plugin 'Solarized'
-            Plugin 'chriskempson/vim-tomorrow-theme'
-            Plugin 'NLKNguyen/papercolor-theme'
-            Plugin 'wombat256.vim'
-            Plugin 'sickill/vim-monokai'
-            Plugin 'goatslacker/mango.vim'
-        " }
     " }
 
 " }
@@ -136,15 +109,16 @@
             set guioptions-=a   " For CTRL-V to work disable autoselect
             set lines=40        " 40 lines of text instead of 24
             nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
+
             if has('win32') || has('win64')
                 if has('nvim')
-                    "echo("We're in the good path")
                     "command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
                     "Guifont DejaVu Sans Mono for PowerLine:h8
                 else
                     set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
                     " Use direct x for rendering
                     set rop=type:directx,level:0.75,contrast:0.5;taamode:0;renmode:0
+                    nnoremap <F9> :set rop=type:directx,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
                 endif
             else
                 set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
@@ -200,71 +174,11 @@
 
 " GUI Settings {
 " Bundles {
-
-    " Installed Bundles {
-        Plugin 'mhinz/vim-startify'
-        Plugin 'kien/ctrlp.vim'
-        Plugin 'scrooloose/nerdtree'
-        "if has('nvim')
-        "    Plugin 'mhinz/vim-grepper'
-        "else
-            Plugin 'rking/ag.vim'
-        "endif
-        " Plugin 'bling/vim-bufferline' " Show open buffers in airline (too
-        " much clutter
-        Plugin 'bling/vim-airline'
-"        Plugin 'Shougo/vimproc.vim'
-        Plugin 'tpope/vim-dispatch'
-        Plugin 'jszakmeister/vim-togglecursor'
-        " Programming basics {
-            if has("lua")
-                Plugin 'Shougo/neocomplete.vim'
-            else
-                Plugin 'Shougo/neocomplcache'
-            endif
-            Plugin 'Shougo/neosnippet'
-            Plugin 'honza/vim-snippets'
-            Plugin 'majutsushi/tagbar'
-            Plugin 'tpope/vim-fugitive'
-            Plugin 'tpope/vim-commentary'
-            Plugin 'mhinz/vim-signify'
-            " Plugin 'airblade/vim-gitgutter'
-            " Plugin 'todotxt.vim'
-            Plugin 'freitass/todo.txt-vim'
-            Plugin 'scrooloose/syntastic'
-            Plugin 'luochen1990/rainbow'
-            Plugin 'godlygeek/tabular' "Needed by vim-markdown
-        "}
-        " JavaScript {
-            Plugin 'pangloss/vim-javascript'
-            Plugin 'elzr/vim-json'
-            Plugin 'groenewege/vim-less'
-            "Plugin 'briancollins/vim-jst'
-            "Plugin 'kchmck/vim-coffee-script'
-        "}
-        " QML {
-            " Plugin 'crucerucalin/qml.vim'
-            " Plugin 'crucerucalin/qml.vim'
-            Plugin 'peterhoeg/vim-qml'
-        " }
-        " Misc {
-            Plugin 'plasticboy/vim-markdown'
-            Plugin 'spf13/vim-preview'
-            Plugin 'digitaltoad/vim-jade'
-            Plugin 'dart-lang/dart-vim-plugin'
-        " }
-        " NVIM only {
-            if has('nvim')
-
-            endif
-    " }
-    if has('nvim')
-       "  call plug#end()
-        call vundle#end()
-    else
-        call vundle#end()
+    
+    if filereadable(expand("~/.vim/config/vimrc.bundles"))
+        source ~/.vim/config/vimrc.bundles
     endif
-
+" }
     " Configurations {
         " Startify {
         let g:startify_bookmarks = [{'w':'~/WORKSPACE/'},{'c':'~/WORKSPACE/vgw/ctap3'},{'s':'~/WORKSPACE/vgw/ih_qml_ui' }]
