@@ -182,20 +182,20 @@
         endif
     endif
 " }
-    " Configurations {
-        " Solarizez theme or molokai or fruity
-        if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-            let g:solarized_termcolors=256
-            let g:solarized_termtrans=1
-            let g:solarized_contrast="normal"
-            let g:solarized_visibility="normal"
-            color solarized " Load a colorscheme
-        else
-            set background=dark
-            color molokai " fruity
-        endif
+" Configurations {
+    " Solarizez theme or molokai or fruity
+    if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+        let g:solarized_termcolors=256
+        let g:solarized_termtrans=1
+        let g:solarized_contrast="normal"
+        let g:solarized_visibility="normal"
+        color solarized " Load a colorscheme
+    else
+        set background=dark
+        color molokai " fruity
+    endif
 
-    " }
+" }
 
 " }
 "
