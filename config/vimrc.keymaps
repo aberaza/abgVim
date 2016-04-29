@@ -1,0 +1,134 @@
+" CTRL-Z is Undo; not in cmdline though
+noremap <C-Z> u
+inoremap <C-Z> <C-O>u
+
+" CTRL-Y is Redo (although not repeat); not in cmdline though
+noremap <C-Y> <C-R>
+inoremap <C-Y> <C-O><C-R>
+
+" CTRL-A is Select all
+noremap <C-A> gggH<C-O>G
+inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
+cnoremap <C-A> <C-C>gggH<C-O>G
+onoremap <C-A> <C-C>gggH<C-O>G
+snoremap <C-A> <C-C>gggH<C-O>G
+xnoremap <C-A> <C-C>ggVG
+
+" CTRL-Tab is Next window
+noremap <C-Tab> <C-W>w
+inoremap <C-Tab> <C-O><C-W>w
+cnoremap <C-Tab> <C-C><C-W>w
+onoremap <C-Tab> <C-C><C-W>w
+
+" CTRL-F4 is Close window
+noremap <C-F4> <C-W>c
+inoremap <C-F4> <C-O><C-W>c
+cnoremap <C-F4> <C-C><C-W>c
+onoremap <C-F4> <C-C><C-W>c
+
+" backspace in Visual mode deletes selection
+vnoremap <BS> d
+
+" CTRL-X and SHIFT-Del are Cut
+vnoremap <C-X> "+x
+vnoremap <S-Del> "+x
+
+" CTRL-C and CTRL-Insert are Copy
+vnoremap <C-C> "+y
+vnoremap <C-Insert> "+y
+
+" CTRL-V and SHIFT-Insert are Paste
+map <C-V>		"+gP
+map <S-Insert>		"+gP
+
+cmap <C-V>		<C-R>+
+cmap <S-Insert>		<C-R>+
+
+" Pasting blockwise and linewise selections is not possible in Insert and
+" Visual mode without the +virtualedit feature.  They are pasted as if they
+" were characterwise instead.
+" Uses the paste.vim autoload script.
+" Use CTRL-G u to have CTRL-Z only undo the paste.
+
+exe 'inoremap <script> <C-V> <C-G>u' . paste#paste_cmd['i']
+exe 'vnoremap <script> <C-V> ' . paste#paste_cmd['v']
+
+imap <S-Insert>		<C-V>
+vmap <S-Insert>		<C-V>
+" Use CTRL-Q to do what CTRL-V used to do
+noremap <C-Q>		<C-V>
+
+" Use CTRL-S for saving, also in Insert mode
+noremap <C-S>		:update<CR>
+vnoremap <C-S>		<C-C>:update<CR>
+inoremap <C-S>		<C-O>:update<CR>
+
+" Tagbar {
+" <F6> or <,tt> Shows/Hides tagbar pane
+nmap <F6> :TagbarToggle<CR>
+nnoremap <silent> <leader>tt :TagbarToggle<CR>
+" }
+
+" Ag {
+" bind <,s> and <,*>  to  search for word under cursor
+nnoremap <Leader>s :Ag "<C-R><C-W>"<CR>
+nnoremap <Leader>* :Ag "<C-R><C-W>"<CR>
+" <,F> or <Ctrl+F> To do a workspace search
+" This breaks original Ctrl F (scroll on page down)
+nnoremap <Leader>f :Ag<SPACE>
+nnoremap <C-F> :Ag<SPACE>
+inoremap <C-F> <C-O>:Ag<SPACE>
+"}
+
+" NerdTREE {
+map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
+" <,l> To locate current buffer int he File tree
+map <Leader>l :NERDTreeFind<CR>
+" <F5> to Toggle nerd tree pane
+map <F5> :let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
+map! <F5> <Esc>:let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
+" }
+
+" CtrlP {
+" <,b> Search on open buffers
+" <,p> Search files and buffers
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>p :CtrlPMixed<CR>
+nmap <silent> <C-DOWN> :cnext<CR>
+nmap <silent> <C-UP> :cprevious<CR>
+" }
+
+" Fugitive {
+nnoremap <silent> <leader>gs :Gstatus<CR>
+nnoremap <silent> <leader>gd :Gdiff<CR>
+nnoremap <silent> <leader>gc :Gcommit<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gp :Git push<CR>
+nnoremap <silent> <leader>gr :Gread<CR>
+nnoremap <silent> <leader>gw :Gwrite<CR>
+" nnoremap <silent> <leader>ge :Gedit<CR>
+" nnoremap <silent> <leader>gi :Git add -p %<CR>
+" nnoremap <silent> <leader>gg :SignifyToggle<CR>
+" }
+
+" Neosnippets {
+" <F7> Ti lock/unlock automatic completion
+map <F7> :NeoComplToggle<CR>
+" <Ctrl + k> To expand a completion, and <Tab> to jumbp between placeholders
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+imap <expr><TAB> neosnippet#expandable_or_jumpable()?
+    \ "\<Plug>(neosnippet_expand_or_jump)"
+    \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable()?
+    \ "\<Plug>(neosnippet_expand_or_jump)"
+    \: "\<TAB>"
+" xmap <C-k> <Plug>(neosnippet_expand_target)
+" If selected is not a snippet, go to previous
+" imap <silent><expr><C-k> neosnippet#expandable() ?
+"        \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
+"        \ "\<C-n>" : "\<Plug>(neosnippet_expand_or_jump)")
+" smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
+"}
+

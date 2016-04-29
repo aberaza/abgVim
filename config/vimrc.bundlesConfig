@@ -1,0 +1,184 @@
+
+" Startify {
+    let g:startify_bookmarks = [{'w':'~/WORKSPACE/'},{'c':'~/WORKSPACE/vgw/ctap3'},{'s':'~/WORKSPACE/vgw/ih_qml_ui' }]
+    let g:startify_list_order =[
+                \ ['    Bookmarks:'],
+                \ 'bookmarks',
+                \ ['    Recientes:'],
+                \ 'files',
+                \ ['    Sesiones:'],
+                \ 'sessions',
+                \ ]
+    let g:startify_files_number = 5
+    let g:startify_session_autoload = 0
+" }
+
+" NerdTREE {
+    let g:NERDTreeDirArrowExpandable = '▸'
+    let g:NERDTreeDirArrowCollapsible = '▾'
+    let NERDTreeShowBookmarks=1
+    let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$','\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', 'pub$[[dir]]']
+    let NERDTreeRespectWildIgnore=1 "Respect wildingore setting
+    let NERDTreeChDirMode=2
+    let NERDTreeQuitOnOpen=1
+    let NERDTreeMouseMode=2
+    let NERDTreeShowHidden=1
+    let NERDTreeKeepTreeInNewTab=1
+    let g:nerdtree_tabs_open_on_gui_startup=0
+" }
+" CtrlP {
+"   Bundle 'kien/ctrlp.vim'
+    let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
+        \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
+    if executable('ag')
+        " Replace native grep with ag
+        set grepprg=ag\ --nogroup\ --nocolor\ --column
+        set grepformat=%f:%l:%c%m
+        " set ctrlp to use ag
+        " let g:ctrlp_user_command = 'ag --nocolor -l -g "" %s'
+        let g:ctrlp_user_command = 'ag --nocolor 
+            \ --ignore .git
+            \ --ignore .pub
+            \ --ignore packages
+            \-l -g "" %s'
+        let g:ctrlp_use_caching=1
+        " let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+    elseif executable('ack')
+        let s:ctrlp_fallback = 'ack %s --nocolor -f'
+    elseif has("win32")
+        " On Windows use "dir" as fallback command.
+        let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
+    endif
+" }
+" Vim-Javascript {
+    "let g:javascript_conceal_function   = "ƒ"
+    let g:javascript_conceal_null       = "ø"
+    "let g:javascript_conceal_this       = "@"
+    "let g:javascript_conceal_return     = "⇚"
+    "let g:javascript_conceal_undefined  = "¿"
+    let g:javascript_conceal_NaN        = "ℕ"
+    "let g:javascript_conceal_prototype  = "¶"
+    "let g:javascript_conceal_static     = "•"
+    "let g:javascript_conceal_super      = "Ω"
+" }
+"Syntastic {
+    let g:syntastic_javascript_checkers=['jshint']
+    " uncomment both to enable auto check on file save
+    let g:syntastic_auto_loc_list=1
+    let g:syntastic_check_on_open=1
+    let g:syntastic_check_on_wq=0
+    let g:syntastic_enable_signs=1
+    " let g:syntastic_always_populate_loc_list=1
+    " Run dart analyzer on file
+    " set makeprg=dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
+    "autocmd FileType dart set errorformat+=%.%#\\\|%.%#\\\|%.%#\\\|%f\\\|%l\\\|%c\\\|%.%#\\\|%m
+    "autocmd FileType dart set makeprg=dartanalyzer.bat\ --machine\ %
+    "autocmd BufWritePre *.dart Make
+"}
+" Airline {
+    if has('gui_running')
+        let g:airline_powerline_fonts=1
+    else
+        let g:airline_left_sep='›' " Slightly fancier than '>'
+        let g:airline_right_sep='‹' " Slightly fancier than '<'
+    endif
+    if has('nvim')
+        let g:airline#extensions#tabline#enabled = 1 " Enable viewing buffers/tabs in the top line
+        let g:airline#extensions#tabline#show_buffers = 0 " Don't show buffers
+        let g:airline#extensions#tabline#show_tabs = 1 " Don't show tabs
+        " all buffers in top line
+    else
+        let g:airline#extensions#tabline#show_buffers = 0 " Don't show buffers
+    endif
+    " See `:echo g:airline_theme_map` for some more choices
+    let g:airline_theme = 'dark'
+    let g:airline#extensions#syntastic#enabled = 1
+    let g:airline#extensions#tagbar#enabled = 1
+    let g:airline#extensions#wordcount#enabled = 0
+" }
+"Neocomplcache {
+    if has("lua")
+        let g:acp_enableAtStartup = 0   " Disable built in autocmplete
+        let g:neocomplete#enable_at_startup = 1 " use neocompl cache
+        let g:neocomplete#enable_auto_select = 1 "automatically select first candidate
+        let g:neocomplete#enable_cursor_hold_i = 1 " auto open select list when cursos is on a word
+        let g:neocomplete#enable_ignore_case = 1 " ignore case...
+        let g:neocomplete#enable_smart_case = 1 " unless word starts by capital letter
+        let g:neocomplete#enable_auto_delimiter = 1 " Insert delimiter (parenthesis for functions, etc)
+        let g:neocomplete#sources#syntax#min_keyword_length = 3
+        let g:neocomplete#auto_completion_start_length = 3
+        let g:neocomplete#manual_completion_start_length = 1
+        let g:neocomplete#enable_insert_char_pre = 1 " Prevent popup to display when moving using arrows
+        " Define dictionary.
+        let g:neocomplete#dictionary_filetype_lists = {
+            \ 'default' : '',
+            \ 'vimshell' : $HOME.'/.vimshell_hist',
+            \ 'scheme' : $HOME.'/.gosh_completions'
+            \ }
+
+        " Define keyword.
+        if !exists('g:neocomplete#keyword_patterns')
+            let g:neocomplete#keyword_patterns = {}
+        endif
+        let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+    else
+        let g:neocomplcache_enable_at_startup = 1 " use neocompl cache
+        let g:neocomplcache_enable_cursor_hold_i = 1
+        let g:neocomplcache_enable_ignore_case = 1 " ignore case...
+        let g:neocomplcache_enable_smart_case = 1 " unless word starts by capital letter
+        let g:neocomplcache_enable_auto_delimiter = 1 " Insert delimiter (parenthesis for functions, etc)
+        " let g:neocomplcache_max_list = 20
+        " let g:neocomplcache_force_overwrite_completefunc = 1
+        let g:neocomplcache_auto_completion_start_length = 3
+        let g:neocomplcache_enable_insert_char_pre = 1 " Prevent popup to display when moving using arrows
+        " Define dictionary.
+        let g:neocomplcache_dictionary_filetype_lists = {
+            \ 'default' : '',
+            \ 'vimshell' : $HOME.'/.vimshell_hist',
+            \ 'scheme' : $HOME.'/.gosh_completions'
+            \ }"
+
+        " Define keyword.
+        if !exists('g:neocomplcache_keyword_patterns')
+            let g:neocomplcache_keyword_patterns = {}
+        endif
+        let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+    endif
+"            " Key Mappings
+"            " CR: select and close the popup
+"            inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() :
+"            "\<CR>""
+
+    " Enable omni completion.
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+" }
+
+" neosnippet (needs Nocomplcache) {
+    let g:neosnippet#disable_runtime_snippets = { "_": 1, }
+    let g:neosnippet#enable_snipmate_compatibility = 0 " Enable neosnippet snipmate compatibility mode
+    let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets' " Use honza's snippets
+    " For snippet_complete marker.
+    if has('conceal')
+        set conceallevel=2 concealcursor=i
+    endif
+" }
+"
+" qml {
+    autocmd BufRead,BufNewFile,BufRead *.qml set filetype=qml
+" }
+" dart lang {
+    let g:dart_style_guide = 1
+" set makeprg=$DART_SDK/bin/dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
+" if has('vim_starting')
+    " set nocompatible
+    autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
+"endif
+"filetype plugin indent on
+" }

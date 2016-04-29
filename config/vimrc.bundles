@@ -66,3 +66,4 @@
 " }
 
 call vundle#end()
+filetype plugin indent on " Automatically detect file types.
