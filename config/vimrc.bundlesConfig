@@ -1,16 +1,16 @@
 
 " Startify {
-    let g:startify_bookmarks = [{'w':'~/WORKSPACE/'},{'c':'~/WORKSPACE/vgw/ctap3'},{'s':'~/WORKSPACE/vgw/ih_qml_ui' }]
-    let g:startify_list_order =[
-                \ ['    Bookmarks:'],
-                \ 'bookmarks',
-                \ ['    Recientes:'],
-                \ 'files',
-                \ ['    Sesiones:'],
-                \ 'sessions',
-                \ ]
-    let g:startify_files_number = 5
-    let g:startify_session_autoload = 0
+"    let g:startify_bookmarks = [{'w':'~/WORKSPACE/'},{'c':'~/WORKSPACE/vgw/ctap3'},{'s':'~/WORKSPACE/vgw/ih_qml_ui' }]
+"    let g:startify_list_order =[
+"                \ ['    Bookmarks:'],
+"                \ 'bookmarks',
+"                \ ['    Recientes:'],
+"                \ 'files',
+"                \ ['    Sesiones:'],
+"                \ 'sessions',
+"                \ ]
+"    let g:startify_files_number = 5
+"    let g:startify_session_autoload = 0
 " }
 
 " NerdTREE {
@@ -75,11 +75,11 @@
     " let g:syntastic_always_populate_loc_list=1
 "}
 " Airline {
-    if has('gui_running')
+    let g:airline_powerline_fonts=1
+    if !has('gui_running')
         let g:airline_powerline_fonts=1
-    else
-        let g:airline_left_sep='›' " Slightly fancier than '>'
-        let g:airline_right_sep='‹' " Slightly fancier than '<'
+        "let g:airline_left_sep='›' " Slightly fancier than '>'
+        "let g:airline_right_sep='‹' " Slightly fancier than '<'
     endif
     if has('nvim')
         let g:airline#extensions#tabline#enabled = 1 " Enable viewing buffers/tabs in the top line
@@ -89,8 +89,7 @@
     else
         let g:airline#extensions#tabline#show_buffers = 0 " Don't show buffers
     endif
-    " See `:echo g:airline_theme_map` for some more choices
-    let g:airline_theme = 'dark'
+    " let g:airline_theme = 'dark' " Force theme , see :echo g:airline_theme_map for more choices
     let g:airline#extensions#syntastic#enabled = 1
     let g:airline#extensions#tagbar#enabled = 1
     let g:airline#extensions#wordcount#enabled = 0

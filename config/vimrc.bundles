@@ -22,14 +22,14 @@
         Plugin 'pyte'
     " }
     " Basics {
-        Plugin 'mhinz/vim-startify'
+        " Plugin 'mhinz/vim-startify'
         Plugin 'kien/ctrlp.vim'
         Plugin 'scrooloose/nerdtree'
         Plugin 'rking/ag.vim'
         Plugin 'bling/vim-airline'
         Plugin 'tpope/vim-dispatch'
         Plugin 'jszakmeister/vim-togglecursor'
-
+        Plugin 'vim-expand-region'
     " }
 
     " Tools and Extras {
@@ -77,4 +77,4 @@
 " }
 
 call vundle#end()
-filetype plugin indent on " Automatically detect file types.
+filetype plugin indent on " Automatically detect file tyes.

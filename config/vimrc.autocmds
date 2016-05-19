@@ -46,3 +46,9 @@
     let g:dart_style_guide = 1
     autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
 " }
+
+" Nvim Reload File Fix {
+if has('nvim')
+    au FocusGained,BufWinEnter * checktime
+endif
+" }

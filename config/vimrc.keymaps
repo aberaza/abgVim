@@ -132,3 +132,6 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable()?
 " smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
 "}
 
+" Expand-region {
+vmap v <Plug>(expand_region_expand)
+vmap V <Plug>(expand_region_shrink)
