@@ -63,19 +63,16 @@
     "let g:javascript_conceal_static     = "•"
     "let g:javascript_conceal_super      = "Ω"
 " }
+" JSON {
+    let g:vim_json_syntax_conceal = 0
+" }
 "Syntastic {
     let g:syntastic_javascript_checkers=['jshint']
     " uncomment both to enable auto check on file save
     let g:syntastic_auto_loc_list=1
     let g:syntastic_check_on_open=1
-    let g:syntastic_check_on_wq=0
     let g:syntastic_enable_signs=1
     " let g:syntastic_always_populate_loc_list=1
-    " Run dart analyzer on file
-    " set makeprg=dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
-    "autocmd FileType dart set errorformat+=%.%#\\\|%.%#\\\|%.%#\\\|%f\\\|%l\\\|%c\\\|%.%#\\\|%m
-    "autocmd FileType dart set makeprg=dartanalyzer.bat\ --machine\ %
-    "autocmd BufWritePre *.dart Make
 "}
 " Airline {
     if has('gui_running')
@@ -98,8 +95,9 @@
     let g:airline#extensions#tagbar#enabled = 1
     let g:airline#extensions#wordcount#enabled = 0
 " }
+
 "Neocomplcache {
-    if has("lua")
+    if has("lua")        
         let g:acp_enableAtStartup = 0   " Disable built in autocmplete
         let g:neocomplete#enable_at_startup = 1 " use neocompl cache
         let g:neocomplete#enable_auto_select = 1 "automatically select first candidate
@@ -138,7 +136,7 @@
             \ 'default' : '',
             \ 'vimshell' : $HOME.'/.vimshell_hist',
             \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }"
+            \ }"Plugin 'toyamarinyon/vim-swift'
 
         " Define keyword.
         if !exists('g:neocomplcache_keyword_patterns')
@@ -151,13 +149,6 @@
 "            inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() :
 "            "\<CR>""
 
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " }
 
 " neosnippet (needs Nocomplcache) {
@@ -170,15 +161,3 @@
     endif
 " }
 "
-" qml {
-    autocmd BufRead,BufNewFile,BufRead *.qml set filetype=qml
-" }
-" dart lang {
-    let g:dart_style_guide = 1
-" set makeprg=$DART_SDK/bin/dart_analyzer\ --enable_type_checks\ %\ 2>&1\ \\\|\ sed\ 's/file://'
-" if has('vim_starting')
-    " set nocompatible
-    autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
-"endif
-"filetype plugin indent on
-" }

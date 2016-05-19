@@ -117,8 +117,8 @@
                 else
                     set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
                     " Use direct x for rendering
-                    set rop=type:directx,level:0.75,contrast:0.5;taamode:0;renmode:0
-                    nnoremap <F9> :set rop=type:directx,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
+                    set rop=type:directx,gamma:1.2,level:1.0,contrast:0.25,geom:1,taamode:1,renmode:5 " renmode:3 tambien va bien
+                    nnoremap <F9> :set rop=type:directx,gamma:1.5,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
                 endif
             else
                 set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
@@ -204,6 +204,12 @@
         source ~/.vim/config/vimrc.keymaps
     endif
 " }
+
+" Autocommands/Settings per file type:
+
+    if filereadable(expand("~/.vim/config/vimrc.autocmds"))
+        source ~/.vim/config/vimrc.autocmds
+    endif
 
 " Some autocommands
 if has('nvim')

@@ -16,6 +16,10 @@
         Plugin 'wombat256.vim'
         Plugin 'sickill/vim-monokai'
         Plugin 'goatslacker/mango.vim'
+        Plugin 'summerfruit256.vim'
+        Plugin 'eclipse'
+        Plugin 'nuvola'
+        Plugin 'pyte'
     " }
     " Basics {
         Plugin 'mhinz/vim-startify'
@@ -25,6 +29,7 @@
         Plugin 'bling/vim-airline'
         Plugin 'tpope/vim-dispatch'
         Plugin 'jszakmeister/vim-togglecursor'
+
     " }
 
     " Tools and Extras {
@@ -37,15 +42,19 @@
         else
             Plugin 'Shougo/neocomplcache'
         endif
-        Plugin 'Shougo/neosnippet'
-        Plugin 'honza/vim-snippets'
-        Plugin 'majutsushi/tagbar'
-        Plugin 'tpope/vim-fugitive'
+        Plugin 'Shougo/neosnippet' " Snippet engine
+        Plugin 'honza/vim-snippets' " and some snippets
+        Plugin 'tpope/vim-fugitive' " GIT integration
+        Plugin 'mhinz/vim-signify' " show changes in the file
+        Plugin 'majutsushi/tagbar' " ctags and class hierarchy bar
         Plugin 'tpope/vim-commentary'
-        Plugin 'mhinz/vim-signify'
-        Plugin 'scrooloose/syntastic'
-        Plugin 'luochen1990/rainbow'
-        Plugin 'godlygeek/tabular' "Needed by vim-markdown
+        Plugin 'scrooloose/syntastic' "Syntax check
+        "Plugin 'luochen1990/rainbow'
+        Plugin 'kien/rainbow_parentheses.vim' " color code parentheses to match
+        " Markdown {
+            Plugin 'godlygeek/tabular' "Needed by vim-markdown
+            Plugin 'plasticboy/vim-markdown'
+        " }
         " JavaScript {
             Plugin 'pangloss/vim-javascript'
             Plugin 'elzr/vim-json'
@@ -58,9 +67,11 @@
             " Plugin 'crucerucalin/qml.vim'
             Plugin 'peterhoeg/vim-qml'
         " }
+        " Swift {
+            Plugin 'kballard/vim-swift'
+        " }
     "}
     " Misc {
-        Plugin 'plasticboy/vim-markdown'
         Plugin 'spf13/vim-preview'
     " }
 " }
