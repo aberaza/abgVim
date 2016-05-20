@@ -151,8 +151,8 @@
 " }
 
 " neosnippet (needs Nocomplcache) {
-    let g:neosnippet#disable_runtime_snippets = { "_": 1, }
-    let g:neosnippet#enable_snipmate_compatibility = 0 " Enable neosnippet snipmate compatibility mode
+    let g:neosnippet#disable_runtime_snippets = { "_": 1, } " by default disable runtime snippets for all files
+    let g:neosnippet#enable_snipmate_compatibility = 1 " Enable neosnippet snipmate compatibility mode
     let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets' " Use honza's snippets
     " For snippet_complete marker.
     if has('conceal')

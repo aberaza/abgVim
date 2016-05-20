@@ -43,6 +43,7 @@
             Plugin 'Shougo/neocomplcache'
         endif
         Plugin 'Shougo/neosnippet' " Snippet engine
+        Plugin 'Shougo/neosnippet-snippets' " Native snippets
         Plugin 'honza/vim-snippets' " and some snippets
         Plugin 'tpope/vim-fugitive' " GIT integration
         Plugin 'mhinz/vim-signify' " show changes in the file
