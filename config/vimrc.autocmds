@@ -41,6 +41,9 @@
     autocmd BufRead,BufNewFile,BufRead *.qml set filetype=qml
 " }
 
+" coffee script {
+    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+" }
 
 " dart lang {
     let g:dart_style_guide = 1

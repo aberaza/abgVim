@@ -23,7 +23,7 @@
         else
             set shell=/bin/bash
         endif
-        let mapleader = ","
+        let mapleader = " "
 
     " }
 
@@ -81,6 +81,16 @@
 " }
 
 
+" Bundles {
+    
+    if filereadable(expand("~/.vim/config/vimrc.bundles"))
+        source ~/.vim/config/vimrc.bundles
+        if filereadable(expand("~/.vim/config/vimrc.bundlesConfig"))
+            source ~/.vim/config/vimrc.bundlesConfig
+        endif
+    endif
+" }
+
 " UI enhancements {
 
     " comandline info {
@@ -111,15 +121,10 @@
             nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
 
             if has('win32') || has('win64')
-                if has('nvim')
-                    "command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
-                    "Guifont DejaVu Sans Mono for PowerLine:h8
-                else
-                    set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
-                    " Use direct x for rendering
-                    set rop=type:directx,gamma:1.2,level:1.0,contrast:0.25,geom:1,taamode:1,renmode:5 " renmode:3 tambien va bien
-                    nnoremap <F9> :set rop=type:directx,gamma:1.5,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
-                endif
+                set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
+                " Use direct x for rendering
+                set rop=type:directx,gamma:1.2,level:1.0,contrast:0.25,geom:1,taamode:1,renmode:5 " renmode:3 tambien va bien
+                " nnoremap <F9> :set rop=type:directx,gamma:1.5,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
             else
                 set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
@@ -130,29 +135,28 @@
     "set term=builtin_ansi " Make arrow and other keys work
         endif
     " }
-
+    set background=dark
+    color PaperColor " molokai,  fruity
+    set fillchars=vert:│,fold:- " make vertical lines look continuous
 
     set showmode " Display the current mode
     set cursorline " Highlight current line
 
-    highlight clear SignColumn " SignColumn should match background
-    highlight clear LineNr " Current line number row will have same background color in relative mode
-    let g:CSApprox_hook_post = ['hi clear SignColumn']
+    " highlight clear SignColumn " SignColumn should match background
+    " highlight clear LineNr " Current line number row will have same background color in relative mode
+    " let g:CSApprox_hook_post = ['hi clear SignColumn']
 "highlight clear CursorLineNr " Remove highlight color from current line number
 
 " Broken down into easily includeable segments
-
     set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
     " set foldenable " Auto fold code
     set list
     set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
-
 " }
 
 
 
 " Formatting {
-
     set linespace=0                 " No extra spaces between rows
     set nu " Line numbers on
     set nowrap " Do not wrap long lines
@@ -169,47 +173,19 @@
     set splitbelow " Puts new split windows to the bottom of the current
 "set matchpairs+=<:> " Match, to be used with %
     set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
-    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 " }
 
-" GUI Settings {
-" Bundles {
-    
-    if filereadable(expand("~/.vim/config/vimrc.bundles"))
-        source ~/.vim/config/vimrc.bundles
-        if filereadable(expand("~/.vim/config/vimrc.bundlesConfig"))
-            source ~/.vim/config/vimrc.bundlesConfig
-        endif
-    endif
-" }
-" Configurations {
-    " Solarizez theme or molokai or fruity
-    if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-        let g:solarized_termcolors=256
-        let g:solarized_termtrans=1
-        let g:solarized_contrast="normal"
-        let g:solarized_visibility="normal"
-        color solarized " Load a colorscheme
-    else
-        set background=dark
-        color molokai " fruity
-    endif
-
-" }
-
-" }
-"
 " KeyMappings {
     if filereadable(expand("~/.vim/config/vimrc.keymaps"))
         source ~/.vim/config/vimrc.keymaps
     endif
 " }
 
-" Autocommands/Settings per file type:
-
+" Autocommands/Settings per file type {
     if filereadable(expand("~/.vim/config/vimrc.autocmds"))
         source ~/.vim/config/vimrc.autocmds
     endif
+" }
 
 " Some autocommands
 if has('nvim')

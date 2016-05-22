@@ -17,8 +17,8 @@
         Plugin 'sickill/vim-monokai'
         Plugin 'goatslacker/mango.vim'
         Plugin 'summerfruit256.vim'
-        Plugin 'eclipse'
-        Plugin 'nuvola'
+        " Plugin 'eclipse'
+        " Plugin 'nuvola'
         Plugin 'pyte'
     " }
     " Basics {
