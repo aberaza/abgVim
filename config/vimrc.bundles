@@ -7,6 +7,9 @@
 "Bundles
     " Deps {
         Plugin 'VundleVim/Vundle.vim'
+        "if has('nvim')
+        "    Plugin 'equalsraf/neovim-gui-shim'
+        "endif
     " }
     " Themes {
         Plugin 'molokai'
@@ -37,6 +40,8 @@
 
     " }
     " Programming basics {
+        "Plugin 'Valloric/YouCompleteMe'
+        "
         if has("lua")
             Plugin 'Shougo/neocomplete.vim'
         else
@@ -51,14 +56,17 @@
         Plugin 'tpope/vim-commentary'
         Plugin 'scrooloose/syntastic' "Syntax check
         "Plugin 'luochen1990/rainbow'
+        "next one commented as crashes in vim8
         Plugin 'kien/rainbow_parentheses.vim' " color code parentheses to match
         " Markdown {
             Plugin 'godlygeek/tabular' "Needed by vim-markdown
             Plugin 'plasticboy/vim-markdown'
         " }
         " JavaScript {
+           " Plugin 'ternjs/tern_for_vim' Crahes!!
             Plugin 'pangloss/vim-javascript'
             Plugin 'elzr/vim-json'
+            Plugin 'tpope/vim-jdaddy'
             Plugin 'groenewege/vim-less'
             Plugin 'digitaltoad/vim-jade'
             Plugin 'dart-lang/dart-vim-plugin'

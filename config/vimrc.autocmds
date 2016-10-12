@@ -50,6 +50,10 @@
     autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
 " }
 
+" part as partial xml file {
+    autocmd BufRead,BufNewFile,BufRead *.xml set filetype=xml
+" }
+
 " Nvim Reload File Fix {
 if has('nvim')
     au FocusGained,BufWinEnter * checktime

@@ -119,7 +119,6 @@
             set guioptions-=a   " For CTRL-V to work disable autoselect
             set lines=40        " 40 lines of text instead of 24
             nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
-
             if has('win32') || has('win64')
                 set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
                 " Use direct x for rendering
