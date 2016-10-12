@@ -79,10 +79,10 @@
 "Syntastic {
     let g:syntastic_javascript_checkers=['jshint']
     let g:syntastic_json_checkers=['jsonlint']
-    let g:syntastic_python_checkers=['pylint','pep8','python']
+    let g:syntastic_python_checkers=['pylint', 'pep8', 'python']
     "let g:syntastic_cpp_checkers=['gcc','cppcheck','cpplint','ycm','clang_tidy','clang_check']
     "let g:syntastic_c_checkers=['gcc','make','cppcheck','clang_tidy','clang_check']
-    let g:syntastic_sh_checkers=['sh','shellcheck','checkbashisms'
+    let g:syntastic_sh_checkers=['sh', 'shellcheck', 'checkbashisms']
     let g:syntastic_vim_checkers=['vimlint']
 
 
