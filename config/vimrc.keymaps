@@ -15,10 +15,20 @@ snoremap <C-A> <C-C>gggH<C-O>G
 xnoremap <C-A> <C-C>ggVG
 
 " CTRL-Tab is Next window
-noremap <C-Tab> <C-W>w
+noremap  <C-Tab> <C-W>w
 inoremap <C-Tab> <C-O><C-W>w
 cnoremap <C-Tab> <C-C><C-W>w
 onoremap <C-Tab> <C-C><C-W>w
+
+" CTRL arrows or CTRL hjkw to change windows on visual mode
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+noremap <C-Up> <C-w>k
+noremap <C-Down> <C-w>j
+noremap <C-Left> <C-w>h
+noremap <C-Right> <C-w>l
 
 " CTRL-F4 is Close window
 noremap <C-F4> <C-W>c

@@ -46,7 +46,7 @@
     set shortmess+=filmnrxoOtT " Abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
     set virtualedit=onemore " Allow for cursor beyond last character
-    set history=1000 " Store a ton of history (default is 20)
+    set history=100 " Store a ton of history (default is 20)
     " set spell " Spell checking on
     set hidden " Allow buffer switching without saving
     set showmatch " Show matching brackets/parenthesis
@@ -60,6 +60,7 @@
     set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
+    set sidescrolloff=5             " Minimum cols to keep left and right from cursor
     "set foldenable                  " Auto fold code
     set backspace=indent,eol,start  " Backspace for dummies
     " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
@@ -120,7 +121,7 @@
             set lines=40        " 40 lines of text instead of 24
             nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
             if has('win32') || has('win64')
-                set guifont=DejaVu_Sans_Mono_for_Powerline:h8,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
+                set guifont=DejaVu_Sans_Mono_for_Powerline:h10,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
                 " Use direct x for rendering
                 set rop=type:directx,gamma:1.2,level:1.0,contrast:0.25,geom:1,taamode:1,renmode:5 " renmode:3 tambien va bien
                 " nnoremap <F9> :set rop=type:directx,gamma:1.5,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
@@ -170,6 +171,9 @@
     set nojoinspaces " Prevents inserting two spaces after punctuation on a join (J)
     set splitright " Puts new vsplit windows to the right of the current
     set splitbelow " Puts new split windows to the bottom of the current
+    if v:version > 703 || v:version == 703 && has("patch541")
+        set formatoptions+=j " Delete comment character when joining commented lines
+    endif
 "set matchpairs+=<:> " Match, to be used with %
     set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
 " }
