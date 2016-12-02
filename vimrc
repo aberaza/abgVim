@@ -145,7 +145,7 @@
     " highlight clear SignColumn " SignColumn should match background
     " highlight clear LineNr " Current line number row will have same background color in relative mode
     " let g:CSApprox_hook_post = ['hi clear SignColumn']
-"highlight clear CursorLineNr " Remove highlight color from current line number
+    "highlight clear CursorLineNr " Remove highlight color from current line number
 
 " Broken down into easily includeable segments
     set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
