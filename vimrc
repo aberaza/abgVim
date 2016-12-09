@@ -2,12 +2,6 @@
     " Basics {
         set nocompatible " Must be first line
         if has('win32') || has('win64')
-            " else if windows and mingw
-            " set shell=D:\MinGW\msys\1.0\bin\bash
-            " set shellcmdflag=--login\ -c
-            " set shellxquote=\"e, if windows and mingw
-            source $VIMRUNTIME/vimrc_example.vim
-            " source $VIMRUNTIME/mswin.vim
             " set 'selection', 'selectmode', 'mousemodel' and 'keymodel' for MS-Windows
             behave mswin
 
@@ -26,7 +20,6 @@
         let mapleader = " "
 
     " }
-
 " }
 
 " General {
@@ -58,26 +51,27 @@
     set wildmenu                    " Show list instead of just completing
     set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
     set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
+    set list
+    "set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    set listchars=tab:→\ ,extends:›,precedes:‹,nbsp:·,trail:• " Highlight whitespaces
+    set showbreak=↪\  " char to display on a wrapped line
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     set sidescrolloff=5             " Minimum cols to keep left and right from cursor
     "set foldenable                  " Auto fold code
     set backspace=indent,eol,start  " Backspace for dummies
-    " set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+    set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
     set visualbell "don't beep
     "set noerrorbells "do nothing on error
 	" Manage backup files {
-    set backupdir=~/vimtmp
-    set backupskip=~/vimptmp/*
-    set directory=~/vimptmp
-    set undodir=~/.vimtmp/
-    "if 0
-	"	set backup
-    "else
+        set backupdir=~/vimtmp
+        set backupskip=~/vimptmp/*
+        set directory=~/vimptmp
+        set undodir=~/.vimtmp/
+        "set backup
         set nobackup
         set nowritebackup
         set noswapfile
-    "endif
     " }
 " }
 
@@ -93,21 +87,10 @@
 " }
 
 " UI enhancements {
-
     " comandline info {
         set ruler                   " Show the ruler
         set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
         set showcmd                 " Show partial commands in status line and
-    " }
-
-    " statusline {
-        "set laststatus=2                         " Always show the status line
-        "set statusline=%<%f\                     " Filename
-        "set statusline+=%w%h%m%r                 " Options
-        "set statusline+=%{fugitive#statusline()} " Git Hotness
-        "set statusline+=\ [%{&ff}/%Y]            " Filetype
-        "set statusline+=\ [%{getcwd()}]          " Current dir
-        "set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
     " }
 
     " GVIM- (here instead of .gvimrc)
@@ -141,17 +124,6 @@
 
     set showmode " Display the current mode
     set cursorline " Highlight current line
-
-    " highlight clear SignColumn " SignColumn should match background
-    " highlight clear LineNr " Current line number row will have same background color in relative mode
-    " let g:CSApprox_hook_post = ['hi clear SignColumn']
-"highlight clear CursorLineNr " Remove highlight color from current line number
-
-" Broken down into easily includeable segments
-    set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
-    " set foldenable " Auto fold code
-    set list
-    set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
 " }
 
 
@@ -187,6 +159,12 @@
 " Autocommands/Settings per file type {
     if filereadable(expand("~/.vim/config/vimrc.autocmds"))
         source ~/.vim/config/vimrc.autocmds
+    endif
+" }
+
+" Local settings file {
+    if filereadable(expand("~/.vim/config/vimrc.local"))
+        source ~/.vim/config/vimrc.local
     endif
 " }
 
