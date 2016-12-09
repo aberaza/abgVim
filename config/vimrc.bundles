@@ -82,6 +82,7 @@
     "}
     " Misc {
         Plugin 'spf13/vim-preview'
+        Plugin 'edkolev/tmuxline.vim'
     " }
 " }
 
