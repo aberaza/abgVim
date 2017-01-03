@@ -77,7 +77,6 @@
 
 
 " Bundles {
-    
     if filereadable(expand("~/.vim/config/vimrc.bundles"))
         source ~/.vim/config/vimrc.bundles
         if filereadable(expand("~/.vim/config/vimrc.bundlesConfig"))

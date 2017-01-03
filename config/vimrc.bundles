@@ -40,21 +40,23 @@
 
     " }
     " Programming basics {
-        "Plugin 'Valloric/YouCompleteMe'
-        "
+        " if(has('python'))
+        "     Plugin 'Valloric/YouCompleteMe'
+        " elseif has("lua")
         if has("lua")
             Plugin 'Shougo/neocomplete.vim'
         else
             Plugin 'Shougo/neocomplcache'
         endif
-        Plugin 'Shougo/neosnippet' " Snippet engine
-        Plugin 'Shougo/neosnippet-snippets' " Native snippets
-        Plugin 'honza/vim-snippets' " and some snippets
+
+        "Plugin 'Shougo/neosnippet' " Snippet engine
+        "Plugin 'Shougo/neosnippet-snippets' " Native snippets
+        "Plugin 'honza/vim-snippets' " and some snippets
         Plugin 'tpope/vim-fugitive' " GIT integration
         Plugin 'mhinz/vim-signify' " show changes in the file
         Plugin 'majutsushi/tagbar' " ctags and class hierarchy bar
         Plugin 'tpope/vim-commentary'
-        Plugin 'scrooloose/syntastic' "Syntax check
+        Plugin 'scrooloose/syntastic' "Syntax checkq
         "Plugin 'luochen1990/rainbow'
         "next one commented as crashes in vim8
         Plugin 'kien/rainbow_parentheses.vim' " color code parentheses to match
@@ -72,7 +74,6 @@
             Plugin 'dart-lang/dart-vim-plugin'
         "}
         " QML {
-            " Plugin 'crucerucalin/qml.vim'
             " Plugin 'crucerucalin/qml.vim'
             Plugin 'peterhoeg/vim-qml'
         " }
