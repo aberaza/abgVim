@@ -9,10 +9,13 @@
                 " Windows cmd.exe still uses cp850. If Windows ever moved to
                 set termencoding=cp850
                 " Let Vim use utf-8 internally, because many scripts require this
-                set encoding=utf-8
+"                set encoding=utf-8
                 setglobal fileencoding=utf-8
                 set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
             endif
+            " set shell=C:\msys64\usr\bin\bash
+            " set shellcmdflag=--login\ -c
+            " set shellslash
             cd $HOME/WORKSPACE
         else
             set shell=/bin/bash
@@ -103,15 +106,21 @@
             set lines=40        " 40 lines of text instead of 24
             nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
             if has('win32') || has('win64')
-                set guifont=DejaVu_Sans_Mono_for_Powerline:h10,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
-                " Use direct x for rendering
-                set rop=type:directx,gamma:1.2,level:1.0,contrast:0.25,geom:1,taamode:1,renmode:5 " renmode:3 tambien va bien
-                " nnoremap <F9> :set rop=type:directx,gamma:1.5,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
+                if exists('g:GuiLoaded')
+                    GuiFont DejaVu Sans Mono for Powerline:h10
+                else
+                    set guifont=DejaVu_Sans_Mono_for_Powerline:h10,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
+                    " Use direct x for rendering
+                    set rop=type:directx,gamma:1.2,level:1.0,contrast:0.25,geom:1,taamode:1,renmode:5 " renmode:3 tambien va bien
+                    " nnoremap <F9> :set rop=type:directx,gamma:1.5,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
+                endif
             else
                 set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
             endif
         else
-            if &term == 'xterm' || &term == 'screen'
+            if exists('g:GuiLoaded')
+                GuiFont DejaVu Sans Mono for Powerline:h10
+            elseif &term == 'xterm' || &term == 'screen'
                 set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
             endif
     "set term=builtin_ansi " Make arrow and other keys work

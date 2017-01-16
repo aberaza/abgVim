@@ -131,6 +131,8 @@
             let g:neocomplete#keyword_patterns = {}
         endif
         let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+    elseif has("python")
+        let g:ycm_path_to_python_interpreter = 'C:\Python27\python.exe'
     else
         let g:neocomplcache_enable_at_startup = 1 " use neocompl cache
         let g:neocomplcache_enable_cursor_hold_i = 1
