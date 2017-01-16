@@ -49,6 +49,7 @@
     set ignorecase " Case insensitive search
     set smartcase " Case sensitive when uc present
     set wildmenu                    " Show list instead of just completing
+    set completeopt=menuone,preview
     set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
     set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
     set list

@@ -40,16 +40,16 @@
 
     " }
     " Programming basics {
-        "Plugin 'Valloric/YouCompleteMe'
+        Plugin 'Valloric/YouCompleteMe'
         "
-        if has("lua")
-            Plugin 'Shougo/neocomplete.vim'
-        else
-            Plugin 'Shougo/neocomplcache'
-        endif
-        Plugin 'Shougo/neosnippet' " Snippet engine
-        Plugin 'Shougo/neosnippet-snippets' " Native snippets
-        Plugin 'honza/vim-snippets' " and some snippets
+        " if has("lua")
+        "     Plugin 'Shougo/neocomplete.vim'
+        " else
+        "     Plugin 'Shougo/neocomplcache'
+        " endif
+        " Plugin 'Shougo/neosnippet' " Snippet engine
+        " Plugin 'Shougo/neosnippet-snippets' " Native snippets
+        " Plugin 'honza/vim-snippets' " and some snippets
         Plugin 'tpope/vim-fugitive' " GIT integration
         Plugin 'mhinz/vim-signify' " show changes in the file
         Plugin 'majutsushi/tagbar' " ctags and class hierarchy bar
