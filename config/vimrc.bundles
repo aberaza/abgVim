@@ -1,90 +1,87 @@
-" Setup Bundle {
-    " The next three lines ensure that the ~/.vim/bundle/ system works
-    filetype off
-    set rtp+=~/.vim/bundle/Vundle.vim/
-    call vundle#begin()
-" }
+call plug#begin('~/.vim/bundle')
+
 "Bundles
     " Deps {
-        Plugin 'VundleVim/Vundle.vim'
-        "if has('nvim')
-        "    Plugin 'equalsraf/neovim-gui-shim'
-        "endif
+        " Plug 'VundleVim/Vundle.vim'
+        if has('nvim')
+            Plug 'equalsraf/neovim-gui-shim'
+        endif
     " }
     " Themes {
-        Plugin 'molokai'
-        Plugin 'Solarized'
-        Plugin 'chriskempson/vim-tomorrow-theme'
-        Plugin 'NLKNguyen/papercolor-theme'
-        Plugin 'wombat256.vim'
-        Plugin 'sickill/vim-monokai'
-        Plugin 'goatslacker/mango.vim'
-        Plugin 'summerfruit256.vim'
-        " Plugin 'eclipse'
-        " Plugin 'nuvola'
-        Plugin 'pyte'
+        Plug 'molokai'
+        Plug 'Solarized'
+        Plug 'chriskempson/vim-tomorrow-theme'
+        Plug 'NLKNguyen/papercolor-theme'
+        Plug 'wombat256.vim'
+        Plug 'sickill/vim-monokai'
+        Plug 'goatslacker/mango.vim'
+        Plug 'summerfruit256.vim'
+        " Plug 'eclipse'
+        " Plug 'nuvola'
+        Plug 'pyte'
     " }
     " Basics {
-        " Plugin 'mhinz/vim-startify'
-        Plugin 'kien/ctrlp.vim'
-        Plugin 'scrooloose/nerdtree'
-        Plugin 'rking/ag.vim'
-        Plugin 'bling/vim-airline'
-        Plugin 'tpope/vim-dispatch'
-        Plugin 'jszakmeister/vim-togglecursor'
-        Plugin 'vim-expand-region'
+        " Plug 'mhinz/vim-startify'
+        Plug 'kien/ctrlp.vim'
+        Plug 'scrooloose/nerdtree'
+        Plug 'rking/ag.vim'
+        Plug 'bling/vim-airline'
+        Plug 'tpope/vim-dispatch'
+        Plug 'jszakmeister/vim-togglecursor'
+        Plug 'vim-expand-region'
     " }
 
     " Tools and Extras {
-        Plugin 'freitass/todo.txt-vim'
+        Plug 'freitass/todo.txt-vim'
 
     " }
     " Programming basics {
-        Plugin 'Valloric/YouCompleteMe'
-        "
-        " if has("lua")
-        "     Plugin 'Shougo/neocomplete.vim'
-        " else
-        "     Plugin 'Shougo/neocomplcache'
-        " endif
-        " Plugin 'Shougo/neosnippet' " Snippet engine
-        " Plugin 'Shougo/neosnippet-snippets' " Native snippets
-        " Plugin 'honza/vim-snippets' " and some snippets
-        Plugin 'tpope/vim-fugitive' " GIT integration
-        Plugin 'mhinz/vim-signify' " show changes in the file
-        Plugin 'majutsushi/tagbar' " ctags and class hierarchy bar
-        Plugin 'tpope/vim-commentary'
-        Plugin 'scrooloose/syntastic' "Syntax check
-        "Plugin 'luochen1990/rainbow'
+        " if(has('python'))
+        "     Plug 'Valloric/YouCompleteMe'
+        " elseif has("lua")
+        if has("lua")
+            Plug 'Shougo/neocomplete.vim'
+        " elseif has("python")
+            " Plug 'Valloric/YouCompleteMe'
+        else
+            Plug 'Shougo/neocomplcache'
+        endif
+
+        "Plug 'Shougo/neosnippet' " Snippet engine
+        "Plug 'Shougo/neosnippet-snippets' " Native snippets
+        "Plug 'honza/vim-snippets' " and some snippets
+        Plug 'tpope/vim-fugitive' " GIT integration
+        Plug 'mhinz/vim-signify' " show changes in the file
+        Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
+        Plug 'tpope/vim-commentary'
+        Plug 'scrooloose/syntastic' "Syntax checkq
+        "Plug 'luochen1990/rainbow'
         "next one commented as crashes in vim8
-        Plugin 'kien/rainbow_parentheses.vim' " color code parentheses to match
+        Plug 'kien/rainbow_parentheses.vim' " color code parentheses to match
         " Markdown {
-            Plugin 'godlygeek/tabular' "Needed by vim-markdown
-            Plugin 'plasticboy/vim-markdown'
+            Plug 'godlygeek/tabular' "Needed by vim-markdown
+            Plug 'plasticboy/vim-markdown'
         " }
         " JavaScript {
-           " Plugin 'ternjs/tern_for_vim' Crahes!!
-            Plugin 'pangloss/vim-javascript'
-            Plugin 'elzr/vim-json'
-            Plugin 'tpope/vim-jdaddy'
-            Plugin 'groenewege/vim-less'
-            Plugin 'digitaltoad/vim-jade'
-            Plugin 'dart-lang/dart-vim-plugin'
+           " Plug 'ternjs/tern_for_vim' Crahes!!
+            Plug 'pangloss/vim-javascript'
+            Plug 'elzr/vim-json'
+            Plug 'tpope/vim-jdaddy'
+            Plug 'groenewege/vim-less'
+            Plug 'digitaltoad/vim-jade'
+            Plug 'dart-lang/dart-vim-plugin', { 'for' : 'dart' }
         "}
         " QML {
-            " Plugin 'crucerucalin/qml.vim'
-            " Plugin 'crucerucalin/qml.vim'
-            Plugin 'peterhoeg/vim-qml'
+            " Plug 'crucerucalin/qml.vim'
+            Plug 'peterhoeg/vim-qml', { 'for' : 'qml' }
         " }
         " Swift {
-            Plugin 'kballard/vim-swift'
+            Plug 'kballard/vim-swift', { 'for' : 'swift' }
         " }
     "}
     " Misc {
-        Plugin 'spf13/vim-preview'
-        Plugin 'edkolev/tmuxline.vim'
+        Plug 'edkolev/tmuxline.vim'
     " }
 " }
 
-call vundle#end()
-filetype plugin indent on " Automatically detect file tyes.
+call plug#end()

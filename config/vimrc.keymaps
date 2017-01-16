@@ -122,26 +122,27 @@ nnoremap <silent> <leader>gw :Gwrite<CR>
 " }
 
 " Neosnippets {
-" <F7> Ti lock/unlock automatic completion
-map <F7> :NeoComplToggle<CR>
-" <Ctrl + k> To expand a completion, and <Tab> to jumbp between placeholders
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
-imap <expr><TAB> neosnippet#expandable_or_jumpable()?
-    \ "\<Plug>(neosnippet_expand_or_jump)"
-    \: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable()?
-    \ "\<Plug>(neosnippet_expand_or_jump)"
-    \: "\<TAB>"
+" " <F7> Ti lock/unlock automatic completion
+" map <F7> :NeoComplToggle<CR>
+" " <Ctrl + k> To expand a completion, and <Tab> to jumbp between placeholders
+" imap <C-k> <Plug>(neosnippet_expand_or_jump)
+" smap <C-k> <Plug>(neosnippet_expand_or_jump)
 " xmap <C-k> <Plug>(neosnippet_expand_target)
-" If selected is not a snippet, go to previous
-" imap <silent><expr><C-k> neosnippet#expandable() ?
-"        \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-"        \ "\<C-n>" : "\<Plug>(neosnippet_expand_or_jump)")
-" smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
+" imap <expr><TAB> neosnippet#expandable_or_jumpable()?
+"     \ "\<Plug>(neosnippet_expand_or_jump)"
+"     \: pumvisible() ? "\<C-n>" : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable_or_jumpable()?
+"     \ "\<Plug>(neosnippet_expand_or_jump)"
+"     \: "\<TAB>"
+" " xmap <C-k> <Plug>(neosnippet_expand_target)
+" " If selected is not a snippet, go to previous
+" " imap <silent><expr><C-k> neosnippet#expandable() ?
+" "        \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
+" "        \ "\<C-n>" : "\<Plug>(neosnippet_expand_or_jump)")
+" " smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
 "}
 
 " Expand-region {
 vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
+" }
