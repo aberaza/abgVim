@@ -155,7 +155,7 @@
 "             let g:neocomplcache_keyword_patterns = {}
 "         endif
 "         let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-"     endif
+     endif
 " "            " Key Mappings
 " "            " CR: select and close the popup
 " "            inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() :
