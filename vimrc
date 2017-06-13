@@ -3,13 +3,13 @@
         set nocompatible " Must be first line
         if has('win32') || has('win64')
             " set 'selection', 'selectmode', 'mousemodel' and 'keymodel' for MS-Windows
-            behave mswin
+            " behave mswin
 
             if has("multi_byte")
                 " Windows cmd.exe still uses cp850. If Windows ever moved to
                 set termencoding=cp850
                 " Let Vim use utf-8 internally, because many scripts require this
-"                set encoding=utf-8
+                set encoding=utf-8
                 setglobal fileencoding=utf-8
                 set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
             endif
