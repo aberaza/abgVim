@@ -29,6 +29,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'tpope/vim-dispatch'
         Plug 'jszakmeister/vim-togglecursor'
         Plug 'vim-expand-region'
+        Plug 'skywind3000/asyncrun.vim'
     " }
 
     " Tools and Extras {
@@ -54,8 +55,8 @@ call plug#begin('~/.vim/bundle')
         Plug 'mhinz/vim-signify' " show changes in the file
         Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
         Plug 'tpope/vim-commentary'
-        Plug 'scrooloose/syntastic' "Syntax checkq
-        "Plug 'luochen1990/rainbow'
+        Plug 'scrooloose/syntastic' "Syntax check
+        Plug 'janko-m/vim-test'
         "next one commented as crashes in vim8
         Plug 'kien/rainbow_parentheses.vim' " color code parentheses to match
         " Markdown {

@@ -16,7 +16,7 @@
             " set shell=C:\msys64\usr\bin\bash
             " set shellcmdflag=--login\ -c
             " set shellslash
-            cd $HOME/WORKSPACE
+            cd ~/WORKSPACE
         else
             set shell=/bin/bash
         endif
