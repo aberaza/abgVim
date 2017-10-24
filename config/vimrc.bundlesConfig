@@ -1,3 +1,24 @@
+" Neoterm {
+    if g:useneoterm
+        let g:neoterm_position = 'horizontal'
+        let g:neoterm_automap_keys = ',tt'
+
+        " nnoremap <silent> <f10> :TREPLSendFile<cr>
+        " nnoremap <silent> <f9> :TREPLSendLine<cr>
+        " vnoremap <silent> <f9> :TREPLSendSelection<cr>
+
+        " " Useful maps
+        " " hide/close terminal
+        " nnoremap <silent> ,th :call neoterm#close()<cr>
+        " " clear terminal
+        " nnoremap <silent> ,tl :call neoterm#clear()<cr>
+        " " kills the current job (send a <c-c>)
+        " nnoremap <silent> ,tc :call neoterm#kill()<cr>
+
+        " " Rails commands
+        " command! Troutes :T rake routes
+    endif
+" }
 " Solarized Theme {
     if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
         let g:solarized_termcolors=256
@@ -40,7 +61,7 @@
             \ --ignore .pub
             \ --ignore packages
             \-l -g "" %s'
-        let g:ctrlp_use_caching=1
+        let g:ctrlp_use_caching=1 
         " let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
     elseif executable('ack')
         let s:ctrlp_fallback = 'ack %s --nocolor -f'
@@ -49,6 +70,31 @@
         let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
     endif
 " }
+
+" EMMET (HTML) {
+    " let g:user_emmet_mode='n'    "only enable normal mode functions.
+    " let g:user_emmet_mode='inv'  "enable all functions, which is equal to
+    " let g:user_emmet_mode='a'    "enable all function in all mode.
+    " To enable only for html/css files:
+    let g:user_emmet_install_global = 0
+    autocmd FileType html,css EmmetInstall
+    "Trigger key is <C-Y> , (ctrl+y ,) con la coma tras el ctrl y
+    " let g:user_emmet_leader_key='<C-Z>' " para cambiar la parte del ctrl y
+" }
+
+" Surround {
+" En visual o command mode
+" "Hello World!" -> cs"<p> -> <p>Hello World!</p>
+" <p>Hello World!</p> -> cst" -> "Hello World!"
+" "Hello World!" -> ds" -> Hello World
+" <line visual mode V>
+" Hello World -> S<p class="toto"> ->
+" <p class="toto">
+"   Hello World
+" </p>
+" and so on
+" }
+
 " Vim-Javascript {
     "let g:javascript_conceal_function   = "ƒ"
     let g:javascript_conceal_null       = "ø"
@@ -60,8 +106,18 @@
     "let g:javascript_conceal_static     = "•"
     "let g:javascript_conceal_super      = "Ω"
 " }
+" JavaScript Libraries Syntax {
+    let g:used_javascript_libs = 'angularjs,react'
+" }
 " JSON {
     let g:vim_json_syntax_conceal = 0
+" }
+" TypeScript {
+    " If indenting does not work as desired
+    " let g:typescript_indent_disable = 1
+    " Compiler options
+    " let g:typescript_compiler_binary = 'tsc'
+    " let g:typescript_compiler_options = ''
 " }
 "Syntastic {
     let g:syntastic_javascript_checkers=['jshint']

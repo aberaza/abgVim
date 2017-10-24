@@ -36,6 +36,11 @@ inoremap <C-F4> <C-O><C-W>c
 cnoremap <C-F4> <C-C><C-W>c
 onoremap <C-F4> <C-C><C-W>c
 
+" ESC in terminal kills it
+if has('nvim')
+    :tnoremap <Esc> <C-\><C-n>
+endif
+
 " backspace in Visual mode deletes selection
 vnoremap <BS> d
 
