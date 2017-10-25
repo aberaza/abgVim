@@ -117,14 +117,24 @@
         else
             if exists('g:GuiLoaded')
                 GuiFont DejaVu Sans Mono for Powerline:h10
+                set termguicolors
             elseif &term == 'xterm' || &term == 'screen'
                 set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
             endif
     "set term=builtin_ansi " Make arrow and other keys work
         endif
     " }
-    set background=darkItem
+    set background=dark
+
+    let g:PaperColor_Theme_Options = {
+        \   'theme' : {
+        \       'default': {
+        \           'allow_italic': 1
+        \       }
+        \   }
+        \}
     color PaperColor " molokai,  fruity
+
     set fillchars=vert:│,fold:- " make vertical lines look continuous
 
     set showmode " Display the current mode
@@ -168,16 +178,16 @@
 " }
 
 " Abbreviations {
-cnoreabbrev W! w!
-cnoreabbrev Q! q!
-cnoreabbrev Qall! qall!
-cnoreabbrev Wq wq
-cnoreabbrev Wa wa
-cnoreabbrev wQ wq
-cnoreabbrev WQ wq
-cnoreabbrev W w
-cnoreabbrev Q q
-cnoreabbrev Qall qall
+    cnoreabbrev W! w!
+    cnoreabbrev Q! q!
+    cnoreabbrev Qall! qall!
+    cnoreabbrev Wq wq
+    cnoreabbrev Wa wa
+    cnoreabbrev wQ wq
+    cnoreabbrev WQ wq
+    cnoreabbrev W w
+    cnoreabbrev Q q
+    cnoreabbrev Qall qall
 " }
 
 " Local settings file {
