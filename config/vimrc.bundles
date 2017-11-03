@@ -5,7 +5,6 @@ call plug#begin('~/.vim/bundle')
         " Plug 'VundleVim/Vundle.vim'
         if has('nvim')
             Plug 'equalsraf/neovim-gui-shim'
-            let g:useneoterm=1
             Plug 'kassio/neoterm' 
         endif
     " }
@@ -16,10 +15,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'NLKNguyen/papercolor-theme'
         Plug 'wombat256.vim'
         Plug 'sickill/vim-monokai'
-        Plug 'goatslacker/mango.vim'
         Plug 'summerfruit256.vim'
-        " Plug 'eclipse'
-        " Plug 'nuvola'
         Plug 'pyte'
     " }
     " Basics {
@@ -29,28 +25,28 @@ call plug#begin('~/.vim/bundle')
         Plug 'rking/ag.vim'
         Plug 'bling/vim-airline'
         Plug 'tpope/vim-dispatch'
+        Plug 'skywind3000/asyncrun.vim' "Used by vim-test
         Plug 'tpope/vim-surround'
         Plug 'jszakmeister/vim-togglecursor'
         Plug 'vim-expand-region'
-        Plug 'skywind3000/asyncrun.vim'
     " }
 
     " Tools and Extras {
-        Plug 'freitass/todo.txt-vim'
-
     " }
+
     " Programming basics {
-        " if(has('python'))
-        "     Plug 'Valloric/YouCompleteMe'
-        " elseif has("lua")
-        if has("lua")
+        if has('nvim')
+            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+            Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+        elseif has('python3')
+            Plug 'Shougo/deoplete.nvim'
+            Plug 'roxma/nvim-yarp'
+            Plug 'roxma/vim-hug-neovim-rpc'
+        elseif has('lua')
             Plug 'Shougo/neocomplete.vim'
-        " elseif (has("python") || has("python3"))
-            " Plug 'Valloric/YouCompleteMe'
         else
             Plug 'Shougo/neocomplcache'
         endif
-
         "Plug 'Shougo/neosnippet' " Snippet engine
         "Plug 'Shougo/neosnippet-snippets' " Native snippets
         "Plug 'honza/vim-snippets' " and some snippets
@@ -60,8 +56,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'tpope/vim-commentary'
         Plug 'scrooloose/syntastic' "Syntax check
         Plug 'janko-m/vim-test'
-        "next one commented as crashes in vim8
-        Plug 'kien/rainbow_parentheses.vim' " color code parentheses to match
+        Plug 'editorconfig/editorconfig-vim'
         " Markdown {
             Plug 'godlygeek/tabular' "Needed by vim-markdown
             Plug 'plasticboy/vim-markdown'
@@ -70,22 +65,21 @@ call plug#begin('~/.vim/bundle')
             Plug 'mattn/emmet-vim'
         " }
         " JavaScript {
-           " Plug 'ternjs/tern_for_vim' Crahes!!
+           " Plug 'ternjs/tern_for_vim' needs python
+           " Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
             Plug 'pangloss/vim-javascript'
             Plug 'othree/javascript-libraries-syntax.vim'
             Plug 'elzr/vim-json'
             Plug 'tpope/vim-jdaddy'
-            " Plug 'groenewege/vim-less'
-            " Plug 'digitaltoad/vim-jade'
-            " Plug 'dart-lang/dart-vim-plugin', { 'for' : 'dart' }
+            Plug 'mxw/vim-jsx' "Some react jsx syntax
             Plug 'leafgarland/typescript-vim'
         "}
         " QML {
             " Plug 'crucerucalin/qml.vim'
-            Plug 'peterhoeg/vim-qml', { 'for' : 'qml' }
+            " Plug 'peterhoeg/vim-qml', { 'for' : 'qml' }
         " }
         " Swift {
-            Plug 'kballard/vim-swift', { 'for' : 'swift' }
+            " Plug 'kballard/vim-swift', { 'for' : 'swift' }
         " }
     "}
     " Misc {

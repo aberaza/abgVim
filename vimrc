@@ -1,6 +1,8 @@
 " Environment {
     " Basics {
         set nocompatible " Must be first line
+        let mapleader = " " " Leader : Spacebar
+        
         if has('win32') || has('win64')
             " set 'selection', 'selectmode', 'mousemodel' and 'keymodel' for MS-Windows
             " behave mswin
@@ -20,7 +22,6 @@
         else
             set shell=/bin/bash
         endif
-        let mapleader = " "
 
     " }
 " }
@@ -45,12 +46,14 @@
     set history=100 " Store a ton of history (default is 20)
     " set spell " Spell checking on
     set hidden " Allow buffer switching without saving
-    set showmatch " Show matching brackets/parenthesis
-    set incsearch " Find as you type search
-    set hlsearch " Highlight search terms
     set winminheight=0 " Windows can be 0 line high
+    " Search options
     set ignorecase " Case insensitive search
     set smartcase " Case sensitive when uc present
+    set gdefault    " /g by default on searches
+    set showmatch " Show matching brackets/parenthesis
+    set incsearch " Find as you type search
+
     set wildmenu                    " Show list instead of just completing
     set completeopt=menuone,preview
     set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
@@ -94,6 +97,8 @@
         set ruler                   " Show the ruler
         set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
         set showcmd                 " Show partial commands in status line and
+        set showmode " Display the current mode
+        set cursorline " Highlight current line
     " }
 
     " GVIM- (here instead of .gvimrc)
@@ -107,38 +112,25 @@
             set lines=40        " 40 lines of text instead of 24
             nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
             if has('win32') || has('win64')
-                set guifont=DejaVu_Sans_Mono_for_Powerline:h10,DejaVu_Sans_Mono:8,Consolas:h9,Courier_New:h9
+                set guifont=DejaVuSansMono_Nerd_Font_Mono:h11,DejaVu_Sans_Mono_for_Powerline:h10
                 " Use direct x for rendering
                 set rop=type:directx,gamma:1.2,level:1.0,contrast:0.25,geom:1,taamode:1,renmode:5 " renmode:3 tambien va bien
                 " nnoremap <F9> :set rop=type:directx,gamma:1.5,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
             else
-                set guifont=DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9,\Monospace\ 9,Andale\ Mono\ Regular\ 9,Menlo\ Regular\ 9,Consolas\ Regular\ 9,Courier\ New\ Regular\ 10
+                set guifont=DejaVuSansMono\ Nerd\ Font\ Mono\ 9,DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9
             endif
         else
             if exists('g:GuiLoaded')
-                GuiFont DejaVu Sans Mono for Powerline:h10
+                GuiFont DejaVuSansMono NF:h10
                 set termguicolors
             elseif &term == 'xterm' || &term == 'screen'
                 set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
             endif
-    "set term=builtin_ansi " Make arrow and other keys work
         endif
     " }
     set background=dark
-
-    let g:PaperColor_Theme_Options = {
-        \   'theme' : {
-        \       'default': {
-        \           'allow_italic': 1
-        \       }
-        \   }
-        \}
     color PaperColor " molokai,  fruity
-
     set fillchars=vert:│,fold:- " make vertical lines look continuous
-
-    set showmode " Display the current mode
-    set cursorline " Highlight current line
 " }
 
 
@@ -161,8 +153,8 @@
     if v:version > 703 || v:version == 703 && has("patch541")
         set formatoptions+=j " Delete comment character when joining commented lines
     endif
-"set matchpairs+=<:> " Match, to be used with %
-    set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
+    set matchpairs+=<:> " Match, to be used with % (add HTML style)
+    set pastetoggle=<F2> " pastetoggle (sane indentation on pastes)
 " }
 
 " KeyMappings {

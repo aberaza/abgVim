@@ -99,9 +99,12 @@ inoremap <C-F> <C-O>:Ag<SPACE>
 map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
 " <,l> To locate current buffer int he File tree
 map <Leader>l :NERDTreeFind<CR>
-" <F5> to Toggle nerd tree pane
-map <F5> :let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
-map! <F5> <Esc>:let NERDTreeQuitOnOpen = 0<CR>:NERDTreeToggle<CR>
+" Ctrl-B to Toggle nerd tree pane
+" map <F5> :NERDTreeToggle<CR>
+" map! <F5> :NERDTreeToggle<CR>
+map <C-B> :NERDTreeToggle<CR>
+map! <C-B> <C-O>:NERDTreeToggle<CR>
+
 " }
 
 " CtrlP {

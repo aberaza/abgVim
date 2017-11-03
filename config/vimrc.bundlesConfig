@@ -1,32 +1,44 @@
 " Neoterm {
-    if g:useneoterm
-        let g:neoterm_position = 'horizontal'
-        let g:neoterm_automap_keys = ',tt'
+if exists('g:plugs["neoterm"]')
+    let g:neoterm_position = 'horizontal'
+    let g:neoterm_automap_keys = ',tt'
 
-        " nnoremap <silent> <f10> :TREPLSendFile<cr>
-        " nnoremap <silent> <f9> :TREPLSendLine<cr>
-        " vnoremap <silent> <f9> :TREPLSendSelection<cr>
+    " nnoremap <silent> <f10> :TREPLSendFile<cr>
+    " nnoremap <silent> <f9> :TREPLSendLine<cr>
+    " vnoremap <silent> <f9> :TREPLSendSelection<cr>
 
-        " " Useful maps
-        " " hide/close terminal
-        " nnoremap <silent> ,th :call neoterm#close()<cr>
-        " " clear terminal
-        " nnoremap <silent> ,tl :call neoterm#clear()<cr>
-        " " kills the current job (send a <c-c>)
-        " nnoremap <silent> ,tc :call neoterm#kill()<cr>
+    " " Useful maps
+    " " hide/close terminal
+    " nnoremap <silent> ,th :call neoterm#close()<cr>
+    " " clear terminal
+    " nnoremap <silent> ,tl :call neoterm#clear()<cr>
+    " " kills the current job (send a <c-c>)
+    " nnoremap <silent> ,tc :call neoterm#kill()<cr>
 
-        " " Rails commands
-        " command! Troutes :T rake routes
-    endif
+    " " Rails commands
+    " command! Troutes :T rake routes
+endif
 " }
+
+" PaperColor Theme {
+" Enable comments in italic
+let g:PaperColor_Theme_Options = {
+    \   'theme' : {
+    \       'default': {
+    \           'allow_italic': 1
+    \       }
+    \   }
+    \}
+" }
+
 " Solarized Theme {
-    if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-        let g:solarized_termcolors=256
-        let g:solarized_termtrans=1
-        let g:solarized_contrast="normal"
-        let g:solarized_visibility="normal"
-        " color solarized " Load a colorscheme
-    endif
+if exists('g:plugs["Solarized"]')
+    let g:solarized_termcolors=256
+    let g:solarized_termtrans=1
+    let g:solarized_contrast="normal"
+    let g:solarized_visibility="normal"
+    " color solarized " Load a colorscheme
+endif
 " }
 
 " NerdTREE {
@@ -40,13 +52,15 @@
     let NERDTreeMouseMode=2
     let NERDTreeShowHidden=1
     let NERDTreeKeepTreeInNewTab=1
+    let NERDTreeStatusline=0
+    let NERDTreeMinimalUI=1
     let g:nerdtree_tabs_open_on_gui_startup=0
     let g:NERDTreeHijackNetrw = 0
 " }
 " CtrlP {
 "   Bundle 'kien/ctrlp.vim'
     " let g:ctrlp_working_path_mode = 'ra'
-    let g:ctrlp_working_path_mode = ''
+    let g:ctrlp_working_path_mode = 'r'
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
         \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
@@ -55,14 +69,8 @@
         set grepprg=ag\ --nogroup\ --nocolor\ --column
         set grepformat=%f:%l:%c%m
         " set ctrlp to use ag
-        " let g:ctrlp_user_command = 'ag --nocolor -l -g "" %s'
-        let g:ctrlp_user_command = 'ag --nocolor 
-            \ --ignore .git
-            \ --ignore .pub
-            \ --ignore packages
-            \-l -g "" %s'
-        let g:ctrlp_use_caching=1 
-        " let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+        let g:ctrlp_user_command = 'ag --nocolor -l -g "" %s'
+        let g:ctrlp_use_caching=0
     elseif executable('ack')
         let s:ctrlp_fallback = 'ack %s --nocolor -f'
     elseif has("win32")
@@ -75,9 +83,9 @@
     " let g:user_emmet_mode='n'    "only enable normal mode functions.
     " let g:user_emmet_mode='inv'  "enable all functions, which is equal to
     " let g:user_emmet_mode='a'    "enable all function in all mode.
-    " To enable only for html/css files:
+    " To enable only for html/css/js/jsx files:
     let g:user_emmet_install_global = 0
-    autocmd FileType html,css EmmetInstall
+    autocmd FileType html,css,js,jsx EmmetInstall
     "Trigger key is <C-Y> , (ctrl+y ,) con la coma tras el ctrl y
     " let g:user_emmet_leader_key='<C-Z>' " para cambiar la parte del ctrl y
 " }
@@ -105,6 +113,10 @@
     "let g:javascript_conceal_prototype  = "¶"
     "let g:javascript_conceal_static     = "•"
     "let g:javascript_conceal_super      = "Ω"
+    let g:javascript_plugin_jsdoc       = 1
+" }
+" Vim-JSX { 
+    let g:jsx_ext_required = 0 "allow jsx for jsx and js files
 " }
 " JavaScript Libraries Syntax {
     let g:used_javascript_libs = 'angularjs,react'
@@ -119,8 +131,17 @@
     " let g:typescript_compiler_binary = 'tsc'
     " let g:typescript_compiler_options = ''
 " }
+" TERN checker {
+if exists('g:plugs["tern_for_vim"]')
+  let g:tern_show_argument_hints = 'on_hold'
+  let g:tern_show_signature_in_pum = 1
+  let g:tern_map_keys = 1
+
+  autocmd FileType javascript setlocal omnifunc=tern#Complete
+endif
+" }
 "Syntastic {
-    let g:syntastic_javascript_checkers=['jshint']
+    let g:syntastic_javascript_checkers=['eslint']
     let g:syntastic_json_checkers=['jsonlint']
     let g:syntastic_python_checkers=['pylint', 'pep8', 'python']
     "let g:syntastic_cpp_checkers=['gcc','cppcheck','cpplint','ycm','clang_tidy','clang_check']
@@ -130,14 +151,14 @@
 
 
     " uncomment both to enable auto check on file save
-    let g:syntastic_auto_loc_list=1
-    let g:syntastic_check_on_open=1
-    let g:syntastic_enable_signs=1
+    let g:syntastic_auto_loc_list=2 "0 don't open errors window if any found, 1 auto open and close if errors found 2 only close error windows if no remaining errors, don't force open it
+    let g:syntastic_check_on_open=1 " check syntax on file open
+    let g:syntastic_check_on_wq=0 " don't check syntax when save-quit (:x, :wq, :ZZ...)
     " let g:syntastic_always_populate_loc_list=1
     let g:syntastic_error_symbol='✗'
     let g:syntastic_warning_symbol='⚠'
-    let g:syntastic_style_error_symbol = '✋'
-    let g:syntastic_style_warning_symbol = '💩'
+    let g:syntastic_style_error_symbol = ''
+    let g:syntastic_style_warning_symbol = ''
     let g:syntastic_enable_ballons=has('ballon_eval')
 "}
 
@@ -151,8 +172,6 @@
     let g:airline_powerline_fonts=1
     if !has('gui_running')
         let g:airline_powerline_fonts=1
-        "let g:airline_left_sep='›' " Slightly fancier than '>'
-        "let g:airline_right_sep='‹' " Slightly fancier than '<'
     endif
     if has('nvim')
         let g:airline#extensions#tabline#enabled = 1 " Enable viewing buffers/tabs in the top line
@@ -169,10 +188,14 @@
 " }
 
 "Neocomplcache {
-    " if has("python")
-    "     let g:ycm_path_to_python_interpreter = 'C:\Python27\python.exe'
-    " elseif has("lua")        
-    if has("lua")
+    if exists('g:plugs["deoplete.nvim"]')
+        let g:deoplete#enable_at_startup = 1
+        " deoplete-tern config
+        let g:deoplete#sources#ternjs#timeout = 1
+        let g:deoplete#sources#ternjs#docs = 1
+        let g:deoplete#sources#ternjs#guess = 0
+        let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
+    elseif exists('g:plugs["neocomplete"]')
         let g:acp_enableAtStartup = 0   " Disable built in autocmplete
         let g:neocomplete#enable_at_startup = 1 " use neocompl cache
         let g:neocomplete#enable_auto_select = 1 "automatically select first candidate
@@ -196,9 +219,7 @@
             let g:neocomplete#keyword_patterns = {}
         endif
         let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-    elseif has("python")
-        let g:ycm_path_to_python_interpreter = 'C:\Python27\python.exe'
-    else
+    elseif exists('g:plugs["neocomplcache"]')
         let g:neocomplcache_enable_at_startup = 1 " use neocompl cache
         let g:neocomplcache_enable_cursor_hold_i = 1
         let g:neocomplcache_enable_ignore_case = 1 " ignore case...
