@@ -131,15 +131,7 @@ endif
     " let g:typescript_compiler_binary = 'tsc'
     " let g:typescript_compiler_options = ''
 " }
-" TERN checker {
-if exists('g:plugs["tern_for_vim"]')
-  let g:tern_show_argument_hints = 'on_hold'
-  let g:tern_show_signature_in_pum = 1
-  let g:tern_map_keys = 1
 
-  autocmd FileType javascript setlocal omnifunc=tern#Complete
-endif
-" }
 "Syntastic {
     let g:syntastic_javascript_checkers=['eslint']
     let g:syntastic_json_checkers=['jsonlint']
@@ -190,6 +182,24 @@ endif
 "Neocomplcache {
     if exists('g:plugs["deoplete.nvim"]')
         let g:deoplete#enable_at_startup = 1
+
+        call deoplete#custom#set('ternjs', 'mark','')
+        call deoplete#custom#set('vim', 'mark','')
+
+        call deoplete#custom#set('vim',           'rank', 630)
+        call deoplete#custom#set('ternjs',        'rank', 620)
+        call deoplete#custom#set('omni',          'rank', 600)
+        call deoplete#custom#set('neosnippet',    'rank', 510)
+        call deoplete#custom#set('member',        'rank', 500)
+        call deoplete#custom#set('file_include',  'rank', 420)
+        call deoplete#custom#set('file',          'rank', 410)
+        call deoplete#custom#set('tag',           'rank', 400)
+        call deoplete#custom#set('around',        'rank', 330)
+        call deoplete#custom#set('buffer',        'rank', 320)
+        call deoplete#custom#set('dictionary',    'rank', 310)
+        call deoplete#custom#set('tmux-complete', 'rank', 300)
+        call deoplete#custom#set('syntax',        'rank', 200)
+
         " deoplete-tern config
         let g:deoplete#sources#ternjs#timeout = 1
         let g:deoplete#sources#ternjs#docs = 1
