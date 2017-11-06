@@ -15,9 +15,6 @@
                 setglobal fileencoding=utf-8
                 set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
             endif
-            " set shell=C:\msys64\usr\bin\bash
-            " set shellcmdflag=--login\ -c
-            " set shellslash
             cd ~/WORKSPACE
         else
             set shell=/bin/bash

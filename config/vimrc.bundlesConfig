@@ -42,8 +42,11 @@ endif
 " }
 
 " NerdTREE {
-    let g:NERDTreeDirArrowExpandable = '▸'
-    let g:NERDTreeDirArrowCollapsible = '▾'
+    if !has('gui_running')
+        let g:airline_powerline_fonts=1
+    endif
+    let g:NERDTreeDirArrowExpandable = '' "'▸'
+    let g:NERDTreeDirArrowCollapsible = '' "'▾'
     let NERDTreeShowBookmarks=1
     let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$','\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', 'pub$[[dir]]']
     let NERDTreeRespectWildIgnore=1 "Respect wildingore setting
@@ -162,13 +165,10 @@ endif
 
 " Airline {
     let g:airline_powerline_fonts=1
-    if !has('gui_running')
-        let g:airline_powerline_fonts=1
-    endif
     if has('nvim')
         let g:airline#extensions#tabline#enabled = 1 " Enable viewing buffers/tabs in the top line
-        let g:airline#extensions#tabline#show_buffers = 0 " Don't show buffers
-        let g:airline#extensions#tabline#show_tabs = 1 " Don't show tabs
+        let g:airline#extensions#tabline#show_buffers = 1 " Show buffers
+        let g:airline#extensions#tabline#show_tabs = 0 " Don't show tabs
         " all buffers in top line
     else
         let g:airline#extensions#tabline#show_buffers = 0 " Don't show buffers
@@ -185,6 +185,7 @@ endif
 
         call deoplete#custom#set('ternjs', 'mark','')
         call deoplete#custom#set('vim', 'mark','')
+        call deoplete#custom#set('tag', 'mark','')
 
         call deoplete#custom#set('vim',           'rank', 630)
         call deoplete#custom#set('ternjs',        'rank', 620)

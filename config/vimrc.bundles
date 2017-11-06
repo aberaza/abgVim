@@ -9,17 +9,15 @@ call plug#begin('~/.vim/bundle')
         endif
     " }
     " Themes {
-        Plug 'molokai'
-        Plug 'Solarized'
+        Plug 'tomasr/molokai'
+        Plug 'icymind/NeoSolarized'
         Plug 'chriskempson/vim-tomorrow-theme'
         Plug 'NLKNguyen/papercolor-theme'
-        Plug 'wombat256.vim'
         Plug 'sickill/vim-monokai'
-        Plug 'summerfruit256.vim'
-        Plug 'pyte'
+        Plug 'mightwork/summerfruit256.vim'
+        Plug 'vim-scripts/pyte'
     " }
     " Basics {
-        " Plug 'mhinz/vim-startify'
         Plug 'kien/ctrlp.vim'
         Plug 'scrooloose/nerdtree'
         Plug 'rking/ag.vim'
@@ -28,7 +26,7 @@ call plug#begin('~/.vim/bundle')
         Plug 'skywind3000/asyncrun.vim' "Used by vim-test
         Plug 'tpope/vim-surround'
         Plug 'jszakmeister/vim-togglecursor'
-        Plug 'vim-expand-region'
+        Plug 'terryma/vim-expand-region'
     " }
 
     " Tools and Extras {
