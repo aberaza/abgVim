@@ -12,7 +12,6 @@
         else
             set shell=/bin/bash
         endif
-
     " }
 " }
 
@@ -49,7 +48,7 @@
         set smartcase " Case sensitive when uc present
         set gdefault    " /g by default on searches
     " }
-    "set list
+    set list
     set listchars=tab:→\ ,extends:›,precedes:‹,nbsp:·,trail:• " Highlight whitespaces
     set showbreak=↪\  " char to display on a wrapped line
     set scrolljump=5                " Lines to scroll when cursor leaves screen
@@ -103,7 +102,7 @@
 
     set background=dark
 
-    color monokai 
+    color molokayo
 
     set fillchars=vert:│,fold:- " make vertical lines look continuous
 
@@ -147,8 +146,7 @@
     set tabstop=2       " Spaces for each TAB press when typing
     set softtabstop=4   " Convert TAB to spaces when reading a file
     set nojoinspaces    " Prevents inserting two spaces after punctuation on a join (J)
-    set splitright      " Puts new vsplit windows to the right of the current
-    set splitbelow      " Puts new split windows to the bottom of the current
+    set splitright splitbelow " Puts new vsplit windows to the right and bottom of the current
     set matchpairs+=<:> " Match, to be used with % (add HTML style)
 " }
 

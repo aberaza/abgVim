@@ -1,25 +1,3 @@
-" Neoterm {
-if exists('g:plugs["neoterm"]')
-    let g:neoterm_position = 'horizontal'
-    let g:neoterm_automap_keys = ',tt'
-
-    " nnoremap <silent> <f10> :TREPLSendFile<cr>
-    " nnoremap <silent> <f9> :TREPLSendLine<cr>
-    " vnoremap <silent> <f9> :TREPLSendSelection<cr>
-
-    " " Useful maps
-    " " hide/close terminal
-    " nnoremap <silent> ,th :call neoterm#close()<cr>
-    " " clear terminal
-    " nnoremap <silent> ,tl :call neoterm#clear()<cr>
-    " " kills the current job (send a <c-c>)
-    " nnoremap <silent> ,tc :call neoterm#kill()<cr>
-
-    " " Rails commands
-    " command! Troutes :T rake routes
-endif
-" }
-
 " PaperColor Theme {
 " Enable comments in italic
 let g:PaperColor_Theme_Options = {
@@ -53,7 +31,7 @@ endif
     let NERDTreeChDirMode=2
     let NERDTreeQuitOnOpen=1
     let NERDTreeMouseMode=2
-    let NERDTreeShowHidden=1
+    let NERDTreeShowHidden=0
     let NERDTreeKeepTreeInNewTab=1
     let NERDTreeStatusline=0
     let NERDTreeMinimalUI=1
@@ -103,15 +81,8 @@ endif
 " }
 
 " Vim-Javascript {
-    "let g:javascript_conceal_function   = "ƒ"
     let g:javascript_conceal_null       = "ø"
-    "let g:javascript_conceal_this       = "@"
-    "let g:javascript_conceal_return     = "⇚"
-    "let g:javascript_conceal_undefined  = "¿"
     let g:javascript_conceal_NaN        = "ℕ"
-    "let g:javascript_conceal_prototype  = "¶"
-    "let g:javascript_conceal_static     = "•"
-    "let g:javascript_conceal_super      = "Ω"
     let g:javascript_plugin_jsdoc       = 1
 " }
 " Vim-JSX { 
@@ -135,11 +106,6 @@ endif
     let g:syntastic_javascript_checkers=['eslint']
     let g:syntastic_json_checkers=['jsonlint']
     let g:syntastic_python_checkers=['pylint', 'pep8', 'python']
-    "let g:syntastic_cpp_checkers=['gcc','cppcheck','cpplint','ycm','clang_tidy','clang_check']
-    "let g:syntastic_c_checkers=['gcc','make','cppcheck','clang_tidy','clang_check']
-    let g:syntastic_sh_checkers=['sh', 'shellcheck', 'checkbashisms']
-    let g:syntastic_vim_checkers=['vimlint']
-
 
     " uncomment both to enable auto check on file save
     let g:syntastic_auto_loc_list=2 "0 don't open errors window if any found, 1 auto open and close if errors found 2 only close error windows if no remaining errors, don't force open it
@@ -153,113 +119,24 @@ endif
     let g:syntastic_enable_ballons=has('ballon_eval')
 "}
 
-" Airline {
-    let g:airline_powerline_fonts=1
-    if has('nvim')
-        let g:airline#extensions#tabline#enabled = 1 " Enable viewing buffers/tabs in the top line
-        let g:airline#extensions#tabline#show_buffers = 1 " Show buffers
-        let g:airline#extensions#tabline#show_tabs = 0 " Don't show tabs
-        " all buffers in top line
-    else
-        let g:airline#extensions#tabline#show_buffers = 0 " Don't show buffers
-    endif
-    " let g:airline_theme = 'dark' " Force theme , see :echo g:airline_theme_map for more choices
-    let g:airline#extensions#syntastic#enabled = 1
-    let g:airline#extensions#tagbar#enabled = 1
-    let g:airline#extensions#wordcount#enabled = 0
-" }
-
 "Neocomplcache {
     if exists('g:plugs["deoplete.nvim"]')
         let g:deoplete#enable_at_startup = 1
 
-        " call deoplete#custom#set('ternjs', 'mark','')
-        " call deoplete#custom#set('vim', 'mark','')
-        " call deoplete#custom#set('tag', 'mark','')
-
-        " call deoplete#custom#set('vim',           'rank', 630)
-        " call deoplete#custom#set('ternjs',        'rank', 620)
-        " call deoplete#custom#set('omni',          'rank', 600)
-        " call deoplete#custom#set('neosnippet',    'rank', 510)
-        " call deoplete#custom#set('member',        'rank', 500)
-        " call deoplete#custom#set('file_include',  'rank', 420)
-        " call deoplete#custom#set('file',          'rank', 410)
-        " call deoplete#custom#set('tag',           'rank', 400)
-        " call deoplete#custom#set('around',        'rank', 330)
-        " call deoplete#custom#set('buffer',        'rank', 320)
-        " call deoplete#custom#set('dictionary',    'rank', 310)
-        " call deoplete#custom#set('tmux-complete', 'rank', 300)
-        " call deoplete#custom#set('syntax',        'rank', 200)
+        call deoplete#custom#source('ternjs', 'mark','')
+        call deoplete#custom#source('vim', 'mark','')
+        call deoplete#custom#source('tag', 'mark','')
 
         " deoplete-tern config
         let g:deoplete#sources#ternjs#timeout = 1
         let g:deoplete#sources#ternjs#docs = 1
         let g:deoplete#sources#ternjs#guess = 0
         let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
-    elseif exists('g:plugs["neocomplete"]')
-        let g:acp_enableAtStartup = 0   " Disable built in autocmplete
-        let g:neocomplete#enable_at_startup = 1 " use neocompl cache
-        let g:neocomplete#enable_auto_select = 1 "automatically select first candidate
-        let g:neocomplete#enable_cursor_hold_i = 1 " auto open select list when cursos is on a word
-        let g:neocomplete#enable_ignore_case = 1 " ignore case...
-        let g:neocomplete#enable_smart_case = 1 " unless word starts by capital letter
-        let g:neocomplete#enable_auto_delimiter = 1 " Insert delimiter (parenthesis for functions, etc)
-        let g:neocomplete#sources#syntax#min_keyword_length = 3
-        let g:neocomplete#auto_completion_start_length = 3
-        let g:neocomplete#manual_completion_start_length = 1
-        let g:neocomplete#enable_insert_char_pre = 1 " Prevent popup to display when moving using arrows
-        " Define dictionary.
-        let g:neocomplete#dictionary_filetype_lists = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
+    endif
 
-        " Define keyword.
-        if !exists('g:neocomplete#keyword_patterns')
-            let g:neocomplete#keyword_patterns = {}
-        endif
-        let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-    elseif exists('g:plugs["neocomplcache"]')
-        let g:neocomplcache_enable_at_startup = 1 " use neocompl cache
-        let g:neocomplcache_enable_cursor_hold_i = 1
-        let g:neocomplcache_enable_ignore_case = 1 " ignore case...
-        let g:neocomplcache_enable_smart_case = 1 " unless word starts by capital letter
-        let g:neocomplcache_enable_auto_delimiter = 1 " Insert delimiter (parenthesis for functions, etc)
-        " let g:neocomplcache_max_list = 20
-        " let g:neocomplcache_force_overwrite_completefunc = 1
-        let g:neocomplcache_auto_completion_start_length = 3
-        let g:neocomplcache_enable_insert_char_pre = 1 " Prevent popup to display when moving using arrows
-        " Define dictionary.
-        let g:neocomplcache_dictionary_filetype_lists = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }"Plugin 'toyamarinyon/vim-swift'
-
-"         " Define keyword.
-"         if !exists('g:neocomplcache_keyword_patterns')
-"             let g:neocomplcache_keyword_patterns = {}
-"         endif
-"         let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-     endif
-" "            " Key Mappings
-" "            " CR: select and close the popup
-" "            inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() :
-" "            "\<CR>""
-
-" " }
-
-" jedi-vim {
-    
-" }
-
-" neosnippet (needs Nocomplcache) {
-    " let g:neosnippet#disable_runtime_snippets = { "_": 1, } " by default disable runtime snippets for all files
-    " let g:neosnippet#enable_snipmate_compatibility = 1 " Enable neosnippet snipmate compatibility mode
-    " let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets' " Use honza's snippets
-    " " For snippet_complete marker.
-    " if has('conceal')
-    "     set conceallevel=2 concealcursor=i
-    " endif
+" vim-markdown {
+  let g:vim_markdown_fenced_languages = ['bash=sh', 'html', 'javascript=js', 'python=py']
+  let g:vim_markdown_frontmatter = 1        " YAML support
+  let g:vim_markdown_toml_frontmatter = 1   " TOML support
+  let g:vim_markdown_json_frontmatter = 1   " JSON FM support
 " }

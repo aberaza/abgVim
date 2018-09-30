@@ -25,7 +25,6 @@ call plug#begin('~/.vim/bundle')
         Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
         Plug 'scrooloose/nerdtree'
         Plug 'rking/ag.vim'
-        " Plug 'bling/vim-airline'
         Plug 'itchyny/lightline.vim'
         Plug 'tpope/vim-dispatch'
         Plug 'tpope/vim-surround'
@@ -38,18 +37,32 @@ call plug#begin('~/.vim/bundle')
     " Programming basics {
         " Autocomplete engine:
         if has('nvim')
-            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        elseif has('lua')
-            Plug 'Shougo/neocomplete.vim'
+          Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
         else
-            Plug 'Shougo/neocomplcache'
+          Plug 'Shougo/deoplete.nvim'
+          Plug 'roxma/nvim-yarp'
+          Plug 'roxma/vim-hug-neovim-rpc'
         endif
-        Plug 'tpope/vim-fugitive'   " GIT integration
-        Plug 'mhinz/vim-signify'    " show changes in the file
-        Plug 'tpope/vim-commentary'
-        Plug 'scrooloose/syntastic'     "Syntax check
-        Plug 'editorconfig/editorconfig-vim'
+        " Deoplete engines
+        Plug 'Shougo/neco-vim'  "vim files
+        " Plug 'Shougo/neoinclude'  "completion for includes
+        Plug 'zchee/deoplete-jedi' " Python
+        Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+        " Plug 'landaire/deoplete-swift' " IOS Swift
 
+
+        " elseif has('lua')
+        "     Plug 'Shougo/neocomplete.vim'
+        " else
+        "     Plug 'Shougo/neocomplcache'
+        " endif
+        Plug 'tpope/vim-commentary'
+        Plug 'vim-syntastic/syntastic'
+        Plug 'editorconfig/editorconfig-vim'
+        " Git {
+          Plug 'tpope/vim-fugitive'   " GIT integration
+          Plug 'mhinz/vim-signify'    " show changes in the file
+        " }
         " Markdown {
             Plug 'godlygeek/tabular' "Needed by vim-markdown
             Plug 'plasticboy/vim-markdown'  " Markdown syntax
@@ -57,7 +70,7 @@ call plug#begin('~/.vim/bundle')
         " HTML {
             Plug 'mattn/emmet-vim'
         " }
-        " JavaScript {
+        " JavaScript,JSON, JSX {
             Plug 'pangloss/vim-javascript' "HTML syntax and indentation
             Plug 'elzr/vim-json'
             Plug 'tpope/vim-jdaddy'
