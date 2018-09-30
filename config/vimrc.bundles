@@ -1,71 +1,64 @@
 call plug#begin('~/.vim/bundle')
-
-"
     " Deps {
         " Plug 'VundleVim/Vundle.vim'
         if has('nvim')
             Plug 'equalsraf/neovim-gui-shim'
-            Plug 'kassio/neoterm' 
         endif
     " }
     " Themes {
         Plug 'tomasr/molokai'
         Plug 'icymind/NeoSolarized'
-        Plug 'chriskempson/vim-tomorrow-theme'
         Plug 'NLKNguyen/papercolor-theme'
         Plug 'sickill/vim-monokai'
-        Plug 'mightwork/summerfruit256.vim'
         Plug 'vim-scripts/pyte'
+        Plug 'fmoralesc/molokayo'
+        Plug 'dikiaap/minimalist'
+        Plug 'dracula/vim', { 'as': 'dracula' }
+        Plug 'colepeters/spacemacs-theme.vim'
+        Plug 'ajh17/Spacegray.vim'
+        Plug 'junegunn/limelight.vim'
+
     " }
+
     " Basics {
         Plug 'kien/ctrlp.vim'
+        Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
         Plug 'scrooloose/nerdtree'
         Plug 'rking/ag.vim'
-        Plug 'bling/vim-airline'
+        " Plug 'bling/vim-airline'
+        Plug 'itchyny/lightline.vim'
         Plug 'tpope/vim-dispatch'
-        Plug 'skywind3000/asyncrun.vim' "Used by vim-test
         Plug 'tpope/vim-surround'
-        Plug 'jszakmeister/vim-togglecursor'
-        Plug 'terryma/vim-expand-region'
+        Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
     " }
 
     " Tools and Extras {
     " }
 
     " Programming basics {
+        " Autocomplete engine:
         if has('nvim')
             Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-            " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-        elseif has('python3')
-            Plug 'Shougo/deoplete.nvim'
-            Plug 'roxma/nvim-yarp'
-            Plug 'roxma/vim-hug-neovim-rpc'
-            " Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
         elseif has('lua')
             Plug 'Shougo/neocomplete.vim'
         else
             Plug 'Shougo/neocomplcache'
         endif
-        "Plug 'Shougo/neosnippet' " Snippet engine
-        "Plug 'Shougo/neosnippet-snippets' " Native snippets
-        "Plug 'honza/vim-snippets' " and some snippets
-        Plug 'tpope/vim-fugitive' " GIT integration
-        Plug 'mhinz/vim-signify' " show changes in the file
-        Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
+        Plug 'tpope/vim-fugitive'   " GIT integration
+        Plug 'mhinz/vim-signify'    " show changes in the file
         Plug 'tpope/vim-commentary'
-        Plug 'scrooloose/syntastic' "Syntax check
-        Plug 'janko-m/vim-test'
+        Plug 'scrooloose/syntastic'     "Syntax check
         Plug 'editorconfig/editorconfig-vim'
+
         " Markdown {
             Plug 'godlygeek/tabular' "Needed by vim-markdown
-            Plug 'plasticboy/vim-markdown'
+            Plug 'plasticboy/vim-markdown'  " Markdown syntax
         " }
         " HTML {
             Plug 'mattn/emmet-vim'
         " }
         " JavaScript {
-            Plug 'pangloss/vim-javascript'
-            Plug 'othree/javascript-libraries-syntax.vim'
+            Plug 'pangloss/vim-javascript' "HTML syntax and indentation
             Plug 'elzr/vim-json'
             Plug 'tpope/vim-jdaddy'
             Plug 'mxw/vim-jsx' "Some react jsx syntax
@@ -80,7 +73,7 @@ call plug#begin('~/.vim/bundle')
         " }
     "}
     " Misc {
-        Plug 'edkolev/tmuxline.vim'
+        "Plug 'edkolev/tmuxline.vim'
     " }
 " }
 

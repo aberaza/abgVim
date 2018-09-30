@@ -1,20 +1,13 @@
 " Environment {
     " Basics {
         set nocompatible " Must be first line
+        set encoding=utf-8
+        setglobal fileencoding=utf-8
+
         let mapleader = " " " Leader : Spacebar
         
+        " Todo: This should go into a local file, not here
         if has('win32') || has('win64')
-            " set 'selection', 'selectmode', 'mousemodel' and 'keymodel' for MS-Windows
-            " behave mswin
-
-            if has("multi_byte")
-                " Windows cmd.exe still uses cp850. If Windows ever moved to
-                set termencoding=cp850
-                " Let Vim use utf-8 internally, because many scripts require this
-                set encoding=utf-8
-                setglobal fileencoding=utf-8
-                set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
-            endif
             cd ~/WORKSPACE
         else
             set shell=/bin/bash
@@ -24,13 +17,13 @@
 " }
 
 " General {
-    filetype plugin indent on " Automatically detect file types.
+    filetype plugin indent on       " Use file indents specific to each filetype
     set runtimepath+=$HOME/.vim " Needed for windows?
+
     syntax on " Syntax highlighting
     set mouse=a " Automatically enable mouse usage
     set mousehide " Hide the mouse cursor while typing
-    scriptencoding utf-8
-    set ffs=unix,dos,mac
+    set ffs=unix,dos,mac " set fileformat
 
     if has('clipboard') && has('unnamedplus')
         set clipboard=unnamedplus " use + register for copy-paste
@@ -44,29 +37,36 @@
     " set spell " Spell checking on
     set hidden " Allow buffer switching without saving
     set winminheight=0 " Windows can be 0 line high
-    " Search options
-    set ignorecase " Case insensitive search
-    set smartcase " Case sensitive when uc present
-    set gdefault    " /g by default on searches
-    set showmatch " Show matching brackets/parenthesis
-    set incsearch " Find as you type search
-
     set wildmenu                    " Show list instead of just completing
     set completeopt=menuone,preview
-    set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-    set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
-    set list
-    "set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+
+    " Search {
+        set incsearch " Find as you type search
+        set hlsearch " Highlight search results
+        set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
+        set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
+        set ignorecase " Case insensitive search
+        set smartcase " Case sensitive when uc present
+        set gdefault    " /g by default on searches
+    " }
+    "set list
     set listchars=tab:→\ ,extends:›,precedes:‹,nbsp:·,trail:• " Highlight whitespaces
     set showbreak=↪\  " char to display on a wrapped line
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     set sidescrolloff=5             " Minimum cols to keep left and right from cursor
-    "set foldenable                  " Auto fold code
     set backspace=indent,eol,start  " Backspace for dummies
     set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
     set visualbell "don't beep
     "set noerrorbells "do nothing on error
+
+    " Folding {
+        set foldenable          " Auto fold code
+        nnoremap <space> za
+        set foldlevelstart=99   " open all folds by defailt
+        set foldmethod=indent   " Folding method. One of indent, marker, manual, expr, syntax or diff
+    " }
+
 	" Manage backup files {
         set backupdir=~/vimtmp
         set backupskip=~/vimptmp/*
@@ -90,13 +90,22 @@
 " }
 
 " UI enhancements {
-    " comandline info {
-        set ruler                   " Show the ruler
-        set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
-        set showcmd                 " Show partial commands in status line and
-        set showmode " Display the current mode
-        set cursorline " Highlight current line
-    " }
+    set cursorline              " Highlight current line
+    set number                  " Line numbers on
+    set showmatch               " Show matching brackets/parenthesis
+    set tabpagemax=15           " Only show 15 tabs
+    set showcmd                 " Show last command on bottom right
+
+    set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+    if(has("termguicolors"))
+        set termguicolors
+    endif
+
+    set background=dark
+
+    color monokai 
+
+    set fillchars=vert:│,fold:- " make vertical lines look continuous
 
     " GVIM- (here instead of .gvimrc)
         if has('gui_running')
@@ -119,39 +128,28 @@
         else
             if exists('g:GuiLoaded')
                 GuiFont DejaVuSansMono NF:h10
-                set termguicolors
             elseif &term == 'xterm' || &term == 'screen'
-                set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
             endif
         endif
     " }
-    set background=dark
-    color PaperColor " molokai,  fruity
-    set fillchars=vert:│,fold:- " make vertical lines look continuous
 " }
 
 
 
 " Formatting {
     set linespace=0                 " No extra spaces between rows
-    set nu " Line numbers on
-    set nowrap " Do not wrap long lines
-    set autoindent " Indent at the same level of the previous line
-    set copyindent  " copy previous inddentation on autoindent
-    set smarttab " insert tabs on start of line accoding to shiftwidth
-    set shiftwidth=4 " Use indents of 4 spaces
-    set expandtab " Tabs are spaces, not tabs
-    set tabstop=4 " An indentation every four columns
-    set softtabstop=4 " Let backspace delete indent
-    set tabpagemax=15 " Only show 15 tabs
-    set nojoinspaces " Prevents inserting two spaces after punctuation on a join (J)
-    set splitright " Puts new vsplit windows to the right of the current
-    set splitbelow " Puts new split windows to the bottom of the current
-    if v:version > 703 || v:version == 703 && has("patch541")
-        set formatoptions+=j " Delete comment character when joining commented lines
-    endif
+    set nowrap          " Do not wrap long lines
+    set autoindent      " Indent at the same level of the previous line
+    set copyindent      " copy previous inddentation on autoindent
+    set smarttab        " insert tabs on start of line accoding to shiftwidth
+    set shiftwidth=2    " Use indents of 4 spaces
+    set expandtab       " Tabs are spaces, not tabs
+    set tabstop=2       " Spaces for each TAB press when typing
+    set softtabstop=4   " Convert TAB to spaces when reading a file
+    set nojoinspaces    " Prevents inserting two spaces after punctuation on a join (J)
+    set splitright      " Puts new vsplit windows to the right of the current
+    set splitbelow      " Puts new split windows to the bottom of the current
     set matchpairs+=<:> " Match, to be used with % (add HTML style)
-    set pastetoggle=<F2> " pastetoggle (sane indentation on pastes)
 " }
 
 " KeyMappings {
@@ -180,8 +178,8 @@
 " }
 
 " Local settings file {
-    if filereadable(expand("~/.vim/config/vimrc.local"))
-        source ~/.vim/config/vimrc.local
+    if filereadable(expand("~/.vim/vimrc.local"))
+        source ~/.vim/vimrc.local
     endif
 " }
 
