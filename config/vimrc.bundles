@@ -57,25 +57,28 @@ call plug#begin('~/.vim/bundle')
         "     Plug 'Shougo/neocomplcache'
         " endif
         Plug 'tpope/vim-commentary'
-        Plug 'vim-syntastic/syntastic'
+        Plug 'w0rp/ale'
+        " Plug 'vim-syntastic/syntastic'
         Plug 'editorconfig/editorconfig-vim'
         " Git {
-          Plug 'tpope/vim-fugitive'   " GIT integration
-          Plug 'mhinz/vim-signify'    " show changes in the file
+        Plug 'tpope/vim-fugitive'   " GIT integration
+        Plug 'mhinz/vim-signify'    " show changes in the file
         " }
         " Markdown {
-            Plug 'godlygeek/tabular' "Needed by vim-markdown
-            Plug 'plasticboy/vim-markdown'  " Markdown syntax
+        Plug 'godlygeek/tabular' "Needed by vim-markdown
+        Plug 'plasticboy/vim-markdown'  " Markdown syntax
         " }
-        " HTML {
-            Plug 'mattn/emmet-vim'
+        " HTML & CSS{
+        Plug 'mattn/emmet-vim'
+        Plug 'hail2u/vim-css3-syntax'
+        Plug 'ap/vim-css-color'
         " }
         " JavaScript,JSON, JSX {
-            Plug 'pangloss/vim-javascript' "HTML syntax and indentation
-            Plug 'elzr/vim-json'
-            Plug 'tpope/vim-jdaddy'
-            Plug 'mxw/vim-jsx' "Some react jsx syntax
-            Plug 'leafgarland/typescript-vim'
+        Plug 'pangloss/vim-javascript' "HTML syntax and indentation
+        Plug 'elzr/vim-json'
+        Plug 'tpope/vim-jdaddy'
+        Plug 'mxw/vim-jsx' "Some react jsx syntax
+        Plug 'leafgarland/typescript-vim'
         "}
         " QML {
             " Plug 'crucerucalin/qml.vim'

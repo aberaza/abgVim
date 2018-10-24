@@ -1,3 +1,7 @@
+" Show keyboard shortcuts
+map <C-K><C-S> <C-O>:map<CR>
+map! <C-K><C-S> :map<CR>
+
 " CTRL-Z is Undo; not in cmdline though
 noremap <C-Z> u
 inoremap <C-Z> <C-O>u

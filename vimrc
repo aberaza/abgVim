@@ -58,6 +58,29 @@
     set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
     set visualbell "don't beep
     "set noerrorbells "do nothing on error
+    
+    " Autosave {
+    " From http://vim.wikia.com/wiki/Auto-save_current_buffer_periodically
+    " Hay una con autocmd TextChanged que parece muy buena tambien
+    " Mirad esta alternativa que parece más limpia aunque menos funcional
+    " https://github.com/epeli/neovim-config/blob/master/init.vim 
+      " let g:autosave_time=5
+
+      " au BufRead,BufNewFile * let b:last_save_time = localtime() " Save last save on open
+      " au BufWritePre * let b:last_save_time = localtime() " Update last save on write
+      " au CursorHold * call AutoSaveFile()   " After 300ms of inactivity in normal mode call function
+      " " au CursorHoldI * call AutoSaveFile()
+      " function! AutoSaveFile()
+      "   if(g:autosave_time == 0)
+      "     " do nothing
+      "   elseif((localtime() - b:last_save_time) >= g:autosave_time)
+      "     echo "autosave saved something"
+      "     silent! update
+      "     let b:save_time = localtime()
+      "   endif
+      " endfunction
+    " }
+
 
     " Folding {
         set foldenable          " Auto fold code
@@ -103,6 +126,8 @@
     set background=dark
 
     color molokayo
+    hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=none gui=bold guifg=#F92672 guibg=none
+    hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=none gui=bold guifg=#FD971F guibg=none
 
     set fillchars=vert:│,fold:- " make vertical lines look continuous
 
