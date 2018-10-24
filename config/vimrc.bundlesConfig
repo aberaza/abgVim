@@ -23,8 +23,8 @@ endif
     if !has('gui_running')
         let g:airline_powerline_fonts=1
     endif
-    let g:NERDTreeDirArrowExpandable = '' "'▸'
-    let g:NERDTreeDirArrowCollapsible = '' "'▾'
+    "let g:NERDTreeDirArrowExpandable = '' "'▸'
+    "let g:NERDTreeDirArrowCollapsible = '' "'▾'
     let NERDTreeShowBookmarks=1
     let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$','\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', 'pub$[[dir]]']
     let NERDTreeRespectWildIgnore=1 "Respect wildingore setting
@@ -101,22 +101,45 @@ endif
     " let g:typescript_compiler_binary = 'tsc'
     " let g:typescript_compiler_options = ''
 " }
-
+"Ale {
+  let g:ale_open_list = 1 
+  let g:ale_keep_list_window_open = 1
+    " 'javascript': ['prettier', 'eslint'],\
+  let g:ale_linters = {
+        \ 'javascript': ['eslint','prettier'], 
+        \ 'html' : ['tidy'], 
+        \ 'python' : ['pylint', 'pep8']
+        \}
+  let g:ale_fixers = {
+        \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+        \ 'javascript': ['prettier', 'eslint']
+        \}
+  let g:ale_sign_error = '⏺' " Other symbols ⏺ •  \uf658 ✗ 
+  let g:ale_sign_warning= '⏺'  "⬤  •  \uf071 ⚠
+  let g:ale_sign_style_error = "\ufb99" " ''
+  let g:ale_sign_style_warning = "\uf6f5" " ''
+  " ALEErrorSign guifg=darkred 
+  " red
+  " Change how signs are colorized. BG remains same, color only to the symbol
+  " hi ALEErrorSign ctermbg=NONE ctermfg=red
+  " hi ALEErrorSign ctermfg=red ctermbg=none
+  " highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+"}
 "Syntastic {
-    let g:syntastic_javascript_checkers=['eslint']
-    let g:syntastic_json_checkers=['jsonlint']
-    let g:syntastic_python_checkers=['pylint', 'pep8', 'python']
+    " let g:syntastic_javascript_checkers=['eslint']
+    " let g:syntastic_json_checkers=['jsonlint']
+    " let g:syntastic_python_checkers=['pylint', 'pep8', 'python']
 
-    " uncomment both to enable auto check on file save
-    let g:syntastic_auto_loc_list=2 "0 don't open errors window if any found, 1 auto open and close if errors found 2 only close error windows if no remaining errors, don't force open it
-    let g:syntastic_check_on_open=1 " check syntax on file open
-    let g:syntastic_check_on_wq=0 " don't check syntax when save-quit (:x, :wq, :ZZ...)
-    " let g:syntastic_always_populate_loc_list=1
-    let g:syntastic_error_symbol='✗'
-    let g:syntastic_warning_symbol='⚠'
-    let g:syntastic_style_error_symbol = ''
-    let g:syntastic_style_warning_symbol = ''
-    let g:syntastic_enable_ballons=has('ballon_eval')
+    " " uncomment both to enable auto check on file save
+    " let g:syntastic_auto_loc_list=2 "0 don't open errors window if any found, 1 auto open and close if errors found 2 only close error windows if no remaining errors, don't force open it
+    " let g:syntastic_check_on_open=1 " check syntax on file open
+    " let g:syntastic_check_on_wq=0 " don't check syntax when save-quit (:x, :wq, :ZZ...)
+    " " let g:syntastic_always_populate_loc_list=1
+    " let g:syntastic_error_symbol='✗'
+    " let g:syntastic_warning_symbol='⚠'
+    " let g:syntastic_style_error_symbol = ''
+    " let g:syntastic_style_warning_symbol = ''
+    " let g:syntastic_enable_ballons=has('ballon_eval')
 "}
 
 "Neocomplcache {
@@ -135,7 +158,8 @@ endif
     endif
 
 " vim-markdown {
-  let g:vim_markdown_fenced_languages = ['bash=sh', 'html', 'javascript=js', 'python=py']
+  let g:vim_markdown_auto_insert_bullets = 0 " Do not add new bullets to list on ENTER
+  let g:vim_markdown_fenced_languages = ['bash=sh', 'html', 'css', 'json=javascript', 'javascript', 'python']
   let g:vim_markdown_frontmatter = 1        " YAML support
   let g:vim_markdown_toml_frontmatter = 1   " TOML support
   let g:vim_markdown_json_frontmatter = 1   " JSON FM support
