@@ -126,8 +126,8 @@
     set background=dark
 
     color molokayo
-    hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=none gui=bold guifg=#F92672 guibg=none
-    hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=none gui=bold guifg=#FD971F guibg=none
+    hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=NONE gui=bold guifg=#F92672 guibg=NONE
+    hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=NONE gui=bold guifg=#FD971F guibg=NONE
 
     set fillchars=vert:│,fold:- " make vertical lines look continuous
 
