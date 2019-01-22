@@ -8,6 +8,9 @@
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 " }
 
+" IPYNB JupyterNotebook use Markdown syntax
+    " autocmd BufNewFile,BufRead *.ipynb set syntax=markdown
+
 " JavaScript {
     " Enable omni completion.
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS

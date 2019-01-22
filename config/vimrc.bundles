@@ -32,6 +32,8 @@ call plug#begin('~/.vim/bundle')
     " }
 
     " Tools and Extras {
+        " Plug 'goerz/ipynb_notedown.vim'
+        Plug 'szymonmaszke/vimpyter' " Jupyter notebook
     " }
 
     " Programming basics {
