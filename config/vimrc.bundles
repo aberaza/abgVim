@@ -89,6 +89,9 @@ call plug#begin('~/.vim/bundle')
         " Swift {
             " Plug 'kballard/vim-swift', { 'for' : 'swift' }
         " }
+        " Java { 
+        Plug 'artur-shaik/vim-javacomplete2'
+        " }
     "}
     " Misc {
         "Plug 'edkolev/tmuxline.vim'

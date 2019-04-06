@@ -243,6 +243,7 @@
     cnoreabbrev WQ wq
     cnoreabbrev W w
     cnoreabbrev Q q
+    cnoreabbrev X x
     cnoreabbrev Qall qall
 " }
 
