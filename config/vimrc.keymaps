@@ -1,3 +1,22 @@
+" Most important setting: map <leader> {
+let mapleader = " " " <leader> == Spacebar
+" }
+"
+" Abbreviations {
+    cnoreabbrev W! w!
+    cnoreabbrev Q! q!
+    cnoreabbrev Qall! qall!
+    cnoreabbrev Wq wq
+    cnoreabbrev Wa wa
+    cnoreabbrev wQ wq
+    cnoreabbrev WQ wq
+    cnoreabbrev W w
+    cnoreabbrev Q q
+    cnoreabbrev X x
+    cnoreabbrev Qall qall
+" }
+
+
 " Show keyboard shortcuts
 map <C-K><C-S> <C-O>:map<CR>
 map! <C-K><C-S> :map<CR>
@@ -154,6 +173,28 @@ nnoremap <silent> <leader>gw :Gwrite<CR>
 " " smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
 "}
 
+" Toggle the quickfix window {{{
+" From Steve Losh, http://learnvimscriptthehardway.stevelosh.com/chapters/38.html
+nnoremap <C-q> :call <SID>QuickfixToggle()<cr>
+
+let g:quickfix_is_open = 0
+
+function! s:QuickfixToggle()
+    if g:quickfix_is_open
+        cclose
+        let g:quickfix_is_open = 0
+        execute g:quickfix_return_to_window . "wincmd w"
+    else
+        let g:quickfix_return_to_window = winnr()
+        copen
+        let g:quickfix_is_open = 1
+    endif
+endfunction
+" }}}
+
+nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR> " toggle menu bar
+nnoremap <leader>, :set cursorline!<cr>  " toggle highlighting the cursor line
+nnoremap <space> za     " Mapping toggle folds
 " Expand-region {
 vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)

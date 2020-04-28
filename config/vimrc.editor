@@ -1,0 +1,95 @@
+" File Formatting {
+" File and global encoding (defaults to utf-8
+set encoding=utf-8
+setglobal fileencoding=utf-8
+" }
+
+" Formatting {
+" Indenting, Tabs and Spaces
+set expandtab       " Use spaces by default
+set tabstop=2       " 2 Spaces for each TAB press when typing
+set softtabstop=2   " <BS> pretends to remove a tab
+set shiftwidth=2    " Use indents of 2 spaces
+set shiftround      " Use multiples of shitwidth when indenting with <,>
+set autoindent      " Indent at the same level of the previous line
+set copyindent      " copy previous inddentation on autoindent
+set smarttab        " insert tabs on start of line accoding to shiftwidth
+
+    set nojoinspaces    " Prevents inserting two spaces after punctuation on a join (J)
+    set splitright splitbelow " Puts new vsplit windows to the right and bottom of the current
+    set matchpairs+=<:> " Match, to be used with % (add HTML style)
+" }
+"
+"
+" General {
+
+" Mouse Support
+    set backspace=indent,eol,start  " Backspace for dummies
+    set whichwrap=b,s,h,l,<,>,[,] " Backspace and cursor keys wrap too
+    set visualbell "don't beep
+    "set noerrorbells "do nothing on error
+
+
+    filetype plugin indent on       " Use file indents specific to each filetype
+    set runtimepath+=$HOME/.vim " Needed for windows?
+
+    set ffs=unix,dos,mac " set fileformat
+
+    if has('clipboard') && has('unnamedplus')
+        set clipboard=unnamedplus " use + register for copy-paste
+    endif
+
+    "set autowrite " Automatically write a file when leaving a modified buffer
+    set shortmess+=filmnrxoOtT " Abbrev. of messages (avoids 'hit enter')
+    set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
+    set virtualedit=onemore " Allow for cursor beyond last character
+    set history=100 " Store a ton of history (default is 20)
+    " set spell " Spell checking on
+    set hidden " Allow buffer switching without saving
+    set completeopt=menuone,preview
+
+    " Search {
+        set incsearch " Find as you type search
+        set hlsearch " Highlight search results
+        set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
+        set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
+        set ignorecase " Case insensitive search
+        set smartcase " Case sensitive when uc present
+        set gdefault    " /g by default on searches
+    " }
+    
+	" Manage backup files {
+        set backupdir=~/vimtmp
+        set backupskip=~/vimptmp/*
+        set directory=~/vimptmp
+        set undodir=~/.vimtmp/
+        "set backup
+        set nobackup
+        set nowritebackup
+        set noswapfile
+    " }
+    " Autosave {
+    " From http://vim.wikia.com/wiki/Auto-save_current_buffer_periodically
+    " Hay una con autocmd TextChanged que parece muy buena tambien
+    " Mirad esta alternativa que parece más limpia aunque menos funcional
+    " https://github.com/epeli/neovim-config/blob/master/init.vim 
+      " let g:autosave_time=5
+
+      " au BufRead,BufNewFile * let b:last_save_time = localtime() " Save last save on open
+      " au BufWritePre * let b:last_save_time = localtime() " Update last save on write
+      " au CursorHold * call AutoSaveFile()   " After 300ms of inactivity in normal mode call function
+      " " au CursorHoldI * call AutoSaveFile()
+      " function! AutoSaveFile()
+      "   if(g:autosave_time == 0)
+      "     " do nothing
+      "   elseif((localtime() - b:last_save_time) >= g:autosave_time)
+      "     echo "autosave saved something"
+      "     silent! update
+      "     let b:save_time = localtime()
+      "   endif
+      " endfunction
+    " }
+
+
+
+" }

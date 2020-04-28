@@ -1,36 +1,50 @@
-call plug#begin('~/.vim/bundle')
-    " Deps {
-        " Plug 'VundleVim/Vundle.vim'
-        if has('nvim')
-            Plug 'equalsraf/neovim-gui-shim'
-        endif
-    " }
-    " Themes {
-        Plug 'tomasr/molokai'
-        Plug 'icymind/NeoSolarized'
-        Plug 'NLKNguyen/papercolor-theme'
-        Plug 'sickill/vim-monokai'
-        Plug 'vim-scripts/pyte'
-        Plug 'fmoralesc/molokayo'
-        Plug 'dikiaap/minimalist'
-        Plug 'dracula/vim', { 'as': 'dracula' }
-        Plug 'colepeters/spacemacs-theme.vim'
-        Plug 'ajh17/Spacegray.vim'
-        Plug 'junegunn/limelight.vim'
+" from vim-plug wiki:
+" If Plug.vim not available, download it
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 
-    " }
 
-    " Basics {
-        Plug 'kien/ctrlp.vim'
-        Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
-        Plug 'scrooloose/nerdtree'
-        Plug 'rking/ag.vim'
-        Plug 'itchyny/lightline.vim'
-        Plug 'tpope/vim-dispatch'
-        Plug 'tpope/vim-surround'
-        Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
-    " }
+call plug#begin('~/.vim/bundle') " {
+  " Automatically install missing plugins on startup
+  if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
+    autocmd VimEnter * PlugInstall | q
+  endif
 
+  " Deps {
+    if has('nvim')
+      Plug 'equalsraf/neovim-gui-shim'
+    endif
+  " }
+
+  " Themes {
+    Plug 'tomasr/molokai'
+    " Plug 'icymind/NeoSolarized'
+    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'sickill/vim-monokai'
+    Plug 'fmoralesc/molokayo'
+    Plug 'dikiaap/minimalist'
+    " Plug 'colepeters/spacemacs-theme.vim'
+    Plug 'ajh17/Spacegray.vim'
+  " }
+
+  " UI Look & Feel {
+    Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
+    Plug 'itchyny/lightline.vim'
+  " }
+  " IDE  Functionality {
+    " Find Files, and Bufers
+    Plug 'kien/ctrlp.vim'
+    Plug 'rking/ag.vim'
+
+    Plug 'scrooloose/nerdtree'
+    Plug 'tpope/vim-dispatch'
+    " Plug 'tpope/vim-surround'
+    Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
+  " }
+  "
     " Tools and Extras {
         " Plug 'goerz/ipynb_notedown.vim'
         Plug 'szymonmaszke/vimpyter' " Jupyter notebook
@@ -82,20 +96,12 @@ call plug#begin('~/.vim/bundle')
         Plug 'mxw/vim-jsx' "Some react jsx syntax
         Plug 'leafgarland/typescript-vim'
         "}
-        " QML {
-            " Plug 'crucerucalin/qml.vim'
-            " Plug 'peterhoeg/vim-qml', { 'for' : 'qml' }
-        " }
-        " Swift {
-            " Plug 'kballard/vim-swift', { 'for' : 'swift' }
-        " }
         " Java { 
         Plug 'artur-shaik/vim-javacomplete2'
         " }
     "}
-    " Misc {
-        "Plug 'edkolev/tmuxline.vim'
-    " }
+call plug#end() " }
+
+
 " }
 
-call plug#end()

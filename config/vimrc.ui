@@ -1,0 +1,74 @@
+" BasicEditorSettings{
+syntax on           " Enable syntax coloring. Set to enable to keep custom color changes
+set lazyredraw      " Don't update screen during macros
+" }
+
+" Lines {
+set nowrap          " Do not wrap long lines
+set cursorline      " Highlight current line ladder-, to toggle
+set number          " Line numbers on
+" }
+
+" Special Chars {
+set list            " Show special chars nolist no prevent
+set listchars=tab:→\ ,extends:›,precedes:‹,nbsp:·,trail:• " Highlight whitespaces
+set showbreak=↪\  " char to display on a wrapped line
+set fillchars=vert:│,fold:- " make vertical lines look continuous
+" }
+
+" Scroll and Mouse {
+set mouse=a " Automatically enable mouse usage
+set mousehide " Hide the mouse cursor while typing
+set scrolloff=4                 " Minimum lines to keep above and below cursor
+set sidescrolloff=5             " Minimum cols to keep left and right from cursor
+set scrolljump=5                " Lines to scroll when cursor leaves screen
+" }
+
+" Folding {
+set foldenable                  " Auto fold code
+set foldmethod=indent           " Folding method. One of indent, marker, manual, expr, syntax or diff
+set foldlevelstart=99           " open all folds by defailt
+set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo " Commands that trigger auto-unfold
+" }
+
+"Others
+set showmatch               " Show matching brackets/parenthesis
+set tabpagemax=15           " Only show 15 tabs
+set showcmd                 " Show last command on bottom right
+" }
+
+" Windows & Panels {
+set winminheight=0          " Windows can be 0 line high
+set wildmenu                " Show list instead of just completing
+" }
+
+" Themes & Colors {
+set t_Co=256 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
+if(has("termguicolors"))
+    set termguicolors
+endif
+
+set background=dark
+colorscheme minimalist
+" }
+
+" GVIM
+if has('gui_running')
+  set guioptions-=T   " Remove the toolbar
+  set go-=L           " Hide left scrollbars
+  set go-=l           " Hide left scrollbars
+  set go-=R           " Hide right scrollbars
+  set go-=r           " Hide right scrollbars
+  set go+=e           " Native toolkit tabs
+  set go-=m           " Remove top text menu
+  set guioptions-=a   " For CTRL-V to work disable autoselect
+  if has('win32') || has('win64')
+    set guifont=DejaVuSansMono_Nerd_Font_Mono:h11,DejaVu_Sans_Mono_for_Powerline:h10 linespace=0                 " [No] Extra separation between rows
+    " Use direct x for rendering
+    set rop=type:directx,gamma:1.2,level:1.0,contrast:0.25,geom:1,taamode:1,renmode:5 " renmode:3 tambien va bien
+    " nnoremap <F9> :set rop=type:directx,gamma:1.5,level:0.75,contrast:0.5;taamode:0;renmode:0<CR>
+  else
+    set guifont=DejaVuSansMono\ Nerd\ Font\ Mono\ 9,DejaVu\ Sans\ Mono\ \for\ Powerline\ 9,DejaVu\ Sans\ Mono\ 9 linespace=0
+  endif
+endif
+" }
