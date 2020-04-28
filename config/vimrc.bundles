@@ -36,13 +36,17 @@ call plug#begin('~/.vim/bundle') " {
   " }
   " IDE  Functionality {
     " Find Files, and Bufers
-    Plug 'kien/ctrlp.vim'
-    Plug 'rking/ag.vim'
+    Plug 'kien/ctrlp.vim' " denite, fzf, leaderf o unite
+    Plug 'albfan/ag.vim' " almost deprecated, try ack
 
     Plug 'scrooloose/nerdtree'
-    Plug 'tpope/vim-dispatch'
+    " Plug 'tpope/vim-dispatch'
     " Plug 'tpope/vim-surround'
     Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
+    " Support for .editor project configuraion files
+    Plug 'editorconfig/editorconfig-vim'
+    " Fast line commenter
+    Plug 'tpope/vim-commentary'
   " }
   "
     " Tools and Extras {
@@ -67,15 +71,8 @@ call plug#begin('~/.vim/bundle') " {
         " Plug 'landaire/deoplete-swift' " IOS Swift
 
 
-        " elseif has('lua')
-        "     Plug 'Shougo/neocomplete.vim'
-        " else
-        "     Plug 'Shougo/neocomplcache'
-        " endif
-        Plug 'tpope/vim-commentary'
         Plug 'w0rp/ale'
         " Plug 'vim-syntastic/syntastic'
-        Plug 'editorconfig/editorconfig-vim'
         " Git {
         Plug 'tpope/vim-fugitive'   " GIT integration
         Plug 'mhinz/vim-signify'    " show changes in the file
@@ -101,7 +98,5 @@ call plug#begin('~/.vim/bundle') " {
         " }
     "}
 call plug#end() " }
-
-
 " }
 
