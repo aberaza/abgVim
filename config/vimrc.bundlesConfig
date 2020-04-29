@@ -1,4 +1,27 @@
-" NerdTREE {
+
+
+" Lightline {
+" POWERFONT SEPARATORS: 
+  let g:lightline = {
+    \   'separator': { 'left':'' ,'right':'' },
+    \   'subseparator' : { 'left': '','right': '' },
+    \   'component_function': {
+    \     'fileformat': 'MyFileformat',
+    \     'filetype': 'MyIconFileType',
+    \   }
+    \ }
+
+  function! MyIconFileType()
+    " return winwidth(0)>70 ? (strlen(&filetype) ? (&filetype . ' ' . WebDevIconsGetFileTypeSymbol()) : 'no ft') : ''
+    return winwidth(0)>65 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  endfunction
+
+  function! MyIconFileformat()
+    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+  endfunction
+" }
+
+" NerdTREE {NerdTREE
     if !has('gui_running')
         let g:airline_powerline_fonts=1
     endif

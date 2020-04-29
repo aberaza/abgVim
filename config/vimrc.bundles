@@ -40,6 +40,7 @@ call plug#begin('~/.vim/bundle') " {
     Plug 'albfan/ag.vim' " almost deprecated, try ack
 
     Plug 'scrooloose/nerdtree'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     " Plug 'tpope/vim-dispatch'
     " Plug 'tpope/vim-surround'
     Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
@@ -87,7 +88,9 @@ call plug#begin('~/.vim/bundle') " {
         Plug 'ap/vim-css-color'
         " }
         " JavaScript,JSON, JSX {
-        Plug 'pangloss/vim-javascript' "HTML syntax and indentation
+        Plug 'pangloss/vim-javascript' "JavaScript syntax and indentation
+        Plug 'maxmellon/vim-jsx-pretty' " JSX extension
+
         Plug 'elzr/vim-json'
         Plug 'tpope/vim-jdaddy'
         Plug 'mxw/vim-jsx' "Some react jsx syntax
