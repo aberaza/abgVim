@@ -1,4 +1,7 @@
-
+" Rainbow {
+let g:rainbow_active = 1
+" Hay mucha mas config, mirar en la web
+" }
 
 " Lightline {
 " POWERFONT SEPARATORS: 
@@ -10,7 +13,7 @@
     \     'filetype': 'MyIconFileType',
     \   }
     \ }
-
+  " Some icons for file format: גּ者
   function! MyIconFileType()
     " return winwidth(0)>70 ? (strlen(&filetype) ? (&filetype . ' ' . WebDevIconsGetFileTypeSymbol()) : 'no ft') : ''
     return winwidth(0)>65 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
@@ -21,11 +24,11 @@
   endfunction
 " }
 
-" NerdTREE {NerdTREE
+" NerdTREE {
     if !has('gui_running')
         let g:airline_powerline_fonts=1
     endif
-    "let g:NERDTreeDirArrowExpandable = '' "'▸'
+    "let g:NERDTreeDirArrowExpandable = '' "'▸'       ﱮ
     "let g:NERDTreeDirArrowCollapsible = '' "'▾'
     let NERDTreeShowBookmarks=1
     let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$','\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', 'pub$[[dir]]']
@@ -37,8 +40,6 @@
     let NERDTreeKeepTreeInNewTab=1
     let NERDTreeStatusline=0
     let NERDTreeMinimalUI=1
-    let g:nerdtree_tabs_open_on_gui_startup=0
-    let g:NERDTreeHijackNetrw = 0
 " }
 " CtrlP {
 "   Bundle 'kien/ctrlp.vim'
@@ -57,6 +58,29 @@
         let g:ctrlp_use_caching=0
     endif
 " }
+
+" pangloss / Vim-Javascript <polyglot> {
+    let g:javascript_plugin_jsdoc   = 1   " JsDoc Enabled
+    " Custom conceal chars:
+    set conceallevel=0  " Disable conceal
+    let g:javascript_conceal_null                 = "ø"
+    let g:javascript_conceal_NaN                  = "ℕ"
+    let g:javascript_conceal_function             = "ƒ"
+    let g:javascript_conceal_this                 = "@"
+    let g:javascript_conceal_return               = "⇚"
+    let g:javascript_conceal_undefined            = "¿"
+    let g:javascript_conceal_prototype            = "¶"
+    let g:javascript_conceal_static               = "•"
+    let g:javascript_conceal_super                = "Ω"
+    let g:javascript_conceal_arrow_function       = "⇒"
+    let g:javascript_conceal_noarg_arrow_function = "🞅"
+    let g:javascript_conceal_underscore_arrow_function = "🞅"
+" }
+"  maxmellon / vim JSX pretty {
+    let g:vim_jsx_pretty_disable_tsx = 1 " Disable JSX for TS (another script)
+    let g:vim_jsx_pretty_colorful_config = 1 " colourful
+"  }
+
 
 " EMMET (HTML) {
     " let g:user_emmet_mode='n'    "only enable normal mode functions.
@@ -82,51 +106,51 @@
 " and so on
 " }
 
-" Vim-Javascript {
-    let g:javascript_conceal_null       = "ø"
-    let g:javascript_conceal_NaN        = "ℕ"
-    let g:javascript_plugin_jsdoc       = 1
-" }
-" Vim-JSX { 
-    let g:jsx_ext_required = 0 "allow jsx for jsx and js files
-" }
-" JavaScript Libraries Syntax {
-    let g:used_javascript_libs = 'angularjs,react'
-" }
-" JSON {
-    let g:vim_json_syntax_conceal = 0
-" }
-" TypeScript {
-    " If indenting does not work as desired
-    " let g:typescript_indent_disable = 1
-    " Compiler options
-    " let g:typescript_compiler_binary = 'tsc'
-    " let g:typescript_compiler_options = ''
-" }
-"Ale {
-  let g:ale_open_list = 1 
-  let g:ale_keep_list_window_open = 1
-    " 'javascript': ['prettier', 'eslint'],\
-  let g:ale_linters = {
-        \ 'javascript': ['eslint','prettier'], 
-        \ 'html' : ['tidy'], 
-        \ 'python' : ['pylint', 'pep8']
-        \}
-  let g:ale_fixers = {
-        \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-        \ 'javascript': ['prettier', 'eslint']
-        \}
-  let g:ale_sign_error = '⏺' " Other symbols ⏺ •  \uf658 ✗ 
-  let g:ale_sign_warning= '⏺'  "⬤  •  \uf071 ⚠
-  let g:ale_sign_style_error = "\ufb99" " ''
-  let g:ale_sign_style_warning = "\uf6f5" " ''
-  " ALEErrorSign guifg=darkred 
-  " red
-  " Change how signs are colorized. BG remains same, color only to the symbol
-  " hi ALEErrorSign ctermbg=NONE ctermfg=red
-  " hi ALEErrorSign ctermfg=red ctermbg=none
-  " highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
-"}
+" " JSON {
+"     let g:vim_json_syntax_conceal = 0
+" " }
+" " TypeScript {
+"     " If indenting does not work as desired
+"     " let g:typescript_indent_disable = 1
+"     " Compiler options
+"     " let g:typescript_compiler_binary = 'tsc'
+"     " let g:typescript_compiler_options = ''
+" " }
+"
+" Errors Warnings Bugs
+" Symbols from nerdfonts:     ﮖ           謹            
+"                   ﮏ ﰸ  ﲲ            﫵 ﱗ ﮢ 戴  塚 
+"    ﴫ 
+" Gutter/column symbols
+let g:lint_error_sign   = ''
+let g:lint_warn_sign    = ''
+let g:style_error_sign  = ''
+let g:style_warn_sign   = ''
+"Linting ALE  {
+let g:ale_completion_enabled = 1    " For now allow ALE to add suggestions
+
+let g:ale_open_list = 1             " Open LWindow on errors
+let g:ale_keep_list_window_open = 1 " Keep it open all the time
+let g:ale_list_window_size=5        " Resize it to 5 lines
+
+let g:ale_fixers = {
+  \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \ 'javascript': ['eslint']
+  \}
+
+let g:ale_sign_error         = g:lint_error_sign " ⏺ ⏺ • ✗ 
+let g:ale_sign_warning       = g:lint_warn_sign " ⏺ ⬤  • ⚠
+let g:ale_sign_style_error   = g:style_error_sign " 'ﮙ'  ''
+let g:ale_sign_style_warning = g:style_warn_sign "''  ''
+"  " ALEErrorSign guifg=darkred 
+"  " red
+"  " Change how signs are colorized. BG remains same, color only to the symbol
+"  " hi ALEErrorSign ctermbg=NONE ctermfg=red
+"  " hi ALEErrorSign ctermfg=red ctermbg=none
+"  " highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+" hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=NONE gui=bold guifg=#F92672 guibg=NONE
+" hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=NONE gui=bold guifg=#FD971F guibg=NONE
+""}
 "Syntastic {
     " let g:syntastic_javascript_checkers=['eslint']
     " let g:syntastic_json_checkers=['jsonlint']
@@ -142,7 +166,7 @@
     " let g:syntastic_style_error_symbol = ''
     " let g:syntastic_style_warning_symbol = ''
     " let g:syntastic_enable_ballons=has('ballon_eval')
-"}
+"}ballon_eval
 
 "Neocomplcache {
     if exists('g:plugs["deoplete.nvim"]')
@@ -178,25 +202,14 @@ let g:PaperColor_Theme_Options = {
     \   }
     \}
 " }
-
-" Solarized Theme {
-if exists('g:plugs["Solarized"]')
-    let g:solarized_termcolors=256
-    let g:solarized_termtrans=1
-    let g:solarized_contrast="normal"
-    let g:solarized_visibility="normal"
-    " color solarized " Load a colorscheme
-endif
-" }
-"
 "
 
+" use dispatch for vim-test
+let test#strategy = "dispatch"
 
 
 
 
 
 
-    hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=NONE gui=bold guifg=#F92672 guibg=NONE
-    hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=NONE gui=bold guifg=#FD971F guibg=NONE
 

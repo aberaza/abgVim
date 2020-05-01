@@ -19,86 +19,97 @@ call plug#begin('~/.vim/bundle') " {
     endif
   " }
 
-  " Themes {
-    Plug 'tomasr/molokai'
-    " Plug 'icymind/NeoSolarized'
-    Plug 'NLKNguyen/papercolor-theme'
-    Plug 'sickill/vim-monokai'
-    Plug 'fmoralesc/molokayo'
-    Plug 'dikiaap/minimalist'
-    " Plug 'colepeters/spacemacs-theme.vim'
-    Plug 'ajh17/Spacegray.vim'
-  " }
-
-  " UI Look & Feel {
-    Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
-    Plug 'itchyny/lightline.vim'
-  " }
   " IDE  Functionality {
     " Find Files, and Bufers
     Plug 'kien/ctrlp.vim' " denite, fzf, leaderf o unite
     Plug 'albfan/ag.vim' " almost deprecated, try ack
+    
+    Plug 'luochen1990/rainbow' " Colorize parenthesis
 
-    Plug 'scrooloose/nerdtree'
+    Plug 'preservim/nerdtree'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    " Plug 'tpope/vim-dispatch'
     " Plug 'tpope/vim-surround'
     Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
     " Support for .editor project configuraion files
     Plug 'editorconfig/editorconfig-vim'
     " Fast line commenter
     Plug 'tpope/vim-commentary'
-  " }
-  "
-    " Tools and Extras {
-        " Plug 'goerz/ipynb_notedown.vim'
-        Plug 'szymonmaszke/vimpyter' " Jupyter notebook
+    " Testing / Units Test
+    Plug 'tpope/vim-dispatch' " Is needed for vim-test 
+    Plug 'janko/vim-test' "needs vim-dispatch
+
+    " Git {
+    Plug 'tpope/vim-fugitive'   " GIT integration
+    Plug 'mhinz/vim-signify'    " show changes in the file
     " }
 
-    " Programming basics {
-        " Autocomplete engine:
-        if has('nvim')
-          Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        else
-          Plug 'Shougo/deoplete.nvim'
-          Plug 'roxma/nvim-yarp'
-          Plug 'roxma/vim-hug-neovim-rpc'
-        endif
-        " Deoplete engines
-        Plug 'Shougo/neco-vim'  "vim files
-        " Plug 'Shougo/neoinclude'  "completion for includes
-        Plug 'zchee/deoplete-jedi' " Python
-        Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-        " Plug 'landaire/deoplete-swift' " IOS Swift
+    " Linting (ALE + Deoplete for completion of COC for all)
+    Plug 'w0rp/ale'
+    
+  " Themes {
+    Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
+    Plug 'sickill/vim-monokai'
+    " Plug 'colepeters/spacemacs-theme.vim'
+    Plug 'ajh17/Spacegray.vim'
+  " }
+
+  " UI Look & Feel {
+    Plug 'itchyny/lightline.vim'
+    Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
+  " }
+
+    " Syntaxes & Indentations {
+    Plug 'sheerun/vim-polyglot' " All in one!
+    " JavaScript, TypeScript, JSX, JSON {
+    " Plug 'pangloss/vim-javascript'      "JavaScript syntax and indentation <use vim-plyglot>
+    " Plug 'maxmellon/vim-jsx-pretty'     " JSX extension for pangloss/vim-javascript <use vim-polyglot>
 
 
-        Plug 'w0rp/ale'
-        " Plug 'vim-syntastic/syntastic'
-        " Git {
-        Plug 'tpope/vim-fugitive'   " GIT integration
-        Plug 'mhinz/vim-signify'    " show changes in the file
-        " }
-        " Markdown {
-        Plug 'godlygeek/tabular' "Needed by vim-markdown
-        Plug 'plasticboy/vim-markdown'  " Markdown syntax
-        " }
-        " HTML & CSS{
-        Plug 'mattn/emmet-vim'
-        Plug 'hail2u/vim-css3-syntax'
-        Plug 'ap/vim-css-color'
-        " }
-        " JavaScript,JSON, JSX {
-        Plug 'pangloss/vim-javascript' "JavaScript syntax and indentation
-        Plug 'maxmellon/vim-jsx-pretty' " JSX extension
+    " Plug 'elzr/vim-json' " <use vim-plyglot>
+    Plug 'tpope/vim-jdaddy'
+    " For TypeScript use included in vim-pangloss untill we need something more powerful
+    " Plug 'leafgarland/typescript-vim'   " TypeScript syntax and Indentation
+    " Plug 'peitalin/vim-jsx-typescript' " JSX extension for leafgarland/typescript-vim
+    "}
 
-        Plug 'elzr/vim-json'
-        Plug 'tpope/vim-jdaddy'
-        Plug 'mxw/vim-jsx' "Some react jsx syntax
-        Plug 'leafgarland/typescript-vim'
-        "}
-        " Java { 
-        Plug 'artur-shaik/vim-javacomplete2'
-        " }
+    " Markdown {
+    " Plug 'godlygeek/tabular' "Needed by vim-markdown
+    " Plug 'plasticboy/vim-markdown'  " Markdown syntax. <use vim-plyglot>
+    " }
+    " HTML & CSS{
+    " Plug 'mattn/emmet-vim'
+    " Plug 'hail2u/vim-css3-syntax'
+    " Plug 'ap/vim-css-color'
+    " }
+    " Java { 
+    " Plug 'artur-shaik/vim-javacomplete2'
+    " }
+    " }
+  "
+" " Tools and Extras {
+"     " Plug 'goerz/ipynb_notedown.vim'
+"     Plug 'szymonmaszke/vimpyter' " Jupyter notebook
+" " }
+
+    " " Programming basics {
+    "     " Autocomplete engine:
+    "     if has('nvim')
+    "       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    "     else
+    "       Plug 'Shougo/deoplete.nvim'
+    "       Plug 'roxma/nvim-yarp'
+    "       Plug 'roxma/vim-hug-neovim-rpc'
+    "     endif
+    "     " Deoplete engines
+    "     Plug 'Shougo/neco-vim'  "vim files
+    "     " Plug 'Shougo/neoinclude'  "completion for includes
+    "     Plug 'zchee/deoplete-jedi' " Python
+    "     Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+    "     " Plug 'landaire/deoplete-swift' " IOS Swift
+
+
+    "     Plug 'w0rp/ale'
+    "     " Plug 'vim-syntastic/syntastic'
     "}
 call plug#end() " }
 " }

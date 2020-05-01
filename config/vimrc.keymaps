@@ -1,20 +1,48 @@
 " Most important setting: map <leader> {
 let mapleader = " " " <leader> == Spacebar
 " }
-"
-" Abbreviations {
-    cnoreabbrev W! w!
-    cnoreabbrev Q! q!
-    cnoreabbrev Qall! qall!
-    cnoreabbrev Wq wq
-    cnoreabbrev Wa wa
-    cnoreabbrev wQ wq
-    cnoreabbrev WQ wq
-    cnoreabbrev W w
-    cnoreabbrev Q q
-    cnoreabbrev X x
-    cnoreabbrev Qall qall
+
+" Abbreviations / Typos {
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev X x
+cnoreabbrev Qall qall
 " }
+
+" JUMPS
+" Ctrl-O to jump back
+nmap <leader>gd <Plug>(ale_go_to_definition)
+nmap <leader>gt <Plug>(ale_to_to_type_definition)
+nmap <leader>gr <Plug>(ale_find_references)
+
+" Refactoring
+nmap <leader>cr :ALERename  " Rename a symbol/var
+
+" Errors Warnings {
+" With ALE {{
+nmap <leader>lt <Plug>(ale_toggle)  " Switch on/off
+" Fix
+nmap <leader>lf <Plug>(ale_fix)     " Autofix error
+nmap <leader>ld <Plug>(ale_detail)  " Show extra info on selected error
+nmap <leader>lr <Plug>(ale_reset)   " Reset errors
+" or we could try :lnext and :lprev
+nmap <slient> <C-k> <Plug>(ale_previous_wrap)
+nmap <slient> <C-j> <Plug>(ale_next_wrap)
+" }}
+" }
+
+
+
+
+
+
 
 
 " Show keyboard shortcuts
@@ -44,10 +72,10 @@ cnoremap <C-Tab> <C-C><C-W>w
 onoremap <C-Tab> <C-C><C-W>w
 
 " CTRL arrows or CTRL hjkw to change windows on visual mode
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
+" noremap <C-h> <C-w>h
+" noremap <C-j> <C-w>j
+" noremap <-k> <C-w>k
+" noremap <C-l> <C-w>l
 noremap <C-Up> <C-w>k
 noremap <C-Down> <C-w>j
 noremap <C-Left> <C-w>h
@@ -121,7 +149,7 @@ inoremap <C-F> <C-O>:Ag<SPACE>
 " NerdTREE {
 map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
 " <,l> To locate current buffer int he File tree
-map <Leader>l :NERDTreeFind<CR>
+map <Leader>nl :NERDTreeFind<CR>
 " Ctrl-B to Toggle nerd tree pane
 " map <F5> :NERDTreeToggle<CR>
 " map! <F5> :NERDTreeToggle<CR>
@@ -135,18 +163,19 @@ map! <C-B> <C-O>:NERDTreeToggle<CR>
 " <,p> Search files and buffers
 nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>p :CtrlPMixed<CR>
+
 nmap <silent> <C-DOWN> :cnext<CR>
 nmap <silent> <C-UP> :cprevious<CR>
 " }
 
 " Fugitive {
-nnoremap <silent> <leader>gs :Gstatus<CR>
-nnoremap <silent> <leader>gd :Gdiff<CR>
-nnoremap <silent> <leader>gc :Gcommit<CR>
-nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gp :Git push<CR>
-nnoremap <silent> <leader>gr :Gread<CR>
-nnoremap <silent> <leader>gw :Gwrite<CR>
+" nnoremap <silent> <leader>gs :Gstatus<CR>
+" nnoremap <silent> <leader>gd :Gdiff<CR>
+" nnoremap <silent> <leader>gc :Gcommit<CR>
+" nnoremap <silent> <leader>gb :Gblame<CR>
+" nnoremap <silent> <leader>gp :Git push<CR>
+" nnoremap <silent> <leader>gr :Gread<CR>
+" nnoremap <silent> <leader>gw :Gwrite<CR>
 " nnoremap <silent> <leader>ge :Gedit<CR>
 " nnoremap <silent> <leader>gi :Git add -p %<CR>
 " nnoremap <silent> <leader>gg :SignifyToggle<CR>
@@ -199,3 +228,11 @@ nnoremap <space> za     " Mapping toggle folds
 vmap v <Plug>(expand_region_expand)
 vmap V <Plug>(expand_region_shrink)
 " }
+
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
+" Conceal JavaScript Toggle
+map <leader>cl :exec &conceallevel ? "set conceallevel=0" : "set conceallevel=1"<CR>

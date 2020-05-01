@@ -1,5 +1,7 @@
 " BasicEditorSettings{
-syntax on           " Enable syntax coloring. Set to enable to keep custom color changes
+if has('syntax')
+  syntax on           " Enable syntax coloring. Set to enable to keep custom color changes
+endif
 set lazyredraw      " Don't update screen during macros
 " }
 
@@ -72,3 +74,7 @@ if has('gui_running')
   endif
 endif
 " }
+
+
+
+" vim:set ft=vim
