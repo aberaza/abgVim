@@ -52,9 +52,17 @@ endif
 
 set background=dark
 colorscheme minimalist
+
+" Some Theme tweaks
+let g:abg_theme_enable_italics  = 1
+let g:abg_theme_enable_bold     = 1 
+let g:abg_theme_enable_underline= 1
 " }
 
-" GVIM
+" GUI Vim (all) {
+let g:gui_font='DejaVuSansMono Nerd Font Mono:h11'
+set linespace=0
+
 if has('gui_running')
   set guioptions-=T   " Remove the toolbar
   set go-=L           " Hide left scrollbars
@@ -74,7 +82,4 @@ if has('gui_running')
   endif
 endif
 " }
-
-
-
 " vim:set ft=vim

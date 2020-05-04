@@ -127,7 +127,8 @@ let g:lint_warn_sign    = ''
 let g:style_error_sign  = ''
 let g:style_warn_sign   = ''
 "Linting ALE  {
-let g:ale_completion_enabled = 1    " For now allow ALE to add suggestions
+" let g:ale_completion_enabled = 1    " For now allow ALE to add suggestions
+" (not needed, use deoplete)
 
 let g:ale_open_list = 1             " Open LWindow on errors
 let g:ale_keep_list_window_open = 1 " Keep it open all the time
@@ -151,37 +152,28 @@ let g:ale_sign_style_warning = g:style_warn_sign "''  ''
 " hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=NONE gui=bold guifg=#F92672 guibg=NONE
 " hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=NONE gui=bold guifg=#FD971F guibg=NONE
 ""}
-"Syntastic {
-    " let g:syntastic_javascript_checkers=['eslint']
-    " let g:syntastic_json_checkers=['jsonlint']
-    " let g:syntastic_python_checkers=['pylint', 'pep8', 'python']
-
-    " " uncomment both to enable auto check on file save
-    " let g:syntastic_auto_loc_list=2 "0 don't open errors window if any found, 1 auto open and close if errors found 2 only close error windows if no remaining errors, don't force open it
-    " let g:syntastic_check_on_open=1 " check syntax on file open
-    " let g:syntastic_check_on_wq=0 " don't check syntax when save-quit (:x, :wq, :ZZ...)
-    " " let g:syntastic_always_populate_loc_list=1
-    " let g:syntastic_error_symbol='✗'
-    " let g:syntastic_warning_symbol='⚠'
-    " let g:syntastic_style_error_symbol = ''
-    " let g:syntastic_style_warning_symbol = ''
-    " let g:syntastic_enable_ballons=has('ballon_eval')
-"}ballon_eval
 
 "Neocomplcache {
-    if exists('g:plugs["deoplete.nvim"]')
-        let g:deoplete#enable_at_startup = 1
+" if exists('g:plugs["deoplete.nvim"]')
+  let g:deoplete#enable_at_startup = 1
+  
+  " call deoplete#custom#options('sources', {'_' : ['ale','vim','tag']} " USe only this sources
+  call deoplete#custom#source('ale', 'dup', v:true) " onedarkAdd ALE candidates even if already present
+	call deoplete#custom#source('ale', 'mark', '') 
+  " call deoplete#custom#source('ternjs', 'mark','')
+  " call deoplete#custom#source('vim', 'mark','') " 
+  " call deoplete#custom#source('tag', 'mark','')
 
-        call deoplete#custom#source('ternjs', 'mark','')
-        call deoplete#custom#source('vim', 'mark','')
-        call deoplete#custom#source('tag', 'mark','')
+  " " deoplete-tern config
+  " let g:deoplete#sources#ternjs#timeout = 1
+  " let g:deoplete#sources#ternjs#docs = 1
+  " let g:deoplete#sources#ternjs#guess = 0
+  " let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
+  " neosnippet      
+	let g:neosnippet#enable_completed_snippet = 1
+" endif
 
-        " deoplete-tern config
-        let g:deoplete#sources#ternjs#timeout = 1
-        let g:deoplete#sources#ternjs#docs = 1
-        let g:deoplete#sources#ternjs#guess = 0
-        let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
-    endif
+
 
 " vim-markdown {
   let g:vim_markdown_auto_insert_bullets = 0 " Do not add new bullets to list on ENTER
@@ -191,22 +183,42 @@ let g:ale_sign_style_warning = g:style_warn_sign "''  ''
   let g:vim_markdown_json_frontmatter = 1   " JSON FM support
 " }
 
-
-" PaperColor Theme {
-" Enable comments in italic
-let g:PaperColor_Theme_Options = {
-    \   'theme' : {
-    \       'default': {
-    \           'allow_italic': 1
-    \       }
-    \   }
-    \}
-" }
-"
-
 " use dispatch for vim-test
 let test#strategy = "dispatch"
 
+" Themes config {
+let g:abg_theme_enable_italics  = get(g:, 'abg_theme_enable_italics', 1)
+let g:abg_theme_enable_bold     = get(g:, 'abg_theme_enable_bold', 1)
+let g:abg_theme_enable_underline= get(g:, 'abg_theme_enable_underline', 1)
+
+" PaperColor Theme {
+let g:PaperColor_Theme_Options = {
+    \   'theme' : {
+    \       'default': {'allow_italic':0, 'allow_bold':0 }
+    \   }
+    \}
+
+let g:PaperColor_Theme_Options.theme.default.allow_italic = g:abg_theme_enable_italics
+let g:PaperColor_Theme_Options.theme.default.allow_bold   = g:abg_theme_enable_bold
+
+
+" Deeps-Space
+let g:deepspace_italics = g:abg_theme_enable_italics
+" gruvbox theme
+let g:gruvbox_italic    = g:abg_theme_enable_italics
+let g:gruvbox_bold      = g:abg_theme_enable_bold 
+let g:gruvbox_underline = g:abg_theme_enable_underline
+let g:gruvbox_udercurl  = g:abg_theme_enable_underline
+" one theme
+let g:one_allow_italics = g:abg_theme_enable_italics 
+" space-vim-dark
+if (g:colors_name ==? 'space-vim-dark') && (g:abg_theme_enable_italics >=? 1)
+  hi Comment cterm=italic
+endif
+
+" nice colorschemes: ayu (dark & light), deep-space (dark), carbonized-dark,
+" molokayo, one, onedark, space-vim-dark, tender
+"
 
 
 
