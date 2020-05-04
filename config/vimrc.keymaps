@@ -5,6 +5,9 @@ let mapleader = " " " <leader> == Spacebar
 " Reload Vim Config
 nnoremap <leader>vr :source $MYVIMRC<CR>
 
+" Show leader-help
+noremap <silent> <leader><leader> :WhichKey '<Space>'<CR>
+
 " Abbreviations / Typos {
 cnoreabbrev W! w!
 cnoreabbrev Q! q!

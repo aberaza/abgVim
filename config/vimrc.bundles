@@ -69,6 +69,7 @@ call plug#begin('~/.vim/bundle') " {
   " UI Look & Feel {
     Plug 'itchyny/lightline.vim'
     Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
   " }
 
     " Syntaxes & Indentations {
