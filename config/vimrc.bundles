@@ -60,7 +60,7 @@ call plug#begin('~/.vim/bundle') " {
   " Themes & UI {
     Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
     Plug 'sickill/vim-monokai'
-		Plug 'Yggdroot/indentLine'
+    Plug 'nathanaelkane/vim-indent-guides'
     Plug 'luochen1990/rainbow' " Colorize parenthesis
     " Plug 'colepeters/spacemacs-theme.vim'
     Plug 'ajh17/Spacegray.vim'
