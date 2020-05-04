@@ -2,10 +2,14 @@
 let mapleader = " " " <leader> == Spacebar
 " }
 
+" Reload Vim Config
+nnoremap <leader>vr :source $MYVIMRC<CR>
+
 " Abbreviations / Typos {
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
-cnoreabbrev Qall! qall!
+cnoreabbrev Qa! qa!
+cnoreabbrev Qa qa
 cnoreabbrev Wq wq
 cnoreabbrev Wa wa
 cnoreabbrev wQ wq
@@ -13,32 +17,59 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev X x
-cnoreabbrev Qall qall
 " }
 
 " JUMPS
 " Ctrl-O to jump back
-nmap <leader>gd <Plug>(ale_go_to_definition)
-nmap <leader>gt <Plug>(ale_to_to_type_definition)
-nmap <leader>gr <Plug>(ale_find_references)
+" Visual and Normal
+map <leader>gd <Plug>(ale_go_to_definition)
+map <leader>gt <Plug>(ale_to_to_type_definition)
+map <leader>gr <Plug>(ale_find_references)
 
 " Refactoring
-nmap <leader>cr :ALERename  " Rename a symbol/var
+map <leader>cr :ALERename  " Rename a symbol/var
 
 " Errors Warnings {
 " With ALE {{
-nmap <leader>lt <Plug>(ale_toggle)  " Switch on/off
+map <leader>lt <Plug>(ale_toggle)  " Switch on/off
 " Fix
-nmap <leader>lf <Plug>(ale_fix)     " Autofix error
-nmap <leader>ld <Plug>(ale_detail)  " Show extra info on selected error
-nmap <leader>lr <Plug>(ale_reset)   " Reset errors
+map <leader>lf <Plug>(ale_fix)     " Autofix error
+map <leader>ld <Plug>(ale_detail)  " Show extra info on selected error
+map <leader>lr <Plug>(ale_reset)   " Reset errors
 " or we could try :lnext and :lprev
-nmap <slient> <C-k> <Plug>(ale_previous_wrap)
-nmap <slient> <C-j> <Plug>(ale_next_wrap)
+map <slient> <Plug>(ale_previous_wrap)
+map <slient> <leader>lp <Plug>(ale_previous_wrap)
+map <slient> <C-j> <Plug>(ale_next_wrap)
+map <slient> <leader>ln <Plug>(ale_next_wrap)
 " }}
 " }
 
+" AutoComplete
+" Denite + ALE + Neocomplete {
+" Neosnippets {
+" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-i>"
+" " <F7> Ti lock/unlock automatic completion
+" map <F7> :NeoComplToggle<CR>
+" " <Ctrl + k> To expand a completion, and <Tab> to jumbp between placeholders
+" imap <C-k> <Plug>(neosnippet_expand_or_jump)
+" smap <C-k> <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k> <Plug>(neosnippet_expand_target)
+" imap <expr><TAB> neosnippet#expandable_or_jumpable()?
+"     \ "\<Plug>(neosnippet_expand_or_jump)"
+"     \: pumvisible() ? "\<C-n>" : "\<TAB>"
+" In select mode tab works as IDE
+smap <expr><TAB> neosnippet#expandable_or_jumpable()?
+    \ "\<Plug>(neosnippet_expand_or_jump)"
+    \: "\<TAB>"
+" " xmap <C-k> <Plug>(neosnippet_expand_target)
+" " If selected is not a snippet, go to previous
+" " imap <silent><expr><C-k> neosnippet#expandable() ?
+" "        \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
+" "        \ "\<C-n>" : "\<Plug>(neosnippet_expand_or_jump)")
+" " smap <TAB> <Right><Plug>(neos" In select mode tab works as IDEnippet_jump_or_expand)
+"}
 
+" }
 
 
 
@@ -50,9 +81,8 @@ map <C-K><C-S> <C-O>:map<CR>
 map! <C-K><C-S> :map<CR>
 
 " CTRL-Z is Undo; not in cmdline though
-noremap <C-Z> u
-inoremap <C-Z> <C-O>u
-
+noremap <C-Z> u 			" visual and normal modes
+inoremap <C-Z> <C-O>u " insert mode
 " CTRL-Y is Redo (although not repeat); not in cmdline though
 noremap <C-Y> <C-R>
 inoremap <C-Y> <C-O><C-R>
@@ -181,26 +211,6 @@ nmap <silent> <C-UP> :cprevious<CR>
 " nnoremap <silent> <leader>gg :SignifyToggle<CR>
 " }
 
-" Neosnippets {
-" " <F7> Ti lock/unlock automatic completion
-" map <F7> :NeoComplToggle<CR>
-" " <Ctrl + k> To expand a completion, and <Tab> to jumbp between placeholders
-" imap <C-k> <Plug>(neosnippet_expand_or_jump)
-" smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" xmap <C-k> <Plug>(neosnippet_expand_target)
-" imap <expr><TAB> neosnippet#expandable_or_jumpable()?
-"     \ "\<Plug>(neosnippet_expand_or_jump)"
-"     \: pumvisible() ? "\<C-n>" : "\<TAB>"
-" smap <expr><TAB> neosnippet#expandable_or_jumpable()?
-"     \ "\<Plug>(neosnippet_expand_or_jump)"
-"     \: "\<TAB>"
-" " xmap <C-k> <Plug>(neosnippet_expand_target)
-" " If selected is not a snippet, go to previous
-" " imap <silent><expr><C-k> neosnippet#expandable() ?
-" "        \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-" "        \ "\<C-n>" : "\<Plug>(neosnippet_expand_or_jump)")
-" " smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
-"}
 
 " Toggle the quickfix window {{{
 " From Steve Losh, http://learnvimscriptthehardway.stevelosh.com/chapters/38.html
