@@ -24,7 +24,6 @@ call plug#begin('~/.vim/bundle') " {
     Plug 'kien/ctrlp.vim' " denite, fzf, leaderf o unite
     Plug 'albfan/ag.vim' " almost deprecated, try ack
     
-    Plug 'luochen1990/rainbow' " Colorize parenthesis
 
     Plug 'preservim/nerdtree'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -37,18 +36,32 @@ call plug#begin('~/.vim/bundle') " {
     " Testing / Units Test
     Plug 'tpope/vim-dispatch' " Is needed for vim-test 
     Plug 'janko/vim-test' "needs vim-dispatch
-
-    " Git {
+    " Git
     Plug 'tpope/vim-fugitive'   " GIT integration
     Plug 'mhinz/vim-signify'    " show changes in the file
-    " }
-
     " Linting (ALE + Deoplete for completion of COC for all)
     Plug 'w0rp/ale'
+    " Autocomplete engine:
+    if has('nvim')
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+      Plug 'Shougo/deoplete.nvim'
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
+    endif
+    " Deoplete engines
+    " Plug 'Shougo/neco-vim'  "vim files
+    " Plug 'lionawurscht/deoplete-biblatex' 
+    " Plug 'carlitux/deoplete-ternjs'
+    Plug 'wokalski/autocomplete-flow'
+    " For func argument completion
+    Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' }
     
-  " Themes {
+  " Themes & UI {
     Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
     Plug 'sickill/vim-monokai'
+		Plug 'Yggdroot/indentLine'
+    Plug 'luochen1990/rainbow' " Colorize parenthesis
     " Plug 'colepeters/spacemacs-theme.vim'
     Plug 'ajh17/Spacegray.vim'
   " }
@@ -90,26 +103,6 @@ call plug#begin('~/.vim/bundle') " {
 "     " Plug 'goerz/ipynb_notedown.vim'
 "     Plug 'szymonmaszke/vimpyter' " Jupyter notebook
 " " }
-
-    " " Programming basics {
-    "     " Autocomplete engine:
-    "     if has('nvim')
-    "       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    "     else
-    "       Plug 'Shougo/deoplete.nvim'
-    "       Plug 'roxma/nvim-yarp'
-    "       Plug 'roxma/vim-hug-neovim-rpc'
-    "     endif
-    "     " Deoplete engines
-    "     Plug 'Shougo/neco-vim'  "vim files
-    "     " Plug 'Shougo/neoinclude'  "completion for includes
-    "     Plug 'zchee/deoplete-jedi' " Python
-    "     Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-    "     " Plug 'landaire/deoplete-swift' " IOS Swift
-
-
-    "     Plug 'w0rp/ale'
-    "     " Plug 'vim-syntastic/syntastic'
     "}
 call plug#end() " }
 " }

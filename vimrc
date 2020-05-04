@@ -1,8 +1,8 @@
 " Helper Functions {
 " Source config file only if it exists
-function! SourceFile(file)
+silent function! SourceFile(file)
   if filereadable(expand(a:file))
-    echo "Sourcing " a:file
+    " echo "Sourcing " a:file
     exe 'source' a:file
   endif
 endfunction
