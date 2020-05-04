@@ -13,7 +13,7 @@
 
 " JavaScript {
     " Enable omni completion.
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 " }
 " Python {
     " Enable omni completion.
@@ -54,3 +54,32 @@ if has('nvim')
     au FocusGained,BufWinEnter * checktime
 endif
 " }
+
+
+
+
+
+" " Autosave {
+" " From http://vim.wikia.com/wiki/Auto-save_current_buffer_periodically
+" " Hay una con autocmd TextChanged que parece muy buena tambien
+" " https://stackoverflow.com/questions/6991638/how-to-auto-save-a-file-every-1-second-in-vim/27387138#27387138
+" " Mirad esta alternativa que parece más limpia aunque menos funcional
+" " https://github.com/epeli/neovim-config/blob/master/init.vim 
+" let g:autosave_time=5
+
+" au BufRead,BufNewFile * let b:last_save_time = localtime() " Save last save on open
+" au BufWritePre * let b:last_save_time = localtime() " Update last save on write
+" au CursorHold * call AutoSaveFile()   " After 300ms of inactivity in normal mode call function
+  "     " " au CursorHoldI * call AutoSaveFile()
+" function! AutoSaveFile()
+  " if(g:autosave_time == 0)
+  "   " do nothing:
+  " elseif((localtime() - b:last_save_time) >= g:autosave_time)
+  "   " echo "autosave saved something"
+  "   :update
+  "   " silent! update
+  "   " let b:save_time = localtime()
+  " endif
+" endfunction
+" " }
+" " }
