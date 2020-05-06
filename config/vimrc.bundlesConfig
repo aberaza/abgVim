@@ -1,6 +1,5 @@
 " Rainbow {
 let g:rainbow_active = 1
-" Hay mucha mas config, mirar en la web
 " }
 
 " Vim-indent-guides {
@@ -9,7 +8,7 @@ let g:rainbow_active = 1
 " }
 
 " Lightline {
-" POWERFONT SEPARATORS: 
+" Powerfont Separators: 
   let g:lightline = {
     \   'separator': { 'left':'' ,'right':'' },
     \   'subseparator' : { 'left': '','right': '' },
@@ -30,85 +29,104 @@ let g:rainbow_active = 1
 " }
 
 " NerdTREE {
-    if !has('gui_running')
-        let g:airline_powerline_fonts=1
-    endif
-    "let g:NERDTreeDirArrowExpandable = '' "'▸'       ﱮ
-    "let g:NERDTreeDirArrowCollapsible = '' "'▾'
-    let NERDTreeShowBookmarks=1
-    let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$','\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', 'pub$[[dir]]']
-    let NERDTreeRespectWildIgnore=1 "Respect wildingore setting
-    let NERDTreeChDirMode=2
-    let NERDTreeQuitOnOpen=1
-    let NERDTreeMouseMode=2
-    let NERDTreeShowHidden=0
-    let NERDTreeKeepTreeInNewTab=1
-    let NERDTreeStatusline=0
-    let NERDTreeMinimalUI=1
-" }
-" CtrlP {
-"   Bundle 'kien/ctrlp.vim'
-    " let g:ctrlp_working_path_mode = 'ra'
-    let g:ctrlp_match_window = 'bottom,order:ttb'  "sort top to bottom
-    let g:ctrlp_working_path_mode = '0' " respect working path changes done in vim
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
-        \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
-    if executable('ag')
-        " Replace native grep with ag
-        set grepprg=ag\ --nogroup\ --nocolor\ --column
-        set grepformat=%f:%l:%c%m
-        " set ctrlp to use ag
-        let g:ctrlp_user_command = 'ag --nocolor --hidden -l -g "" %s'
-        let g:ctrlp_use_caching=0
-    endif
+  if !has('gui_running')
+      let g:airline_powerline_fonts=1
+  endif
+  "let g:NERDTreeDirArrowExpandable = '' "'▸'       ﱮ
+  "let g:NERDTreeDirArrowCollapsible = '' "'▾'
+  let NERDTreeShowBookmarks=1
+  let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$','\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', 'pub$[[dir]]']
+  let NERDTreeRespectWildIgnore=1 "Respect wildingore setting
+  let NERDTreeChDirMode=2
+  let NERDTreeQuitOnOpen=1
+  let NERDTreeMouseMode=2
+  let NERDTreeShowHidden=0
+  let NERDTreeKeepTreeInNewTab=1
+  let NERDTreeStatusline=0
+  let NERDTreeMinimalUI=1
 " }
 
+" CtrlP {
+if exists('g:plug["ctrlp.vim"]')
+  let g:ctrlp_match_window = 'bottom,order:ttb'  "sort top to bottom
+  let g:ctrlp_working_path_mode = 'ra'  "0 - respect cwd, c - dir of current file, r - look for .git, a - like 0 if not under cwd
+  let g:ctrlp_custom_ignore = {
+      \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
+      \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
+  if executable('ag')
+      " Replace native grep with ag
+      set grepprg=ag\ --vimgrep\ --hidden\ $1 " Si no funciona eliminar $1
+      set grepformat=%f:%l:%c%m
+      " set ctrlp to use ag
+      let g:ctrlp_user_command = 'ag --nocolor --hidden -l -g "" %s'
+      let g:ctrlp_use_caching=0 " ag is fast enough not to need caching
+  endif
+endif
+" }
+
+" FZF {
+if exists('g:plugs["fzf"]')
+  let g:fzf_buffers_jump = 1
+  let g:fzf_preview_window = (&columns >=120 ? 'right:40%' : (&lines > 50 ? 'up:50%' : '')) " Enable allways preview on the right
+  let g:fzf_layout = { 'down' : '~25%' }
+  " let g:fzf_layout = { 'window': { 'width': 0.9, 'height':0.7 } }
+  if executable('ag') 
+    :let $FZF_DEFAULT_COMMAND='ag -l --nocolor --hidden -g ""'
+  endif
+  nnoremap <silent> <leader>pp :call fzf#vim#files('',
+        \ {'source': 'ag --hidden -f -g ""', 'window': '12new'})<cr>
+
+
+  " Inspired in FZF-vim
+  function! s:p(bang, opts)
+    let preview_window = a:bang ? '' : g:fzf_preview_window
+    echom preview_window
+    if len(preview_window)
+      return call('fzf#vim#with_preview', add([a:opts], preview_window))
+    endif
+    return a:opts
+  endfunction
+
+  command! -bang -nargs=* AgFiles
+        \ call fzf#vim#files('',
+        \ s:p(<bang>0, {'source': 'ag --hidden -f -g ""'} )) 
+
+endif
+" }
+
+" POLYGLOT & Extra syntaxes
 " pangloss / Vim-Javascript <polyglot> {
-    let g:javascript_plugin_jsdoc   = 1   " JsDoc Enabled
-    " Custom conceal chars:
-    set conceallevel=0  " Disable conceal
-    let g:javascript_conceal_null                 = "ø"
-    let g:javascript_conceal_NaN                  = "ℕ"
-    let g:javascript_conceal_function             = "ƒ"
-    let g:javascript_conceal_this                 = "@"
-    let g:javascript_conceal_return               = "⇚"
-    let g:javascript_conceal_undefined            = "¿"
-    let g:javascript_conceal_prototype            = "¶"
-    let g:javascript_conceal_static               = "•"
-    let g:javascript_conceal_super                = "Ω"
-    let g:javascript_conceal_arrow_function       = "⇒"
-    let g:javascript_conceal_noarg_arrow_function = "🞅"
-    let g:javascript_conceal_underscore_arrow_function = "🞅"
+  let g:javascript_plugin_jsdoc   = 1   " JsDoc Enabled
+  " Custom conceal chars:
+  set conceallevel=0  " Disable conceal
+  let g:javascript_conceal_null                 = "ø"
+  let g:javascript_conceal_NaN                  = "ℕ"
+  let g:javascript_conceal_function             = "ƒ"
+  let g:javascript_conceal_this                 = "@"
+  let g:javascript_conceal_return               = "⇚"
+  let g:javascript_conceal_undefined            = "¿"
+  let g:javascript_conceal_prototype            = "¶"
+  let g:javascript_conceal_static               = "•"
+  let g:javascript_conceal_super                = "Ω"
+  let g:javascript_conceal_arrow_function       = "⇒"
+  let g:javascript_conceal_noarg_arrow_function = "🞅"
+  let g:javascript_conceal_underscore_arrow_function = "🞅"
 " }
 "  maxmellon / vim JSX pretty {
-    let g:vim_jsx_pretty_disable_tsx = 1 " Disable JSX for TS (another script)
-    let g:vim_jsx_pretty_colorful_config = 1 " colourful
+  let g:vim_jsx_pretty_disable_tsx = 1 " Disable JSX for TS (another script)
+  let g:vim_jsx_pretty_colorful_config = 1 " colourful
 "  }
 
 
 " EMMET (HTML) {
-    " let g:user_emmet_mode='n'    "only enable normal mode functions.
-    " let g:user_emmet_mode='inv'  "enable all functions, which is equal to
-    " let g:user_emmet_mode='a'    "enable all function in all mode.
-    " To enable only for html/css/js/jsx files:
-    let g:user_emmet_install_global = 0
-    autocmd FileType html,css,js,jsx EmmetInstall
-    "Trigger key is <C-Y> , (ctrl+y ,) con la coma tras el ctrl y
-    " let g:user_emmet_leader_key='<C-Z>' " para cambiar la parte del ctrl y
-" }
-
-" Surround {
-" En visual o command mode
-" "Hello World!" -> cs"<p> -> <p>Hello World!</p>
-" <p>Hello World!</p> -> cst" -> "Hello World!"
-" "Hello World!" -> ds" -> Hello World
-" <line visual mode V>
-" Hello World -> S<p class="toto"> ->
-" <p class="toto">
-"   Hello World
-" </p>
-" and so on
+  " let g:user_emmet_mode='n'    "only enable normal mode functions.
+  " let g:user_emmet_mode='inv'  "enable all functions, which is equal to
+  " let g:user_emmet_mode='a'    "enable all function in all mode.
+  " To enable only for html/css/js/jsx files:
+  let g:user_emmet_install_global = 0
+  autocmd FileType html,css,js,jsx EmmetInstall
+  "Trigger key is <C-Y> , (ctrl+y ,) con la coma tras el ctrl y
+  " let g:user_emmet_leader_key='<C-Z>' " para cambiar la parte del ctrl y
 " }
 
 " " JSON {
@@ -121,7 +139,8 @@ let g:rainbow_active = 1
 "     " let g:typescript_compiler_binary = 'tsc'
 "     " let g:typescript_compiler_options = ''
 " " }
-"
+
+
 " Errors Warnings Bugs
 " Symbols from nerdfonts:     ﮖ           謹            
 "                   ﮏ ﰸ  ﲲ            﫵 ﱗ ﮢ 戴  塚 
@@ -159,15 +178,15 @@ let g:ale_sign_style_warning = g:style_warn_sign "''  ''
 ""}
 
 "Neocomplcache {
-" if exists('g:plugs["deoplete.nvim"]')
+if exists('g:plugs["deoplete.nvim"]')
   let g:deoplete#enable_at_startup = 1
   
   " call deoplete#custom#options('sources', {'_' : ['ale','vim','tag']} " USe only this sources
   call deoplete#custom#source('ale', 'dup', v:true) " onedarkAdd ALE candidates even if already present
-	call deoplete#custom#source('ale', 'mark', '') 
+	call deoplete#custom#source('ale', 'mark', '') " 
   " call deoplete#custom#source('ternjs', 'mark','')
-  " call deoplete#custom#source('vim', 'mark','') " 
-  " call deoplete#custom#source('tag', 'mark','')
+  call deoplete#custom#source('vim', 'mark','') " 
+  call deoplete#custom#source('tag', 'mark','')
 
   " " deoplete-tern config
   " let g:deoplete#sources#ternjs#timeout = 1
@@ -176,7 +195,7 @@ let g:ale_sign_style_warning = g:style_warn_sign "''  ''
   " let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
   " neosnippet      
 	let g:neosnippet#enable_completed_snippet = 1
-" endif
+endif
 
 
 
@@ -221,10 +240,4 @@ let g:one_allow_italics = g:abg_theme_enable_italics
 autocmd ColorScheme * if (g:colors_name ==? 'space-vim-dark') && (g:abg_theme_enable_italics >=? 1) | hi Comment cterm=italic | endif
 " nice colorschemes: ayu (dark & light), deep-space (dark), carbonized-dark,
 " molokayo, one, onedark, space-vim-dark, tender
-"
-
-
-
-
-
 
