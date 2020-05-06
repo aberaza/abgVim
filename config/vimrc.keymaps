@@ -75,8 +75,32 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable()?
 
 " }
 
+" Find Files FZF {
+noremap <silent> <C-p> :Files<CR>
+noremap <silent> <leader>p :Files<CR>
+noremap <silent> <leader>P :Files!<CR> " Full Screen
+" }
 
+" CtrlP {
+" Remap Ctrl P
+" let g:ctrlp_map = '<c-p>'
+" let g:ctrlp_cmd = 'CtrlP'
+" nnoremap <leader>b :CtrlPBuffer<CR>
+" nnoremap <leader>p :CtrlPMixed<CR>
+" }
+" Ag or FZF {
+" bind <,s> and <,*>  to  search for word under cursor
+nnoremap <Leader>s :Ag "<C-R><C-W>"<CR>
+nnoremap <Leader>* :Ag "<C-R><C-W>"<CR>
+" <,F> or <Ctrl+F> To do a workspace search
+" This breaks original Ctrl F (scroll on page down)
+nnoremap <Leader>f :Ag<SPACE>
+nnoremap <C-F> :Ag<SPACE>
+inoremap <C-F> <C-O>:Ag<SPACE>
+"}
 
+nmap <silent> <C-DOWN> :cnext<CR>
+nmap <silent> <C-UP> :cprevious<CR>
 
 
 
@@ -169,16 +193,6 @@ nmap <F6> :TagbarToggle<CR>
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
 " }
 
-" Ag {
-" bind <,s> and <,*>  to  search for word under cursor
-nnoremap <Leader>s :Ag "<C-R><C-W>"<CR>
-nnoremap <Leader>* :Ag "<C-R><C-W>"<CR>
-" <,F> or <Ctrl+F> To do a workspace search
-" This breaks original Ctrl F (scroll on page down)
-nnoremap <Leader>f :Ag<SPACE>
-nnoremap <C-F> :Ag<SPACE>
-inoremap <C-F> <C-O>:Ag<SPACE>
-"}
 
 " NerdTREE {
 map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
@@ -192,15 +206,6 @@ map! <C-B> <C-O>:NERDTreeToggle<CR>
 
 " }
 
-" CtrlP {
-" <,b> Search on open buffers
-" <,p> Search files and buffers
-nnoremap <leader>b :CtrlPBuffer<CR>
-nnoremap <leader>p :CtrlPMixed<CR>
-
-nmap <silent> <C-DOWN> :cnext<CR>
-nmap <silent> <C-UP> :cprevious<CR>
-" }
 
 " Fugitive {
 " nnoremap <silent> <leader>gs :Gstatus<CR>
