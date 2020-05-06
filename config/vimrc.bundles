@@ -21,21 +21,24 @@ call plug#begin('~/.vim/bundle') " {
 
   " IDE  Functionality {
     " Find Files, and Bufers
-    Plug 'kien/ctrlp.vim' " denite, fzf, leaderf o unite
-    Plug 'albfan/ag.vim' " almost deprecated, try ack
-    
+    " Plug 'kien/ctrlp.vim' " denite, fzf, leaderf o unite
+    " Plug 'albfan/ag.vim' " almost deprecated, try ack
+
+    " Alternative to both: FZF
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
 
     Plug 'preservim/nerdtree'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     " Plug 'tpope/vim-surround'
-    Plug 'majutsushi/tagbar' " ctags and class hierarchy bar
+    Plug 'majutsushi/tagbar', { 'on' : ['TagbarToggle', 'TagbarOpen'] } " ctags and class hierarchy bar
     " Support for .editor project configuraion files
     Plug 'editorconfig/editorconfig-vim'
     " Fast line commenter
     Plug 'tpope/vim-commentary'
     " Testing / Units Test
     Plug 'tpope/vim-dispatch' " Is needed for vim-test 
-    Plug 'janko/vim-test' "needs vim-dispatch
+    Plug 'janko/vim-test', { 'on' : ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit' ]} "needs vim-dispatch
     " Git
     Plug 'tpope/vim-fugitive'   " GIT integration
     Plug 'mhinz/vim-signify'    " show changes in the file
@@ -60,16 +63,16 @@ call plug#begin('~/.vim/bundle') " {
   " Themes & UI {
     Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
     Plug 'sickill/vim-monokai'
-    Plug 'nathanaelkane/vim-indent-guides'
-    Plug 'luochen1990/rainbow' " Colorize parenthesis
-    " Plug 'colepeters/spacemacs-theme.vim'
     Plug 'ajh17/Spacegray.vim'
+    " Plug 'colepeters/spacemacs-theme.vim'
   " }
 
   " UI Look & Feel {
     Plug 'itchyny/lightline.vim'
     Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
     Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+    Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'luochen1990/rainbow' " Colorize parenthesis
   " }
 
     " Syntaxes & Indentations {
@@ -80,7 +83,7 @@ call plug#begin('~/.vim/bundle') " {
 
 
     " Plug 'elzr/vim-json' " <use vim-plyglot>
-    Plug 'tpope/vim-jdaddy'
+    Plug 'tpope/vim-jdaddy', { 'for': 'json' }
     " For TypeScript use included in vim-pangloss untill we need something more powerful
     " Plug 'leafgarland/typescript-vim'   " TypeScript syntax and Indentation
     " Plug 'peitalin/vim-jsx-typescript' " JSX extension for leafgarland/typescript-vim
