@@ -29,10 +29,18 @@ cnoreabbrev X x
 map <leader>gd <Plug>(ale_go_to_definition)
 map <leader>gt <Plug>(ale_to_to_type_definition)
 map <leader>gr <Plug>(ale_find_references)
+map <leader>ga :A<CR>
 
 " Refactoring
-map <leader>cr :ALERename  " Rename a symbol/var
+noremap <leader>cr :ALERename  " Rename a symbol/var
 
+" Test
+noremap <leader>ca :A<CR> " alternate between code and related test file
+noremap <leader>ct :TestSuite<CR> 
+noremap <leader>tc :TestSuite<CR> 
+noremap <leader>tf :TestNearest<CR> 
+noremap <leader>tm :TestFile<CR> 
+noremap <leader>tl :TestLast<CR> 
 " Errors Warnings {
 " With ALE {{
 map <leader>lt <Plug>(ale_toggle)  " Switch on/off
