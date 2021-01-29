@@ -71,3 +71,7 @@ set nobackup
 set nowritebackup
 set noswapfile
 " }
+"
+" Extras {
+" let g:abg_use_coc = 1 " use COC instead ALE + Denite + VimTest
+" }

@@ -6,6 +6,15 @@
 " HTML & Markdown {
     " Enable omni completion.
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType markdown setlocal wrap
+    autocmd FileType markdown setlocal spell
+    autocmd FileType markdown setlocal spelllang=es
+" }
+
+" LaTex {
+    autocmd FileType tex setlocal wrap
+    autocmd FileType tex setlocal spell
+    autocmd FileType tex setlocal spelllang=es
 " }
 
 " IPYNB JupyterNotebook use Markdown syntax
