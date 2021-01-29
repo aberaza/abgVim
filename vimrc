@@ -8,6 +8,10 @@ silent function! SourceFile(file)
 endfunction
 
 " Platform identification (from spf13-vim)
+
+silent function! MAC()
+  return has('macunix')
+endfunction
 silent function! LINUX()
   return has('unix') && !has('macunix') && !has('win32unix')
 endfunction
@@ -16,6 +20,13 @@ silent function! WINDOWS()
 endfunction
 silent function! UNIXLIKE()
   return !WINDOWS()
+endfunction
+
+silent function! VIM()
+  return !has('nvim')
+endfunction
+silent function! NEOVIM()
+  return has('nvim')
 endfunction
 " }
 

@@ -49,7 +49,7 @@ call plug#begin('~/.vim/bundle') " {
     if has('nvim')
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     else
-      Plug 'Shougo/deoplete.nvim'
+      " Plug 'Shougo/deoplete.nvim' it is not working?
       Plug 'roxma/nvim-yarp'
       Plug 'roxma/vim-hug-neovim-rpc'
     endif
