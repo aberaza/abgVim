@@ -6,6 +6,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
+let g:abg_use_coc = get(g:, 'abg_use_coc', has('nvim') )
 
 call plug#begin('~/.vim/bundle') " {
   " Automatically install missing plugins on startup
@@ -43,24 +44,36 @@ call plug#begin('~/.vim/bundle') " {
     " Git
     Plug 'tpope/vim-fugitive'   " GIT integration
     Plug 'mhinz/vim-signify'    " show changes in the file
+
+    " LaTeX
+    Plug 'lervag/vimtex'
+
     " Linting (ALE + Deoplete for completion of COC for all)
-    Plug 'w0rp/ale'
-    " Autocomplete engine:
-    if has('nvim')
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    if g:abg_use_coc 
+      Plug 'neoclide/coc.nvim', {'branch': 'release'}
     else
       " Plug 'Shougo/deoplete.nvim' it is not working?
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
+      " Plug 'roxma/nvim-yarp'
+      " Plug 'roxma/vim-hug-neovim-rpc'
+      Plug 'w0rp/ale'
+      " Autocomplete engine:
+      if has('nvim')
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+      else
+        Plug 'Shougo/deoplete.nvim'
+        Plug 'roxma/nvim-yarp'
+        Plug 'roxma/vim-hug-neovim-rpc'
+      endif
+      " Deoplete engines
+      " Plug 'Shougo/neco-vim'  "vim files
+      " Plug 'lionawurscht/deoplete-biblatex' 
+      " Plug 'carlitux/deoplete-ternjs'
+      Plug 'wokalski/autocomplete-flow'
+      " For func argument completion
+      Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' }
+
     endif
-    " Deoplete engines
-    " Plug 'Shougo/neco-vim'  "vim files
-    " Plug 'lionawurscht/deoplete-biblatex' 
-    " Plug 'carlitux/deoplete-ternjs'
-    Plug 'wokalski/autocomplete-flow'
-    " For func argument completion
-    Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' }
-    
+
   " Themes & UI {
     Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
     Plug 'sickill/vim-monokai'
