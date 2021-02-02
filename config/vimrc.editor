@@ -42,7 +42,7 @@ if has('clipboard') && has('unnamedplus')
   set clipboard=unnamedplus " use + register for copy-paste
 endif
 
-"set autowrite " Automatically write a file when leaving a modified buffer
+set autowrite " Automatically write a file when leaving a modified buffer
 set shortmess+=filmnrxoOtT " Abbrev. of messages (avoids 'hit enter')
 set sessionoptions-=options " Same values for vim and nvim
 set viewoptions=folds,cursor,curdir,unix " Better Unix / Windows compatibility

@@ -26,19 +26,42 @@ cnoreabbrev X x
 " JUMPS
 " Ctrl-O to jump back
 " Visual and Normal
-map <leader>gd <Plug>(ale_go_to_definition)
-map <leader>gt <Plug>(ale_to_to_type_definition)
-map <leader>gr <Plug>(ale_find_references)
 map <leader>ga :A<CR>
 
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+if exists('g:plug["ale"]')
+  map <leader>gd <Plug>(ale_go_to_definition)
+  map <leader>gt <Plug>(ale_to_to_type_definition)
+  map <leader>gr <Plug>(ale_find_references)
+  " Refactoring
+  noremap <leader>cr :ALERename  " Rename a symbol/var
+  " Errors Warnings {
+  " With ALE {{
+  map <leader>lt <Plug>(ale_toggle)  " Switch on/off
+  " Fix
+  map <leader>lf <Plug>(ale_fix)     " Autofix error
+  map <leader>ld <Plug>(ale_detail)  " Show extra info on selected error
+  map <leader>lr <Plug>(ale_reset)   " Reset errors
+  " or we could try :lnext and :lprev
+  map <slient> <Plug>(ale_previous_wrap)
+  map <slient> <leader>lp <Plug>(ale_previous_wrap)
+  map <slient> <C-j> <Plug>(ale_next_wrap)
+  map <slient> <leader>ln <Plug>(ale_next_wrap)
+" }}
+endif
 
-" Refactoring
-noremap <leader>cr :ALERename  " Rename a symbol/var
+
+" GoTo code navigation.
+if exists('g:plug["coc.nvim"]')
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+  " Errors & Warnings {
+  " With COC 
+  map <leader> lf <Plug>(coc-codeaction)
+" }}
+endif
+
 
 " Test
 noremap <leader>ca :A<CR> " alternate between code and related test file
@@ -46,22 +69,6 @@ noremap <leader>tc :TestSuite<CR>
 noremap <leader>tf :TestNearest<CR> 
 noremap <leader>tm :TestFile<CR> 
 noremap <leader>tl :TestLast<CR> 
-" Errors Warnings {
-" With ALE {{
-map <leader>lt <Plug>(ale_toggle)  " Switch on/off
-" Fix
-map <leader>lf <Plug>(ale_fix)     " Autofix error
-map <leader>ld <Plug>(ale_detail)  " Show extra info on selected error
-map <leader>lr <Plug>(ale_reset)   " Reset errors
-" or we could try :lnext and :lprev
-map <slient> <Plug>(ale_previous_wrap)
-map <slient> <leader>lp <Plug>(ale_previous_wrap)
-map <slient> <C-j> <Plug>(ale_next_wrap)
-map <slient> <leader>ln <Plug>(ale_next_wrap)
-" }}
-" With COC 
-map <leader> lf <Plug>(coc-codeaction)
-" }
 
 " AutoComplete
 " COC {
@@ -124,11 +131,13 @@ endif
 " }
 
 " Find Files FZF {
-noremap <silent> <C-p> :Files<CR>
-" TODO: conflicts with autocmplete?
-inoremap <silent> <C-p> <C-o>:Files<CR> 
-noremap <silent> <leader>p :Files<CR>
-noremap <silent> <leader>P :Files!<CR> " Full Screen
+if exists('g:plug["fzf.vim"]')
+  noremap <silent> <C-p> :Files<CR>
+  " TODO: conflicts with autocmplete?
+  inoremap <silent> <C-p> <C-o>:Files<CR> 
+  noremap <silent> <leader>p :Files<CR>
+  noremap <silent> <leader>P :Files!<CR> " Full Screen
+endif
 " }
 
 

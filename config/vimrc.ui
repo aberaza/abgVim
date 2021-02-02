@@ -60,7 +60,6 @@ let g:abg_theme_enable_underline= 1
 " }
 
 " GUI Vim (all) {
-let g:gui_font='DejaVuSansMono Nerd Font Mono:h11'
 set linespace=0
 
 if has('gui_running')

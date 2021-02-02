@@ -1,5 +1,5 @@
 " Rainbow {
-let g:rainbow_active = 1
+  let g:rainbow_active = 1
 " }
 
 " Vim-indent-guides {
@@ -52,6 +52,16 @@ let g:rainbow_active = 1
   let NERDTreeKeepTreeInNewTab=1
   let NERDTreeStatusline=0
   let NERDTreeMinimalUI=1
+  highlight! link NERDTreeFlags NERDTreeDir 
+  " se supone que es para evitar colores raros
+" }
+
+" DevIcons {
+if exists('g:plug["vim-devicons"]')
+  let g:webdevicons_conceal_nerdtree_brackets = 1 " whether or not to show the nerdtree brackets around flags
+  let g:WebDevIconsNerdTreeBeforeGlyphPadding = ""
+let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+endif
 " }
 
 " CtrlP {
@@ -69,6 +79,12 @@ if exists('g:plug["ctrlp.vim"]')
       let g:ctrlp_user_command = 'ag --nocolor --hidden -l -g "" %s'
       let g:ctrlp_use_caching=0 " ag is fast enough not to need caching
   endif
+endif
+" }
+
+" Ack/Ag {
+if exists('g:plugs["ack.vim"]')
+  let g:ackprg = 'ag --vimgrep'
 endif
 " }
 
@@ -168,16 +184,13 @@ endif
 if exists('g:plugs["ale"]')
   " let g:ale_completion_enabled = 1    " For now allow ALE to add suggestions
   " (not needed, use deoplete)
-
   let g:ale_open_list = 1             " Open LWindow on errors
   let g:ale_keep_list_window_open = 1 " Keep it open all the time
   let g:ale_list_window_size=5        " Resize it to 5 lines
-
   let g:ale_fixers = {
         \ '*': ['remove_trailing_lines', 'trim_whitespace'],
         \ 'javascript': ['eslint']
         \}
-
   let g:ale_sign_error         = g:lint_error_sign " ⏺ ⏺ • ✗ 
   let g:ale_sign_warning       = g:lint_warn_sign " ⏺ ⬤  • ⚠
   let g:ale_sign_style_error   = g:style_error_sign " 'ﮙ'  ''
@@ -191,26 +204,24 @@ if exists('g:plugs["ale"]')
   " hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=NONE gui=bold guifg=#F92672 guibg=NONE
   " hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=NONE gui=bold guifg=#FD971F guibg=NONE
 endif
-""}
+" }
 
 "Neocomplcache {
 if exists('g:plugs["deoplete.nvim"]')
   let g:deoplete#enable_at_startup = 1
-  
   " call deoplete#custom#options('sources', {'_' : ['ale','vim','tag']} " USe only this sources
   call deoplete#custom#source('ale', 'dup', v:true) " onedarkAdd ALE candidates even if already present
-	call deoplete#custom#source('ale', 'mark', '') " 
+  call deoplete#custom#source('ale', 'mark', '') " 
   " call deoplete#custom#source('ternjs', 'mark','')
   call deoplete#custom#source('vim', 'mark','') " 
   call deoplete#custom#source('tag', 'mark','')
-
   " " deoplete-tern config
   " let g:deoplete#sources#ternjs#timeout = 1
   " let g:deoplete#sources#ternjs#docs = 1
   " let g:deoplete#sources#ternjs#guess = 0
   " let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
   " neosnippet      
-	let g:neosnippet#enable_completed_snippet = 1
+  let g:neosnippet#enable_completed_snippet = 1
 endif
 
 

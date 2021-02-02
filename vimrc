@@ -43,6 +43,25 @@ if WINDOWS()
 endif
 " }
 
+" Variables para la configuración {
+" Usar FZF o Ctrl-P ?
+  let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 0)
+
+" Usar COC [solo con nvim] si no :(deoplete)
+  let g:abg_use_coc = get(g:, 'abg_use_coc', 0) && has('nvim') 
+
+" Usar ALE Linter (prettier, eslint, etc)
+  let g:abg_use_ale = get(g:, 'abg_use_ale', 1) || !g:abg_use_coc
+
+
+
+" Fuente/Letra
+  let g:gui_font='DejaVuSansMono Nerd Font Mono:h11'
+  
+" }
+
+
+
 " Source Config {
 " General Editor Config 
 call SourceFile("~/.vim/config/vimrc.editor")
