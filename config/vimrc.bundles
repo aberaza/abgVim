@@ -26,6 +26,10 @@ call plug#begin('~/.vim/bundle') " {
       \ Plug 'ryanoasis/vim-devicons' | " fancy icons for nerdtree, airline, git and others
       \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
     
+    " Tabs and buffers list
+    " Plug 'romgrk/barbar.nvim'
+    Plug 'akinsho/nvim-bufferline.lua'
+
     " Find Files, and Bufers
     if g:abg_use_fzf
       Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
