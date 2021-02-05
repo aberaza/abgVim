@@ -131,7 +131,7 @@ endif
 " }
 
 " Find Files FZF {
-if exists('g:plug["fzf.vim"]')
+if exists('g:plugs["fzf.vim"]')
   noremap <silent> <C-p> :Files<CR>
   " TODO: conflicts with autocmplete?
   inoremap <silent> <C-p> <C-o>:Files<CR> 

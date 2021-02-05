@@ -43,6 +43,10 @@ if WINDOWS()
 endif
 " }
 
+
+" Load local config and settings
+call SourceFile("~/.vim/localconfig.vimrc")
+
 " Variables para la configuración {
 " Usar FZF o Ctrl-P ?
   let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 0)
