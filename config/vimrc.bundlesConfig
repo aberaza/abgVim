@@ -8,10 +8,13 @@
 " }
 
 " Lightline {
-" Powerfont Separators: 
+" Powerfont Separators:  
   let g:lightline = {
+    \   'colorscheme' : 'material', 
     \   'separator': { 'left':'' ,'right':'' },
     \   'subseparator' : { 'left': '','right': '' },
+    \   'tabline_separator' : { 'left' : '', 'right' : '' },
+    \   'tabline_subseparator' : { 'left' : '', 'right' : 'R' },
     \   'active' : {
     \     'left' : [['mode', 'paste'], [ 'gitbranch'], ['filename', 'modified'] ]
     \   },
@@ -57,7 +60,7 @@
 " }
 
 " DevIcons {
-if exists('g:plug["vim-devicons"]')
+if exists('g:plugs["vim-devicons"]')
   let g:webdevicons_conceal_nerdtree_brackets = 1 " whether or not to show the nerdtree brackets around flags
   let g:WebDevIconsNerdTreeBeforeGlyphPadding = ""
 let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
@@ -65,7 +68,7 @@ endif
 " }
 
 " CtrlP {
-if exists('g:plug["ctrlp.vim"]')
+if exists('g:plugs["ctrlp.vim"]')
   let g:ctrlp_match_window = 'bottom,order:ttb'  "sort top to bottom
   let g:ctrlp_working_path_mode = 'ra'  "0 - respect cwd, c - dir of current file, r - look for .git, a - like 0 if not under cwd
   let g:ctrlp_custom_ignore = {
@@ -221,7 +224,7 @@ if exists('g:plugs["deoplete.nvim"]')
   " let g:deoplete#sources#ternjs#guess = 0
   " let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
   " neosnippet      
-  let g:neosnippet#enable_completed_snippet = 1
+  let g:neosnippet#enable_completed_snippet = 0
 endif
 
 

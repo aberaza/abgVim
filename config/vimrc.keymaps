@@ -28,7 +28,7 @@ cnoreabbrev X x
 " Visual and Normal
 map <leader>ga :A<CR>
 
-if exists('g:plug["ale"]')
+if exists('g:plugs["ale"]')
   map <leader>gd <Plug>(ale_go_to_definition)
   map <leader>gt <Plug>(ale_to_to_type_definition)
   map <leader>gr <Plug>(ale_find_references)
@@ -51,7 +51,7 @@ endif
 
 
 " GoTo code navigation.
-if exists('g:plug["coc.nvim"]')
+if exists('g:plugs["coc.nvim"]')
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gy <Plug>(coc-type-definition)
   nmap <silent> gi <Plug>(coc-implementation)
@@ -131,7 +131,7 @@ endif
 " }
 
 " Find Files FZF {
-if exists('g:plug["fzf.vim"]')
+if exists('g:plugs["fzf.vim"]')
   noremap <silent> <C-p> :Files<CR>
   " TODO: conflicts with autocmplete?
   inoremap <silent> <C-p> <C-o>:Files<CR> 
@@ -305,4 +305,3 @@ vmap V <Plug>(expand_region_shrink)
 if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
-
