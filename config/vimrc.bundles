@@ -28,7 +28,8 @@ call plug#begin('~/.vim/bundle') " {
     
     " Tabs and buffers list
     " Plug 'romgrk/barbar.nvim'
-    Plug 'akinsho/nvim-bufferline.lua'
+    " Plug 'akinsho/nvim-bufferline.lua'
+     Plug 'bagrat/vim-buffet'
 
     " Find Files, and Bufers
     if g:abg_use_fzf

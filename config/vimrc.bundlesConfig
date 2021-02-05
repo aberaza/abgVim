@@ -11,6 +11,7 @@
 " Powerfont Separators:  
   let g:lightline = {
     \   'colorscheme' : 'material', 
+    \   'enable': { 'tabline': 1 },
     \   'separator': { 'left':'' ,'right':'' },
     \   'subseparator' : { 'left': '','right': '' },
     \   'tabline_separator' : { 'left' : '', 'right' : '' },
