@@ -73,7 +73,8 @@ call plug#begin('~/.vim/bundle') " {
       endif
       Plug 'wokalski/autocomplete-flow'
       " For func argument completion
-      Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' }
+      Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' } | 
+        \ Plug 'Shougo/neosnippet-snippets'
 
     endif
 
@@ -81,6 +82,8 @@ call plug#begin('~/.vim/bundle') " {
     Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
     Plug 'sickill/vim-monokai'
     Plug 'ajh17/Spacegray.vim'
+    " Plug 'arcticicestudio/nord-vim' " Incluye tema lightline,muy configurable, ver web. hay temas para todo,slack inlcuido
+    " awesome-colorschemes ya incluye nord
     " Plug 'colepeters/spacemacs-theme.vim'
   " }
 

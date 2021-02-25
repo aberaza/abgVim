@@ -30,6 +30,15 @@ silent function! NEOVIM()
 endfunction
 " }
 
+silent function! abg#switch_colors(name)
+  execute 'colorscheme' fnameescape(a:name)
+  " silent execute 'doautocmd ColorScheme' fnameescape(a:name)
+endfunction
+
+" silent function! abg#switch_lightline_colors(name)
+  
+
+
 " Environment {
 set nocompatible " Must be first line
 if UNIXLIKE()
@@ -47,7 +56,7 @@ endif
 " Load local config and settings
 call SourceFile("~/.vim/localconfig.vimrc")
 
-" Variables para la configuración {
+" Variables por defecto para la configuración {
 " Usar FZF o Ctrl-P ?
   let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 0)
 
@@ -57,11 +66,8 @@ call SourceFile("~/.vim/localconfig.vimrc")
 " Usar ALE Linter (prettier, eslint, etc)
   let g:abg_use_ale = get(g:, 'abg_use_ale', 1) || !g:abg_use_coc
 
-
-
 " Fuente/Letra
-  let g:gui_font='DejaVuSansMono Nerd Font Mono:h11'
-  
+  " let g:gui_font= get(g: 'gui_font', 'DejaVuSansMono Nerd Font Mono:h11')
 " }
 
 

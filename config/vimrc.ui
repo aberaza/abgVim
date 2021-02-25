@@ -51,12 +51,10 @@ if(has("termguicolors"))
 endif
 
 set background=dark
-colorscheme sonokai "minimalist
+colorscheme sonokai
 
-" Some Theme tweaks
-let g:abg_theme_enable_italics  = 1
-let g:abg_theme_enable_bold     = 1 
-let g:abg_theme_enable_underline= 1
+"minimalist
+
 " }
 
 " GUI Vim (all) {

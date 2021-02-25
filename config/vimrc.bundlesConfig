@@ -8,13 +8,13 @@
 " }
 
 " Lightline {
-" Powerfont Separators:  
+" Powerfont Separators:                                        
   let g:lightline = {
-    \   'colorscheme' : 'material', 
+    \   'colorscheme' : 'material',
     \   'enable': { 'tabline': 1 },
-    \   'separator': { 'left':'' ,'right':'' },
+    \   'separator': { 'left':'' ,'right':'' },
     \   'subseparator' : { 'left': '','right': '' },
-    \   'tabline_separator' : { 'left' : '', 'right' : '' },
+    \   'tabline_separator' : { 'left' : '', 'right' : '' },
     \   'tabline_subseparator' : { 'left' : '', 'right' : 'R' },
     \   'active' : {
     \     'left' : [['mode', 'paste'], [ 'gitbranch'], ['filename', 'modified'] ]
@@ -25,7 +25,7 @@
     \     'gitbranch': 'MyGitBranch',
     \   }
     \ }
-  " Some icons for file format: גּ者
+  " Some icons for file format:            גּ     者
   function! MyIconFileType()
     " return winwidth(0)>70 ? (strlen(&filetype) ? (&filetype . ' ' . WebDevIconsGetFileTypeSymbol()) : 'no ft') : ''
     return winwidth(0)>65 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
@@ -56,7 +56,7 @@
   let NERDTreeKeepTreeInNewTab=1
   let NERDTreeStatusline=0
   let NERDTreeMinimalUI=1
-  highlight! link NERDTreeFlags NERDTreeDir 
+  highlight! link NERDTreeFlags NERDTreeDir
   " se supone que es para evitar colores raros
 " }
 
@@ -98,7 +98,7 @@ if exists('g:plugs["fzf"]')
   let g:fzf_preview_window = (&columns >=120 ? 'right:40%' : (&lines > 50 ? 'up:50%' : '')) " Enable allways preview on the right
   let g:fzf_layout = { 'down' : '~25%' }
   " let g:fzf_layout = { 'window': { 'width': 0.9, 'height':0.7 } }
-  if executable('ag') 
+  if executable('ag')
     :let $FZF_DEFAULT_COMMAND='ag -l --nocolor --hidden -g ""'
   endif
   nnoremap <silent> <leader>pp :call fzf#vim#files('',
@@ -117,7 +117,7 @@ if exists('g:plugs["fzf"]')
 
   command! -bang -nargs=* AgFiles
         \ call fzf#vim#files('',
-        \ s:p(<bang>0, {'source': 'ag --hidden -f -g ""'} )) 
+        \ s:p(<bang>0, {'source': 'ag --hidden -f -g ""'} ))
 
 endif
 " }
@@ -188,6 +188,7 @@ endif
 if exists('g:plugs["ale"]')
   " let g:ale_completion_enabled = 1    " For now allow ALE to add suggestions
   " (not needed, use deoplete)
+  let g:ale_fix_on_save = 1           " Lint on save
   let g:ale_open_list = 1             " Open LWindow on errors
   let g:ale_keep_list_window_open = 1 " Keep it open all the time
   let g:ale_list_window_size=5        " Resize it to 5 lines
@@ -195,11 +196,11 @@ if exists('g:plugs["ale"]')
         \ '*': ['remove_trailing_lines', 'trim_whitespace'],
         \ 'javascript': ['eslint']
         \}
-  let g:ale_sign_error         = g:lint_error_sign " ⏺ ⏺ • ✗ 
+  let g:ale_sign_error         = g:lint_error_sign " ⏺ ⏺ • ✗
   let g:ale_sign_warning       = g:lint_warn_sign " ⏺ ⬤  • ⚠
   let g:ale_sign_style_error   = g:style_error_sign " 'ﮙ'  ''
   let g:ale_sign_style_warning = g:style_warn_sign "''  ''
-  "  " ALEErrorSign guifg=darkred 
+  "  " ALEErrorSign guifg=darkred
   "  " red
   "  " Change how signs are colorized. BG remains same, color only to the symbol
   "  " hi ALEErrorSign ctermbg=NONE ctermfg=red
@@ -213,18 +214,25 @@ endif
 "Neocomplcache {
 if exists('g:plugs["deoplete.nvim"]')
   let g:deoplete#enable_at_startup = 1
+  call deoplete#custom#option({
+    \ 'auto_complete_delay': 200,
+    \ 'smart_case': v:true,
+    \ })
+
   " call deoplete#custom#options('sources', {'_' : ['ale','vim','tag']} " USe only this sources
   call deoplete#custom#source('ale', 'dup', v:true) " onedarkAdd ALE candidates even if already present
   call deoplete#custom#source('ale', 'mark', '') " 
   " call deoplete#custom#source('ternjs', 'mark','')
   call deoplete#custom#source('vim', 'mark','') " 
   call deoplete#custom#source('tag', 'mark','')
+  call deoplete#custom#source('buffer', 'mark','﬘')
+  call deoplete#custom#source('omni', 'mark','ﱶ') " ﴄ ﱶ卵
   " " deoplete-tern config
   " let g:deoplete#sources#ternjs#timeout = 1
   " let g:deoplete#sources#ternjs#docs = 1
   " let g:deoplete#sources#ternjs#guess = 0
   " let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
-  " neosnippet      
+  " neosnippet
   let g:neosnippet#enable_completed_snippet = 0
 endif
 
@@ -262,13 +270,13 @@ let g:PaperColor_Theme_Options.theme.default.allow_bold   = g:abg_theme_enable_b
 let g:deepspace_italics = g:abg_theme_enable_italics
 " gruvbox theme
 let g:gruvbox_italic    = g:abg_theme_enable_italics
-let g:gruvbox_bold      = g:abg_theme_enable_bold 
+let g:gruvbox_bold      = g:abg_theme_enable_bold
 let g:gruvbox_underline = g:abg_theme_enable_underline
 let g:gruvbox_udercurl  = g:abg_theme_enable_underline
 " one theme
-let g:one_allow_italics = g:abg_theme_enable_italics 
+let g:one_allow_italics = g:abg_theme_enable_italics
 " space-vim-dark
-autocmd ColorScheme * if (g:colors_name ==? 'space-vim-dark') && (g:abg_theme_enable_italics >=? 1) | hi Comment cterm=italic | endif
+" autocmd ColorScheme * if (g:colors_name ==? 'space-vim-dark') && (g:abg_theme_enable_italics >=? 1) | hi Comment cterm=italic | endif
 " nice colorschemes: ayu (dark & light), deep-space (dark), carbonized-dark,
 " molokayo, one, onedark, space-vim-dark, tender
-
+autocmd ColorScheme * :echo "Lo lograste maldito"
