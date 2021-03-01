@@ -20,12 +20,12 @@ call plug#begin('~/.vim/bundle') " {
   " }
 
   " IDE  Functionality {
-    " FileBrowserBar 
+    " FileBrowserBar
     Plug 'preservim/nerdtree' |
       \ Plug 'Xuyuanp/nerdtree-git-plugin' |
       \ Plug 'ryanoasis/vim-devicons' | " fancy icons for nerdtree, airline, git and others
       \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
-    
+
     " Tabs and buffers list
     " Plug 'romgrk/barbar.nvim'
     " Plug 'akinsho/nvim-bufferline.lua'
@@ -41,7 +41,7 @@ call plug#begin('~/.vim/bundle') " {
     endif
 
     " Testing / Units Test
-    Plug 'tpope/vim-dispatch' |" Is needed for vim-test 
+    Plug 'tpope/vim-dispatch' |" Is needed for vim-test
       \ Plug 'janko-m/vim-test', { 'on' : ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit' ]} "needs vim-dispatch
     Plug 'tpope/vim-projectionist'
     " Git
@@ -63,6 +63,11 @@ call plug#begin('~/.vim/bundle') " {
     " Autocomplete engine:
     if g:abg_use_coc
       Plug 'neoclide/coc.nvim', {'branch': 'release'}
+      Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+      Plug 'neoclide/coc-eslint', {'do': 'yarn install --frozen-lockfile'}
+      Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+      " Plug 'josa42/coc-go', {'do': 'yarn install --frozen-lockfile'}
+      " Plug 'josa42/rd/coc-sql', {'do': 'yarn install --frozen-lockfile'}
     else
       if has('nvim')
         Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -73,7 +78,7 @@ call plug#begin('~/.vim/bundle') " {
       endif
       Plug 'wokalski/autocomplete-flow'
       " For func argument completion
-      Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' } | 
+      Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' } |
         \ Plug 'Shougo/neosnippet-snippets'
 
     endif
@@ -109,4 +114,3 @@ call plug#begin('~/.vim/bundle') " {
     "}
 call plug#end() " }
 " }
-
