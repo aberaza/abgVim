@@ -57,7 +57,7 @@ if exists('g:plugs["coc.nvim"]')
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
   " Errors & Warnings {
-  " With COC 
+  " With COC
   map <leader> lf <Plug>(coc-codeaction)
 " }}
 endif
@@ -65,10 +65,10 @@ endif
 
 " Test
 noremap <leader>ca :A<CR> " alternate between code and related test file
-noremap <leader>tc :TestSuite<CR> 
-noremap <leader>tf :TestNearest<CR> 
-noremap <leader>tm :TestFile<CR> 
-noremap <leader>tl :TestLast<CR> 
+noremap <leader>tc :TestSuite<CR>
+noremap <leader>tf :TestNearest<CR>
+noremap <leader>tm :TestFile<CR>
+noremap <leader>tl :TestLast<CR>
 
 " AutoComplete
 " COC {
@@ -129,7 +129,7 @@ endif
 if exists('g:plugs["fzf.vim"]')
   noremap <silent> <C-p> :Files<CR>
   " TODO: conflicts with autocmplete?
-  inoremap <silent> <C-p> <C-o>:Files<CR> 
+  inoremap <silent> <C-p> <C-o>:Files<CR>
   noremap <silent> <leader>p :Files<CR>
   noremap <silent> <leader>P :Files!<CR> " Full Screen
   if has("nvim")
@@ -312,7 +312,7 @@ let themeindex=0
 function! RotateColorTheme()
   let y = -1
   while y == -1
-    let colorstring = "inkpot#ron#blue#elflord#evening#koehler#murphy#pablo#desert#torte#"
+    let colorstring = "sonokai#monokai#molokai#molokayo#ron#blue#elflord#evening#koehler#murphy#pablo#desert#torte#"
     let x = match( colorstring, "#", g:themeindex )
     let y = match( colorstring, "#", x + 1 )
     let g:themeindex = x + 1
@@ -326,4 +326,4 @@ function! RotateColorTheme()
 endfunction
 " }}}
 nnoremap <silent> <F8> :execute RotateColorTheme()<CR>
- 
+

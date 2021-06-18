@@ -8,7 +8,7 @@
 " }
 
 " Lightline {
-" Powerfont Separators:                                        
+" Powerfont Separators:                                       
   let g:lightline = {
     \   'colorscheme' : 'material',
     \   'enable': { 'tabline': 1 },
@@ -279,4 +279,4 @@ let g:one_allow_italics = g:abg_theme_enable_italics
 " autocmd ColorScheme * if (g:colors_name ==? 'space-vim-dark') && (g:abg_theme_enable_italics >=? 1) | hi Comment cterm=italic | endif
 " nice colorschemes: ayu (dark & light), deep-space (dark), carbonized-dark,
 " molokayo, one, onedark, space-vim-dark, tender
-autocmd ColorScheme * :echo "Lo lograste maldito"
+autocmd ColorScheme * :echo "ColorScheme::" .expand('<amatch>')
