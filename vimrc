@@ -30,14 +30,9 @@ silent function! NEOVIM()
 endfunction
 " }
 
-silent function! abg#switch_colors(name)
-  execute 'colorscheme' fnameescape(a:name)
-  " silent execute 'doautocmd ColorScheme' fnameescape(a:name)
-endfunction
-
-" silent function! abg#switch_lightline_colors(name)
-  
-
+" HomeMade helper functions
+call SourceFile("~/.vim/abg.vim")
+" }
 
 " Environment {
 set nocompatible " Must be first line
@@ -61,7 +56,7 @@ call SourceFile("~/.vim/localconfig.vimrc")
   let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 0)
 
 " Usar COC [solo con nvim] si no :(deoplete)
-  let g:abg_use_coc = get(g:, 'abg_use_coc', 0) && has('nvim') 
+  let g:abg_use_coc = get(g:, 'abg_use_coc', 0) && has('nvim')
 
 " Usar ALE Linter (prettier, eslint, etc)
   let g:abg_use_ale = get(g:, 'abg_use_ale', 1) || !g:abg_use_coc
@@ -73,18 +68,17 @@ call SourceFile("~/.vim/localconfig.vimrc")
 
 
 " Source Config {
-" General Editor Config 
+" General Editor Config
 call SourceFile("~/.vim/config/vimrc.editor")
-" Bundles 
+" Bundles
 call SourceFile("~/.vim/config/vimrc.bundles")
 call SourceFile("~/.vim/config/vimrc.bundlesConfig")
-" UI 
+" UI
 call SourceFile("~/.vim/config/vimrc.ui")
-" KeyMappings 
+" KeyMappings
 call SourceFile("~/.vim/config/vimrc.keymaps")
-" Autocommands/Settings per file type 
+" Autocommands/Settings per file type
 call SourceFile("~/.vim/config/vimrc.autocmds")
-" Local settings file 
+" Local settings file
 call SourceFile("~/.vim/vimrc.local")
 " }
-

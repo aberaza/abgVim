@@ -53,19 +53,37 @@ endif
 " GoTo code navigation.
 if exists('g:plugs["coc.nvim"]')
   nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gt <Plug>(coc-type-definition)
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
+  nnoremap <silent> gh :call CocAction('doHover')<CR>
+
+  " rename the current word in the cursor
+  nmap <leader>cr  <Plug>(coc-rename)
+  nmap <leader>cf  <Plug>(coc-format-selected)
+  vmap <leader>cf  <Plug>(coc-format-selected)
+
+  " run code actions
+  vmap <leader>ca  <Plug>(coc-codeaction-selected)
+  nmap <leader>ca  <Plug>(coc-codeaction-selected)
   " Errors & Warnings {
   " With COC
   map <leader> lf <Plug>(coc-codeaction)
+  " List errors
+  nnoremap <silent> <leader>cl  :<C-u>CocList locationlist<cr>
+  " }
+  " list commands available in tsserver (and others)
+  nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+
+  " restart when tsserver gets wonky
+  nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
+
 " }}
 endif
 
 
-" Test
-noremap <leader>ca :A<CR> " alternate between code and related test file
-noremap <leader>tc :TestSuite<CR>
+" TestTnoremap <leader>ca :A<CR> " alternate between code and related test file
+noremap <leader>ta :A<CR> " alternate between code and related test file
 noremap <leader>tf :TestNearest<CR>
 noremap <leader>tm :TestFile<CR>
 noremap <leader>tl :TestLast<CR>
@@ -326,4 +344,3 @@ function! RotateColorTheme()
 endfunction
 " }}}
 nnoremap <silent> <F8> :execute RotateColorTheme()<CR>
-
