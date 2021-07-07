@@ -12,4 +12,10 @@
   //  "javascript", "javascriptreact",
   //  "typescript", "typescriptreact"
   //]
+
+  // LocationList errors config
+  "diagnostic.locationlistUpdate": false,
+  "diagnostic.errorSign": "✘",
+  "diagnostic.warningSign": "",
+  "diagnostic.infoSign": ""
 }
