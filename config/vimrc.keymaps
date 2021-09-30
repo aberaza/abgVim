@@ -26,7 +26,6 @@ cnoreabbrev X x
 " JUMPS
 " Ctrl-O to jump back
 " Visual and Normal
-map <leader>ga :A<CR>
 
 if exists('g:plugs["ale"]')
   map <leader>gd <Plug>(ale_go_to_definition)
@@ -83,6 +82,7 @@ endif
 
 
 " TestTnoremap <leader>ca :A<CR> " alternate between code and related test file
+map <leader>ga :A<CR> " alternate between code and related test file 
 noremap <leader>ta :A<CR> " alternate between code and related test file
 noremap <leader>tf :TestNearest<CR>
 noremap <leader>tm :TestFile<CR>
@@ -161,8 +161,8 @@ endif
 
 " Ag or FZF {
 " bind <,s> and <,*>  to  search for word under cursor
-nnoremap <Leader>s :Ag "<C-R><C-W>"<CR>
-nnoremap <Leader>* :Ag "<C-R><C-W>"<CR>
+nnoremap <Leader>s :Ag <C-R><C-W><CR>
+nnoremap <Leader>* :Ag <C-R><C-W><CR>
 " <,F> or <Ctrl+F> To do a workspace search
 " This breaks original Ctrl F (scroll on page down)
 nnoremap <Leader>f :Ag<SPACE>
