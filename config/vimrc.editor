@@ -33,11 +33,11 @@ set noerrorbells                "do nothing on error
 " files, encodings and more
 filetype plugin indent on       " Use file indents specific to each filetype
 set ffs=unix,dos,mac " set fileformat
-set formatoptions+=j " Delete comment character when joining commented lines 
+set formatoptions+=j " Delete comment character when joining commented lines
   set runtimepath+=$HOME/.vim     " TODO: Needed for windows?
 
 
-" Copy paste and delete 
+" Copy paste and delete
 if has('clipboard') && has('unnamedplus')
   set clipboard=unnamedplus " use + register for copy-paste
 endif
@@ -50,7 +50,7 @@ set virtualedit=onemore " Allow for cursor beyond last character
 set history=100 " Store a ton of history (default is 20)
 " set spell " Spell checking on
 set hidden " Allow buffer switching without saving
-set completeopt=menuone,preview " Show complete menu even when only one match
+set completeopt=menuone,preview,noselect " Show complete menu even when only one match
 
 " Search {
 set incsearch " Find as you type search
@@ -60,7 +60,7 @@ set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
 set ignorecase " Case insensitive search
 set smartcase " Case sensitive when uc present
 " }
-    
+
 " Manage backup files {
 set backupdir=~/vimtmp
 set backupskip=~/vimptmp/*
