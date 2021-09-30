@@ -73,6 +73,7 @@ call SourceFile("~/.vim/config/vimrc.editor")
 " Bundles
 call SourceFile("~/.vim/config/vimrc.bundles")
 call SourceFile("~/.vim/config/vimrc.bundlesConfig")
+call SourceFile("~/.vim/config/vimrc.lsp")
 " UI
 call SourceFile("~/.vim/config/vimrc.ui")
 " KeyMappings
