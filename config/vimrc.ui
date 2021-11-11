@@ -51,7 +51,7 @@ if(has("termguicolors"))
 endif
 
 set background=dark
-colorscheme sonokai
+colorscheme gruvbox
 
 "minimalist
 

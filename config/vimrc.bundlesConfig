@@ -274,6 +274,8 @@ let g:gruvbox_italic    = g:abg_theme_enable_italics
 let g:gruvbox_bold      = g:abg_theme_enable_bold
 let g:gruvbox_underline = g:abg_theme_enable_underline
 let g:gruvbox_udercurl  = g:abg_theme_enable_underline
+let g:gruvbox_contrast_dark = 'hard'
+
 " one theme
 let g:one_allow_italics = g:abg_theme_enable_italics
 " space-vim-dark
