@@ -48,19 +48,18 @@ endif
 " }
 
 
-" Load local config and settings
-call SourceFile("~/.vim/localconfig.vimrc")
-
+" Local settings file
+call SourceFile("~/.vim/vimrc.local")
+" Configuration and flags shouls be put there
 " Variables por defecto para la configuración {
 " Usar FZF o Ctrl-P ?
   let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 0)
-
-" Usar COC [solo con nvim] si no :(deoplete)
-  let g:abg_use_coc = get(g:, 'abg_use_coc', 0) && has('nvim')
-
-" Usar ALE Linter (prettier, eslint, etc)
-  let g:abg_use_ale = get(g:, 'abg_use_ale', 1) || !g:abg_use_coc
-
+  let g:abg_use_ctrlp = get(g:, 'abg_use_ctrlp', 0)
+" LSP / COC / Code Completion
+  let g:abg_use_lsp = get(g:, 'abg_use_lsp', 1) && NEOVIM()
+  let g:abg_use_coc = get(g:, 'abg_use_coc', 0) && NEOVIM()
+" Usar ALE Linter (prettier, eslint, etc) 
+  let g:abg_use_ale = get(g:, 'abg_use_ale', 0) || !g:abg_use_coc || !g:abg_use_lsp
 " Fuente/Letra
   " let g:gui_font= get(g: 'gui_font', 'DejaVuSansMono Nerd Font Mono:h11')
 " }
@@ -73,13 +72,13 @@ call SourceFile("~/.vim/config/vimrc.editor")
 " Bundles
 call SourceFile("~/.vim/config/vimrc.bundles")
 call SourceFile("~/.vim/config/vimrc.bundlesConfig")
-call SourceFile("~/.vim/config/vimrc.lsp")
+if NEOVIM()
+  call SourceFile("~/.vim/config/vimrc.lsp")
+endif
 " UI
 call SourceFile("~/.vim/config/vimrc.ui")
 " KeyMappings
 call SourceFile("~/.vim/config/vimrc.keymaps")
 " Autocommands/Settings per file type
 call SourceFile("~/.vim/config/vimrc.autocmds")
-" Local settings file
-call SourceFile("~/.vim/vimrc.local")
 " }

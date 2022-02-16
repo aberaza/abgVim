@@ -36,7 +36,7 @@ call plug#begin('~/.vim/bundle') " {
     if g:abg_use_fzf
       Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
       Plug 'junegunn/fzf.vim'
-    else
+    elseif g:abg_use_ctrlp
       Plug 'kien/ctrlp.vim' " denite, fzf, leaderf o unite
       Plug 'mileszs/ack.vim' , { 'do':':command Ag Ack!' } " install ack and use Ag as an alias for Ack
     endif
@@ -63,7 +63,7 @@ call plug#begin('~/.vim/bundle') " {
     Plug 'lervag/vimtex', { 'for': 'tex' }
 
 
-    if NEOVIM()
+    if g:abg_use_lsp
       " Autocomplete engine:
       Plug 'neovim/nvim-lspconfig'
       Plug 'hrsh7th/nvim-compe'
@@ -74,31 +74,23 @@ call plug#begin('~/.vim/bundle') " {
       Plug 'npxbr/glow.nvim', {'do': ':GlowInstall', 'branch': 'main'}
       Plug 'glepnir/lspsaga.nvim'
       Plug 'folke/lsp-colors.nvim' "add extra color definitions to colorschemes that don't support lsp syntax
-    else
-
-      if g:abg_use_coc
+    elseif g:abg_use_coc
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
         Plug 'neoclide/coc-eslint', {'do': 'yarn install --frozen-lockfile'}
         Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
         " Plug 'josa42/coc-go', {'do': 'yarn install --frozen-lockfile'}
         " Plug 'josa42/rd/coc-sql', {'do': 'yarn install --frozen-lockfile'}
-      else
-        if has('nvim')
-          Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        else
-          Plug 'Shougo/deoplete.nvim'
-          Plug 'roxma/nvim-yarp'
-          Plug 'roxma/vim-hug-neovim-rpc'
-        endif
-        Plug 'wokalski/autocomplete-flow'
-        " For func argument completion
-        Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' } |
-          \ Plug 'Shougo/neosnippet-snippets'
+    else
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+      Plug 'wokalski/autocomplete-flow'
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
+      " For func argument completion
+      Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' } |
+            \ Plug 'Shougo/neosnippet-snippets'
 
-      endif
-      " Linting (ALE + Deoplete for completion of COC for all)
-      if (g:abg_use_ale || !g:abg_use_coc)
+      if g:abg_use_ale 
         Plug 'dense-analysis/ale'
       endif
     endif
