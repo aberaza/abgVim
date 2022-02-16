@@ -35,16 +35,16 @@ call SourceFile("~/.vim/abg.vim")
 " }
 
 " Environment {
-set nocompatible " Must be first line
+set nocompatible " Must  line
 if UNIXLIKE()
   set shell=/bin/bash
 endif
 
 " }
 " Todo: This should go into a local file, not here
-if WINDOWS()
-  cd ~/WORKSPACE
-endif
+" if WINDOWS()
+"   cd ~/WORKSPACE
+" endif
 " }
 
 
