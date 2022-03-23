@@ -266,17 +266,17 @@ nnoremap <silent> <leader>tt :TagbarToggle<CR>
 
 
 " NerdTREE {
-map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
-" <,l> To locate current buffer int he File tree
-map <Leader>nl :NERDTreeFind<CR>
-" Ctrl-B to Toggle nerd tree pane
-" map <F5> :NERDTreeToggle<CR>
-" map! <F5> :NERDTreeToggle<CR>
-map <C-B> :NERDTreeToggle<CR>
-map! <C-B> <C-O>:NERDTreeToggle<CR>
-
+if exists('g:plugs["nerdtree"]')
+  " map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
+  " <,l> To locate current buffer int he File tree
+  map <Leader>nl :NERDTreeFind<CR>
+  " Ctrl-B to Toggle nerd tree pane
+  " map <F5> :NERDTreeToggle<CR>
+  " map! <F5> :NERDTreeToggle<CR>
+  map <C-B> :NERDTreeToggle<CR>
+  " map! <C-B> <C-O>:NERDTreeToggle<CR>
+endif
 " }
-
 
 " Fugitive {
 " nnoremap <silent> <leader>gs :Gstatus<CR>
@@ -312,7 +312,6 @@ endfunction
 " }}}
 
 nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR> " toggle menu bar
-nnoremap <leader>, :set cursorline!<cr>  " toggle highlighting the cursor line
 nnoremap <space> za     " Mapping toggle folds
 " Expand-region {
 vmap v <Plug>(expand_region_expand)

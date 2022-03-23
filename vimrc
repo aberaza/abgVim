@@ -7,29 +7,6 @@ silent function! SourceFile(file)
   endif
 endfunction
 
-" Platform identification (from spf13-vim)
-
-silent function! MAC()
-  return has('macunix')
-endfunction
-silent function! LINUX()
-  return has('unix') && !has('macunix') && !has('win32unix')
-endfunction
-silent function! WINDOWS()
-  return  (has('win16') || has('win32') || has('win64'))
-endfunction
-silent function! UNIXLIKE()
-  return !WINDOWS()
-endfunction
-
-silent function! VIM()
-  return !has('nvim')
-endfunction
-silent function! NEOVIM()
-  return has('nvim')
-endfunction
-" }
-
 " HomeMade helper functions
 call SourceFile("~/.vim/abg.vim")
 " }
@@ -53,7 +30,7 @@ call SourceFile("~/.vim/vimrc.local")
 " Configuration and flags shouls be put there
 " Variables por defecto para la configuración {
 " Usar FZF o Ctrl-P ?
-  let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 0)
+  let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 1)
   let g:abg_use_ctrlp = get(g:, 'abg_use_ctrlp', 0)
 " LSP / COC / Code Completion
   let g:abg_use_lsp = get(g:, 'abg_use_lsp', 1) && NEOVIM()

@@ -12,25 +12,26 @@ call plug#begin('~/.vim/bundle') " {
   if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
     autocmd VimEnter * PlugInstall | q
   endif
+  " One config file autoload for each plugin!
+  Plug 'ouuan/vim-plug-config'
 
   " Deps {
     if NEOVIM()
       Plug 'equalsraf/neovim-gui-shim'
       Plug 'kyazdani42/nvim-web-devicons'
+      Plug 'ryanoasis/vim-devicons' | " fancy icons for nerdtree, airline, git and others
     endif
   " }
 
   " IDE  Functionality {
     " FileBrowserBar
     Plug 'preservim/nerdtree' |
-      \ Plug 'Xuyuanp/nerdtree-git-plugin' |
-      \ Plug 'ryanoasis/vim-devicons' | " fancy icons for nerdtree, airline, git and others
-      \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
-
-    " Tabs and buffers list
-    " Plug 'romgrk/barbar.nvim'
-    " Plug 'akinsho/nvim-bufferline.lua'
-     Plug 'bagrat/vim-buffet'
+          \ Plug 'Xuyuanp/nerdtree-git-plugin' |
+          \ Plug 'ryanoasis/vim-devicons' | " fancy icons for nerdtree, airline, git and others
+          \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
+    Plug 'tpope/vim-vinegar' 
+    " Tabs and buffers list and navigation
+     " Plug 'bagrat/vim-buffet'
 
     " Find Files, and Bufers
     if g:abg_use_fzf
@@ -55,25 +56,44 @@ call plug#begin('~/.vim/bundle') " {
     Plug 'tpope/vim-commentary' " Comentarios
     Plug 'majutsushi/tagbar', { 'on' : ['TagbarToggle', 'TagbarOpen'] } " ctags and class hierarchy bar
 
+
+    " Syntaxes & Indentations {
+    Plug 'sheerun/vim-polyglot' " All in one!
+    Plug 'tpope/vim-jdaddy', { 'for': 'json' }
+    "}
+    " HTML & CSS{
+    " Plug 'mattn/emmet-vim'
+    " Plug 'ap/vim-css-color'
+    " }
     " C# .Net {
-    Plug 'OmniSharp/omnisharp-vim'
+    Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
     " }
     "
     " LaTeX
     Plug 'lervag/vimtex', { 'for': 'tex' }
+    "}
 
 
     if g:abg_use_lsp
       " Autocomplete engine:
       Plug 'neovim/nvim-lspconfig'
-      Plug 'hrsh7th/nvim-compe'
-      Plug 'ray-x/lsp_signature.nvim' " hint funciton signatures while you type
-      " Syntax engine
+      " CMP automplete for lsp
+      Plug 'hrsh7th/cmp-nvim-lsp'
+      Plug 'hrsh7th/cmp-buffer'
+      Plug 'hrsh7th/cmp-path'
+      Plug 'hrsh7th/cmp-cmdline'
+      Plug 'hrsh7th/nvim-cmp'
+      " It requries a snippet engine, use suggested one for now
+      Plug 'hrsh7th/cmp-vsnip'
+      Plug 'hrsh7th/vim-vsnip'
+
+      " Plug 'ray-x/lsp_signature.nvim' " hint funciton signatures while you type
+      " " Syntax engine
       Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-      " improve ui
-      Plug 'npxbr/glow.nvim', {'do': ':GlowInstall', 'branch': 'main'}
-      Plug 'glepnir/lspsaga.nvim'
-      Plug 'folke/lsp-colors.nvim' "add extra color definitions to colorschemes that don't support lsp syntax
+      " Plug 'romgrk/nvim-treesitter-context'
+      " " improve ui
+      " Plug 'glepnir/lspsaga.nvim'
+      " Plug 'folke/lsp-colors.nvim' "add extra color definitions to colorschemes that don't support lsp syntax
     elseif g:abg_use_coc
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
@@ -100,9 +120,6 @@ call plug#begin('~/.vim/bundle') " {
     " Plug 'sickill/vim-monokai'
     Plug 'ajh17/Spacegray.vim'
     Plug 'patstockwell/vim-monokai-tasty'
-    " Plug 'arcticicestudio/nord-vim' " Incluye tema lightline,muy configurable, ver web. hay temas para todo,slack inlcuido
-    " awesome-colorschemes ya incluye nord
-    " Plug 'colepeters/spacemacs-theme.vim'
   " }
 
   " UI Look & Feel {
@@ -112,18 +129,10 @@ call plug#begin('~/.vim/bundle') " {
     Plug 'luochen1990/rainbow' " Colorize parenthesis
   " }
 
-    " Syntaxes & Indentations {
-    Plug 'sheerun/vim-polyglot' " All in one!
-    Plug 'tpope/vim-jdaddy', { 'for': 'json' }
-    " For TypeScript use included in vim-pangloss untill we need something more powerful
-    " Plug 'leafgarland/typescript-vim'   " TypeScript syntax and Indentation
-    " Plug 'peitalin/vim-jsx-typescript' " JSX extension for leafgarland/typescript-vim
-    "}
-    " HTML & CSS{
-    " Plug 'mattn/emmet-vim'
-    " Plug 'hail2u/vim-css3-syntax'
-    " Plug 'ap/vim-css-color'
-    " }
-    "}
+  " REST Api as with postman/insomnia
+  Plug 'diepm/vim-rest-console'
+
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'NTBBloodbath/rest.nvim'
 call plug#end() " }
 " }

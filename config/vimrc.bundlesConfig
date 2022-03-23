@@ -41,6 +41,7 @@
 " }
 
 " NerdTREE {
+if exists('g:plugs["nerdtree"]')
   if !has('gui_running')
       let g:airline_powerline_fonts=1
   endif
@@ -56,8 +57,10 @@
   let NERDTreeKeepTreeInNewTab=1
   let NERDTreeStatusline=0
   let NERDTreeMinimalUI=1
+  let NERDTreeHijcakNetrw=1
   highlight! link NERDTreeFlags NERDTreeDir
   " se supone que es para evitar colores raros
+endif
 " }
 
 " DevIcons {
@@ -249,6 +252,9 @@ endif
 " use dispatch for vim-test
 let test#strategy = "dispatch"
 let g:test#preserve_screen = 1
+
+" Vim-rest
+let g:vrc_response_default_content_type = 'application/json'
 
 " Themes config {
 
