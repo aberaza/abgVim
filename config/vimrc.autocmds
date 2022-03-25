@@ -58,6 +58,11 @@
     autocmd BufRead,BufNewFile,BufRead *.xml set filetype=xml
 " }
 
+" http client {
+    autocmd FileType http nnoremap <buffer> <C-j> :lua require'rest.nvim'.run(true)<CR>
+    autocmd FileType http vnoremap <buffer> <C-j> :lua require'rest.nvim'.run(true)<CR>
+    autocmd FileType http inoremap <buffer> <C-j> :lua require'rest.nvim'.run(true)<CR>
+" }
 " Nvim Reload File Fix {
 if has('nvim')
     au FocusGained,BufWinEnter * checktime
