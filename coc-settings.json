@@ -1,0 +1,21 @@
+{
+  // Require .prettierrc
+  "prettier.requireConfig": true,
+
+  // TSLint on save
+  "tslint.enable": true,
+  //"tslint.autoFixOnSave" : true,
+
+  // Some other formats on save
+  //"coc.preferences.formatOnSaveFiletypes": [
+  //  "css", "markdown", "Markdown",
+  //  "javascript", "javascriptreact",
+  //  "typescript", "typescriptreact"
+  //]
+
+  // LocationList errors config
+  "diagnostic.locationlistUpdate": false,
+  "diagnostic.errorSign": "✘",
+  "diagnostic.warningSign": "",
+  "diagnostic.infoSign": ""
+}
