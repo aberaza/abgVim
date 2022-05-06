@@ -130,12 +130,13 @@ if exists('g:plugs["fzf.vim"]')
   noremap <silent> <C-p> :Files<CR>
   " TODO: conflicts with autocmplete?
   inoremap <silent> <C-p> <C-o>:Files<CR> 
-  noremap <silent> <leader>p :Files<CR>
+  noremap <silent> <leader>p :Files<CR> 
   noremap <silent> <leader>P :Files!<CR> " Full Screen
   if has("nvim")
     " Una vez en FZF
     autocmd FileType fzf tnoremap <buffer> <Esc> <Esc>
     autocmd FileType fzf tnoremap <C-P> <Esc> <Esc>
+    autocmd FileType fzf tnoremap <C-F> <Esc> <Esc>
   endif
 endif
 " }
@@ -252,8 +253,6 @@ map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<
 " <,l> To locate current buffer int he File tree
 map <Leader>nl :NERDTreeFind<CR>
 " Ctrl-B to Toggle nerd tree pane
-" map <F5> :NERDTreeToggle<CR>
-" map! <F5> :NERDTreeToggle<CR>
 map <C-B> :NERDTreeToggle<CR>
 map! <C-B> <C-O>:NERDTreeToggle<CR>
 

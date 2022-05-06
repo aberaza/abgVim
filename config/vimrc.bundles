@@ -111,6 +111,9 @@ call plug#begin('~/.vim/bundle') " {
     " Plug 'hail2u/vim-css3-syntax'
     " Plug 'ap/vim-css-color'
     " }
+    " .NET / C# {
+      Plug 'OmniSharp/omnisharp-vim'
+    " }
     "}
 call plug#end() " }
 " }

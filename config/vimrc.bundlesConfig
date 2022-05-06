@@ -35,6 +35,10 @@
     return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
   endfunction
 
+  function! MyFileName()
+    let filename = expand('%:t')
+  endfunction
+
   function! MyGitBranch()
     return ('' . ' ' . FugitiveHead())
   endfunction
@@ -127,18 +131,18 @@ endif
   let g:javascript_plugin_jsdoc   = 1   " JsDoc Enabled
   " Custom conceal chars:
   set conceallevel=0  " Disable conceal
-  let g:javascript_conceal_null                 = "ø"
-  let g:javascript_conceal_NaN                  = "ℕ"
-  let g:javascript_conceal_function             = "ƒ"
-  let g:javascript_conceal_this                 = "@"
-  let g:javascript_conceal_return               = "⇚"
-  let g:javascript_conceal_undefined            = "¿"
-  let g:javascript_conceal_prototype            = "¶"
-  let g:javascript_conceal_static               = "•"
-  let g:javascript_conceal_super                = "Ω"
-  let g:javascript_conceal_arrow_function       = "⇒"
-  let g:javascript_conceal_noarg_arrow_function = "🞅"
-  let g:javascript_conceal_underscore_arrow_function = "🞅"
+  " let g:javascript_conceal_null                 = "ø"
+  " let g:javascript_conceal_NaN                  = "ℕ"
+  " let g:javascript_conceal_function             = "ƒ"
+  " let g:javascript_conceal_this                 = "@"
+  " let g:javascript_conceal_return               = "⇚"
+  " let g:javascript_conceal_undefined            = "¿"
+  " let g:javascript_conceal_prototype            = "¶"
+  " let g:javascript_conceal_static               = "•"
+  " let g:javascript_conceal_super                = "Ω"
+  " let g:javascript_conceal_arrow_function       = "⇒"
+  " let g:javascript_conceal_noarg_arrow_function = "🞅"
+  " let g:javascript_conceal_underscore_arrow_function = "🞅"
 " }
 "  maxmellon / vim JSX pretty {
   let g:vim_jsx_pretty_disable_tsx = 1 " Disable JSX for TS (another script)
@@ -195,6 +199,7 @@ if exists('g:plugs["ale"]')
   let g:ale_fixers = {
         \ '*': ['remove_trailing_lines', 'trim_whitespace'],
         \ 'javascript': ['eslint']
+        \ 'cs' : ['OmniSharp']
         \}
   let g:ale_sign_error         = g:lint_error_sign " ⏺ ⏺ • ✗
   let g:ale_sign_warning       = g:lint_warn_sign " ⏺ ⬤  • ⚠
@@ -236,6 +241,20 @@ if exists('g:plugs["deoplete.nvim"]')
   let g:neosnippet#enable_completed_snippet = 0
 endif
 
+" omnisharp-vim {
+  " Use the stdio version of OmniSharp-roslyn - this is the default
+  let g:OmniSharp_server_stdio = 1
+
+  if exists('g:plugs["fzf"]')
+    let g:OmniSharp_selector_ui = 'fzf'    " Use fzf
+    let g:OmniSharp_selector_findusages = 'fzf' "fzf for usages instead of quickfix
+  else if exists('g:plugs["ctrlp.vim"]')
+    let g:OmniSharp_selector_ui = 'ctrlp'
+  else
+    let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
+  endif
+
+" }
 
 
 " vim-markdown {
