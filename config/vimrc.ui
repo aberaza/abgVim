@@ -19,6 +19,7 @@ set fillchars=vert:│,fold:- " make vertical lines look continuous
 " }
 
 " Scroll and Mouse {
+set mouse=v " Middle click pastes
 set mouse=a " Automatically enable mouse usage
 set mousehide " Hide the mouse cursor while typing
 set scrolloff=4                 " Minimum lines to keep above and below cursor

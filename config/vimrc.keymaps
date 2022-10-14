@@ -1,9 +1,20 @@
 " Most important setting: map <leader> {
-let mapleader = " " " <leader> == Spacebar
+let mapleader = "\<Space>" " <leader> == Spacebar
+let g:mapleader = "\<Space>" " <leader> == Spacebar
+let g:maplocalleader = "," " <leader> == Spacebar
 " }
+call which_key#register('<Space>', "g:which_key_map")
 
+" Define prefix dictionary
+let g:which_key_map =  {}
 " Reload Vim Config
+let g:which_key_map.v = {
+  \ 'name' : '+vim',
+  \ 'r': 'Reload config',
+  \ 'c': 'Open vim config'
+  \ }
 nnoremap <leader>vr :source $MYVIMRC<CR>
+nnoremap <leader>vc :e $MYVIMRC<CR>
 
 " Show leader-help
 noremap <silent> <leader><leader> :WhichKey '<Space>'<CR>
@@ -28,11 +39,25 @@ cnoreabbrev X x
 " Visual and Normal
 
 if exists('g:plugs["ale"]')
-  map <leader>gd <Plug>(ale_go_to_definition)
-  map <leader>gt <Plug>(ale_to_to_type_definition)
-  map <leader>gr <Plug>(ale_find_references)
+  let g:which_key_map.g = {
+        \ 'name': '+go_to_...',
+        \ 'd': 'symbol definition',
+        \ 't': 'type definition',
+        \ 'r': 'references'
+        \ }
+  " Changed map to nnoremap so it works only in normal mode
+  nnoremap <leader>gd <Plug>(ale_go_to_definition)
+  nnoremap <leader>gt <Plug>(ale_to_to_type_definition)
+  nnoremap <leader>gr <Plug>(ale_find_references)
   " Refactoring
-  noremap <leader>cr :ALERename  " Rename a symbol/var
+  let g:which_key_map.c = {
+        \ 'name': '+code',
+        \ 'r': 'Rename symbol',
+        \ 'f': 'Linter Code Fix',
+        \ }
+  nnoremap <leader>cr :ALERename  " Rename a symbol/var
+  nnoremap <leader>cf <Plug>(ale_fix)     " Autofix error
+
   " Errors Warnings {
   " With ALE {{
   map <leader>lt <Plug>(ale_toggle)  " Switch on/off
@@ -81,12 +106,34 @@ if exists('g:plugs["coc.nvim"]')
 endif
 
 
-" TestTnoremap <leader>ca :A<CR> " alternate between code and related test file
-map <leader>ga :A<CR> " alternate between code and related test file 
-noremap <leader>ta :A<CR> " alternate between code and related test file
-noremap <leader>tf :TestNearest<CR>
-noremap <leader>tm :TestFile<CR>
-noremap <leader>tl :TestLast<CR>
+if exists('g:plugs["vim-fugitive"]')
+  " Code Control / Versioning :: Git
+  function! ToggleFugitive()
+      if buflisted(bufname('.git/index'))
+          bd .git/index
+      else
+          Git 
+      endif
+  endfunction
+
+  function! s:ToggleBlame()
+      if &l:filetype ==# 'fugitiveblame'
+          close
+      else
+          Git blame
+      endif
+  endfunction
+  nnoremap <leader>gs :call ToggleFugitive()<CR>
+  nnoremap <leader>gb :call <SID>ToggleBlame()<CR>
+  nnoremap <leader>gg :SignifyToggle<CR>
+
+  let g:which_key_map.g = {
+        \ 'name': '+git',
+        \ 's': 'toggle git status',
+        \ 'b': 'toggle git blame',
+        \ 'g': 'toggle git signify',
+        \  } 
+endif
 
 " AutoComplete
 " COC {
@@ -117,32 +164,6 @@ if exists('g:plugs["coc.vim"]')
   endif
 endif
 
-"" Denite + ALE + Neocomplete {
-"" Neosnippets {
-"" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-i>"
-"" " <F7> Ti lock/unlock automatic completion
-"" map <F7> :NeoComplToggle<CR>
-"" " <Ctrl + k> To expand a completion, and <Tab> to jumbp between placeholders
-"" imap <C-k> <Plug>(neosnippet_expand_or_jump)
-"" smap <C-k> <Plug>(neosnippet_expand_or_jump)
-"" xmap <C-k> <Plug>(neosnippet_expand_target)
-"" imap <expr><TAB> neosnippet#expandable_or_jumpable()?
-""     \ "\<Plug>(neosnippet_expand_or_jump)"
-""     \: pumvisible() ? "\<C-n>" : "\<TAB>"
-"" In select mode tab works as IDE
-"smap <expr><TAB> neosnippet#expandable_or_jumpable()?
-"    \ "\<Plug>(neosnippet_expand_or_jump)"
-"    \: "\<TAB>"
-"" " xmap <C-k> <Plug>(neosnippet_expand_target)
-"" " If selected is not a snippet, go to previous
-"" " imap <silent><expr><C-k> neosnippet#expandable() ?
-"" "        \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-"" "        \ "\<C-n>" : "\<Plug>(neosnippet_expand_or_jump)")
-"" " smap <TAB> <Right><Plug>(neos" In select mode tab works as IDEnippet_jump_or_expand)
-""}
-
-" }
-
 " Find Files FZF {
 if exists('g:plugs["fzf.vim"]')
   noremap <silent> <C-p> :Files<CR>
@@ -150,8 +171,8 @@ if exists('g:plugs["fzf.vim"]')
   inoremap <silent> <C-p> <C-o>:Files<CR>
   noremap <silent> <leader>p :Files<CR>
   noremap <silent> <leader>P :Files!<CR> " Full Screen
+  " Leave fzf with CtrlP or ESC
   if has("nvim")
-    " Una vez en FZF
     autocmd FileType fzf tnoremap <buffer> <Esc> <Esc>
     autocmd FileType fzf tnoremap <C-P> <Esc> <Esc>
   endif
@@ -173,19 +194,12 @@ inoremap <C-F> <C-O>:Ag<SPACE>
 nmap <silent> <C-DOWN> :cnext<CR>
 nmap <silent> <C-UP> :cprevious<CR>
 
-
-
-" Show keyboard shortcuts
-map <C-K><C-S> <C-O>:map<CR>
-map! <C-K><C-S> :map<CR>
-
 " CTRL-Z is Undo; not in cmdline though
 noremap <C-Z> u 			" visual and normal modes
 inoremap <C-Z> <C-O>u " insert mode
 " CTRL-Y is Redo (although not repeat); not in cmdline though
 noremap <C-Y> <C-R>
 inoremap <C-Y> <C-O><C-R>
-
 " CTRL-A is Select all
 noremap <C-A> gggH<C-O>G
 inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
@@ -193,23 +207,16 @@ cnoremap <C-A> <C-C>gggH<C-O>G
 onoremap <C-A> <C-C>gggH<C-O>G
 snoremap <C-A> <C-C>gggH<C-O>G
 xnoremap <C-A> <C-C>ggVG
-
 " CTRL-Tab is Next window
 noremap  <C-Tab> <C-W>w
 inoremap <C-Tab> <C-O><C-W>w
 cnoremap <C-Tab> <C-C><C-W>w
 onoremap <C-Tab> <C-C><C-W>w
-
 " CTRL arrows or CTRL hjkw to change windows on visual mode
-" noremap <C-h> <C-w>h
-" noremap <C-j> <C-w>j
-" noremap <-k> <C-w>k
-" noremap <C-l> <C-w>l
 noremap <C-Up> <C-w>k
 noremap <C-Down> <C-w>j
 noremap <C-Left> <C-w>h
 noremap <C-Right> <C-w>l
-
 " CTRL-F4 is Close window
 noremap <C-F4> <C-W>c
 inoremap <C-F4> <C-O><C-W>c
@@ -222,22 +229,19 @@ if has('nvim')
 endif
 
 " backspace in Visual mode deletes selection
-vnoremap <BS> d
-
+" vnoremap <BS> d
 " CTRL-X and SHIFT-Del are Cut
-vnoremap <C-X> "+x
-vnoremap <S-Del> "+x
-
+" vnoremap <C-X> "+x
+" vnoremap <S-Del> "+x
 " CTRL-C and CTRL-Insert are Copy
-vnoremap <C-C> "+y
-vnoremap <C-Insert> "+y
-
+" vnoremap <C-C> "+y
+" vnoremap <C-Insert> "+y
 " CTRL-V and SHIFT-Insert are Paste
-map <C-V>		"+gP
-map <S-Insert>		"+gP
+" map <C-V>		"+gP
+" map <S-Insert>		"+gP
 
-cmap <C-V>		<C-R>+
-cmap <S-Insert>		<C-R>+
+" cmap <C-V>		<C-R>+
+" cmap <S-Insert>		<C-R>+
 
 " Pasting blockwise and linewise selections is not possible in Insert and
 " Visual mode without the +virtualedit feature.  They are pasted as if they
@@ -245,51 +249,30 @@ cmap <S-Insert>		<C-R>+
 " Uses the paste.vim autoload script.
 " Use CTRL-G u to have CTRL-Z only undo the paste.
 
-exe 'inoremap <script> <C-V> <C-G>u' . paste#paste_cmd['i']
-exe 'vnoremap <script> <C-V> ' . paste#paste_cmd['v']
+" exe 'inoremap <script> <C-V> <C-G>u' . paste#paste_cmd['i']
+" exe 'vnoremap <script> <C-V> ' . paste#paste_cmd['v']
 
-imap <S-Insert>		<C-V>
-vmap <S-Insert>		<C-V>
+" imap <S-Insert>		<C-V>
+" vmap <S-Insert>		<C-V>
 " Use CTRL-Q to do what CTRL-V used to do
-noremap <C-Q>		<C-V>
-
+" noremap <C-Q>		<C-V> 
 " Use CTRL-S for saving, also in Insert mode
 noremap <C-S>		:update<CR>
 vnoremap <C-S>		<C-C>:update<CR>
 inoremap <C-S>		<C-O>:update<CR>
 
 " Tagbar {
-" <F6> or <,tt> Shows/Hides tagbar pane
-nmap <F6> :TagbarToggle<CR>
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
 " }
 
 
 " NerdTREE {
 if exists('g:plugs["nerdtree"]')
-  " map <Leader>e :let NERDTreeQuitOnOpen = 1<bar>NERDTreeToggle<CR>:NERDTreeMirror<CR>
-  " <,l> To locate current buffer int he File tree
-  map <Leader>nl :NERDTreeFind<CR>
-  " Ctrl-B to Toggle nerd tree pane
-  " map <F5> :NERDTreeToggle<CR>
-  " map! <F5> :NERDTreeToggle<CR>
+  nnoremap <Leader>nl :NERDTreeFind<CR>
   map <C-B> :NERDTreeToggle<CR>
-  " map! <C-B> <C-O>:NERDTreeToggle<CR>
 endif
 " }
 
-" Fugitive {
-" nnoremap <silent> <leader>gs :Gstatus<CR>
-" nnoremap <silent> <leader>gd :Gdiff<CR>
-" nnoremap <silent> <leader>gc :Gcommit<CR>
-" nnoremap <silent> <leader>gb :Gblame<CR>
-" nnoremap <silent> <leader>gp :Git push<CR>
-" nnoremap <silent> <leader>gr :Gread<CR>
-" nnoremap <silent> <leader>gw :Gwrite<CR>
-" nnoremap <silent> <leader>ge :Gedit<CR>
-" nnoremap <silent> <leader>gi :Git add -p %<CR>
-" nnoremap <silent> <leader>gg :SignifyToggle<CR>
-" }
 
 
 " Toggle the quickfix window {{{
@@ -311,11 +294,11 @@ function! s:QuickfixToggle()
 endfunction
 " }}}
 
-nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR> " toggle menu bar
+" nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR> " toggle menu bar
 nnoremap <space> za     " Mapping toggle folds
 " Expand-region {
-vmap v <Plug>(expand_region_expand)
-vmap V <Plug>(expand_region_shrink)
+" vmap v <Plug>(expand_region_expand)
+" vmap V <Plug>(expand_region_shrink)
 " }
 
 " Use <C-L> to clear the highlighting of :set hlsearch.

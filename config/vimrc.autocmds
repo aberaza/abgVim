@@ -26,36 +26,36 @@
 " }
 " Python {
     " Enable omni completion.
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 " }
 " XML {
     " Enable omni completion.
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " }
 " Ruby {
     " Enable omni completion.
-    autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+    " autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " }
 
 " json {
-    autocmd BufRead,BufNewFile *.json set filetype=json
+    " autocmd BufRead,BufNewFile *.json set filetype=json
 " }
 
 " qml {
-    autocmd BufRead,BufNewFile,BufRead *.qml set filetype=qml
+    " autocmd BufRead,BufNewFile,BufRead *.qml set filetype=qml
 " }
 
 " coffee script {
-    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+    " autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 " }
 
 " dart lang {
-    let g:dart_style_guide = 1
-    autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
+    " let g:dart_style_guide = 1
+    " autocmd BufRead,BufNewFile,BufRead *.dart set filetype=dart
 " }
 
 " part as partial xml file {
-    autocmd BufRead,BufNewFile,BufRead *.xml set filetype=xml
+    " autocmd BufRead,BufNewFile,BufRead *.xml set filetype=xml
 " }
 
 " http client {
@@ -73,27 +73,3 @@ endif
 
 
 
-" " Autosave {
-" " From http://vim.wikia.com/wiki/Auto-save_current_buffer_periodically
-" " Hay una con autocmd TextChanged que parece muy buena tambien
-" " https://stackoverflow.com/questions/6991638/how-to-auto-save-a-file-every-1-second-in-vim/27387138#27387138
-" " Mirad esta alternativa que parece más limpia aunque menos funcional
-" " https://github.com/epeli/neovim-config/blob/master/init.vim 
-" let g:autosave_time=5
-
-" au BufRead,BufNewFile * let b:last_save_time = localtime() " Save last save on open
-" au BufWritePre * let b:last_save_time = localtime() " Update last save on write
-" au CursorHold * call AutoSaveFile()   " After 300ms of inactivity in normal mode call function
-  "     " " au CursorHoldI * call AutoSaveFile()
-" function! AutoSaveFile()
-  " if(g:autosave_time == 0)
-  "   " do nothing:
-  " elseif((localtime() - b:last_save_time) >= g:autosave_time)
-  "   " echo "autosave saved something"
-  "   :update
-  "   " silent! update
-  "   " let b:save_time = localtime()
-  " endif
-" endfunction
-" " }
-" " }

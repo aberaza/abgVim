@@ -104,9 +104,6 @@ if exists('g:plugs["fzf"]')
   if executable('ag')
     :let $FZF_DEFAULT_COMMAND='ag -l --nocolor --hidden -g ""'
   endif
-  nnoremap <silent> <leader>pp :call fzf#vim#files('',
-        \ {'source': 'ag --hidden -f -g ""', 'window': '12new'})<cr>
-
 
   " Inspired in FZF-vim
   function! s:p(bang, opts)

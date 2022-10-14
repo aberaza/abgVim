@@ -14,20 +14,13 @@ call SourceFile("~/.vim/abg.vim")
 " Environment {
 set nocompatible " Must  line
 if UNIXLIKE()
-  set shell=/bin/bash
+  set shell=/usr/bin/zsh
 endif
-
-" }
-" Todo: This should go into a local file, not here
-" if WINDOWS()
-"   cd ~/WORKSPACE
-" endif
-" }
 
 
 " Local settings file
 call SourceFile("~/.vim/vimrc.local")
-" Configuration and flags shouls be put there
+" Configuration and flags should be put there
 " Variables por defecto para la configuración {
 " Usar FZF o Ctrl-P ?
   let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 1)

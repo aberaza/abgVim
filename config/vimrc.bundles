@@ -19,20 +19,22 @@ call plug#begin('~/.vim/bundle') " {
     if NEOVIM()
       Plug 'equalsraf/neovim-gui-shim'
       Plug 'kyazdani42/nvim-web-devicons'
-      Plug 'ryanoasis/vim-devicons' | " fancy icons for nerdtree, airline, git and others
+      Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
+      Plug 'github/copilot.vim'
     endif
   " }
 
   " IDE  Functionality {
     " FileBrowserBar
-    Plug 'preservim/nerdtree' |
-          \ Plug 'Xuyuanp/nerdtree-git-plugin' |
-          \ Plug 'ryanoasis/vim-devicons' | " fancy icons for nerdtree, airline, git and others
-          \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
-    Plug 'tpope/vim-vinegar' 
-    " Tabs and buffers list and navigation
-     " Plug 'bagrat/vim-buffet'
-
+    if NEOVIM()
+      Plug 'nvim-tree/nvim-tree.lua'
+    else
+      Plug 'preservim/nerdtree' |
+            \ Plug 'Xuyuanp/nerdtree-git-plugin' |
+            \ Plug 'ryanoasis/vim-devicons' | " fancy icons for nerdtree, airline, git and others
+            \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
+      Plug 'tpope/vim-vinegar' 
+    endif
     " Find Files, and Bufers
     if g:abg_use_fzf
       Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -43,14 +45,13 @@ call plug#begin('~/.vim/bundle') " {
     endif
 
     " Testing / Units Test
-    " Plug 'tpope/vim-dispatch' |" Is needed for vim-test
-    "   \ Plug 'janko-m/vim-test', { 'on' : ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit' ]} "needs vim-dispatch
     Plug 'tpope/vim-dispatch' " Is needed for vim-test
     Plug 'janko-m/vim-test' "needs vim-dispatch
     Plug 'tpope/vim-projectionist'
     " Git
-    Plug 'tpope/vim-fugitive'   " GIT integration
-    Plug 'mhinz/vim-signify'    " show changes in the file
+    Plug 'tpope/vim-fugitive'     " GIT integration
+    Plug 'idanarye/vim-merginal'  " Fugitive plugin for branches 
+    Plug 'mhinz/vim-signify'      " show changes in the file
 
     "Other Bells'nWhistles
     Plug 'tpope/vim-commentary' " Comentarios
@@ -78,14 +79,19 @@ call plug#begin('~/.vim/bundle') " {
       " Autocomplete engine:
       Plug 'neovim/nvim-lspconfig'
       " CMP automplete for lsp
-      Plug 'hrsh7th/cmp-nvim-lsp'
       Plug 'hrsh7th/cmp-buffer'
       Plug 'hrsh7th/cmp-path'
+      Plug 'hrsh7th/cmp-nvim-lua'
+      Plug 'hrsh7th/cmp-nvim-lsp'
+      Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
       Plug 'hrsh7th/cmp-cmdline'
+      Plug 'ray-x/cmp-treesitter',
       Plug 'hrsh7th/nvim-cmp'
       " It requries a snippet engine, use suggested one for now
       Plug 'hrsh7th/cmp-vsnip'
       Plug 'hrsh7th/vim-vsnip'
+      " Add other sources
+      Plug 'jose-elias-alvarez/null-ls.nvim'
 
       " Plug 'ray-x/lsp_signature.nvim' " hint funciton signatures while you type
       " " Syntax engine
@@ -94,13 +100,6 @@ call plug#begin('~/.vim/bundle') " {
       " " improve ui
       " Plug 'glepnir/lspsaga.nvim'
       " Plug 'folke/lsp-colors.nvim' "add extra color definitions to colorschemes that don't support lsp syntax
-    elseif g:abg_use_coc
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
-        Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-        Plug 'neoclide/coc-eslint', {'do': 'yarn install --frozen-lockfile'}
-        Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
-        " Plug 'josa42/coc-go', {'do': 'yarn install --frozen-lockfile'}
-        " Plug 'josa42/rd/coc-sql', {'do': 'yarn install --frozen-lockfile'}
     else
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
       Plug 'wokalski/autocomplete-flow'
@@ -117,14 +116,17 @@ call plug#begin('~/.vim/bundle') " {
 
   " Themes & UI {
     Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
-    " Plug 'sickill/vim-monokai'
-    Plug 'ajh17/Spacegray.vim'
+    Plug 'sainnhe/sonokai'
+    Plug 'bluz71/vim-moonfly-colors'
+    Plug 'marko-cerovac/material.nvim'
     Plug 'patstockwell/vim-monokai-tasty'
+    " Plug 'sickill/vim-monokai'
+    " Plug 'ajh17/Spacegray.vim'
   " }
 
   " UI Look & Feel {
     Plug 'itchyny/lightline.vim'
-    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+    Plug 'liuchengxu/vim-which-key'    " Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'luochen1990/rainbow' " Colorize parenthesis
   " }
@@ -135,5 +137,8 @@ call plug#begin('~/.vim/bundle') " {
   Plug 'nvim-lua/plenary.nvim'
   Plug 'NTBBloodbath/rest.nvim'
   " Plug 'NTBBloodbath/rest.nvim', { 'on' : [ 'RestNvim', 'RestNvimPreview', 'RestNvimLast' ] }
+  Plug 'eliba2/vim-node-inspect'
 call plug#end() " }
+call plug#helptags()
 " }
+"
