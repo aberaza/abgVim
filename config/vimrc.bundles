@@ -17,10 +17,11 @@ call plug#begin('~/.vim/bundle') " {
 
   " Deps {
     if NEOVIM()
-      Plug 'equalsraf/neovim-gui-shim'
+      " Plug 'equalsraf/neovim-gui-shim'
+      Plug 'nvim-lua/plenary.nvim'
       Plug 'kyazdani42/nvim-web-devicons'
       Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
-      Plug 'github/copilot.vim'
+      " Plug 'github/copilot.vim'
     endif
   " }
 
@@ -35,15 +36,15 @@ call plug#begin('~/.vim/bundle') " {
             \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
       Plug 'tpope/vim-vinegar' 
     endif
-    " Find Files, and Bufers
-    if g:abg_use_fzf
+    " Find Files, and Bufersoi
+    if NEOVIM()
+      Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+      Plug 'nvim-telescope/telescope.nvim'
+      Plug 'nvim-telescope/telescope-file-browser.nvim'
+    else
       Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
       Plug 'junegunn/fzf.vim'
-    elseif g:abg_use_ctrlp
-      Plug 'kien/ctrlp.vim' " denite, fzf, leaderf o unite
-      Plug 'mileszs/ack.vim' , { 'do':':command Ag Ack!' } " install ack and use Ag as an alias for Ack
     endif
-
     " Testing / Units Test
     Plug 'tpope/vim-dispatch' " Is needed for vim-test
     Plug 'janko-m/vim-test' "needs vim-dispatch
@@ -56,7 +57,6 @@ call plug#begin('~/.vim/bundle') " {
     "Other Bells'nWhistles
     Plug 'tpope/vim-commentary' " Comentarios
     Plug 'majutsushi/tagbar', { 'on' : ['TagbarToggle', 'TagbarOpen'] } " ctags and class hierarchy bar
-
 
     " Syntaxes & Indentations {
     Plug 'sheerun/vim-polyglot' " All in one!
@@ -75,7 +75,7 @@ call plug#begin('~/.vim/bundle') " {
     "}
 
 
-    if g:abg_use_lsp
+    if NEOVIM()
       " Autocomplete engine:
       Plug 'neovim/nvim-lspconfig'
       " CMP automplete for lsp
@@ -96,7 +96,6 @@ call plug#begin('~/.vim/bundle') " {
       " Plug 'ray-x/lsp_signature.nvim' " hint funciton signatures while you type
       " " Syntax engine
       Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-      " Plug 'romgrk/nvim-treesitter-context'
       " " improve ui
       " Plug 'glepnir/lspsaga.nvim'
       " Plug 'folke/lsp-colors.nvim' "add extra color definitions to colorschemes that don't support lsp syntax
@@ -109,33 +108,38 @@ call plug#begin('~/.vim/bundle') " {
       Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' } |
             \ Plug 'Shougo/neosnippet-snippets'
 
-      if g:abg_use_ale 
-        Plug 'dense-analysis/ale'
-      endif
+      Plug 'dense-analysis/ale'
     endif
 
   " Themes & UI {
-    Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
     Plug 'sainnhe/sonokai'
-    Plug 'bluz71/vim-moonfly-colors'
+    Plug 'sainnhe/gruvbox-material'
+
     Plug 'marko-cerovac/material.nvim'
+
+    Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
     Plug 'patstockwell/vim-monokai-tasty'
     " Plug 'sickill/vim-monokai'
     " Plug 'ajh17/Spacegray.vim'
   " }
 
   " UI Look & Feel {
-    Plug 'itchyny/lightline.vim'
-    Plug 'liuchengxu/vim-which-key'    " Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-    Plug 'nathanaelkane/vim-indent-guides'
-    Plug 'luochen1990/rainbow' " Colorize parenthesis
+    if NEOVIM()
+      
+      Plug 'folke/which-key.nvim'
+      Plug 'lukas-reineke/indent-blankline.nvim'
+      Plug 'p00f/nvim-ts-rainbow'
+    else
+      Plug 'itchyny/lightline.vim'
+      Plug 'liuchengxu/vim-which-key'    " Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+      Plug 'nathanaelkane/vim-indent-guides'
+      Plug 'luochen1990/rainbow' " Colorize parenthesis
+    endif
   " }
 
   " REST Api as with postman/insomnia
-  Plug 'diepm/vim-rest-console'
-
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'NTBBloodbath/rest.nvim'
+  " Plug 'diepm/vim-rest-console'
+  " Plug 'NTBBloodbath/rest.nvim'
   " Plug 'NTBBloodbath/rest.nvim', { 'on' : [ 'RestNvim', 'RestNvimPreview', 'RestNvimLast' ] }
   Plug 'eliba2/vim-node-inspect'
 call plug#end() " }

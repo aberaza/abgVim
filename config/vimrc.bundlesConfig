@@ -60,9 +60,6 @@ if exists('g:plugs["nerdtree"]')
   let NERDTreeHijcakNetrw=1
   highlight! link NERDTreeFlags NERDTreeDir
   " se supone que es para evitar colores raros
-endif
-" }
-
 " DevIcons {
 if exists('g:plugs["vim-devicons"]')
   let g:webdevicons_conceal_nerdtree_brackets = 1 " whether or not to show the nerdtree brackets around flags
@@ -70,22 +67,6 @@ if exists('g:plugs["vim-devicons"]')
 let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
 endif
 " }
-
-" CtrlP {
-if exists('g:plugs["ctrlp.vim"]')
-  let g:ctrlp_match_window = 'bottom,order:ttb'  "sort top to bottom
-  let g:ctrlp_working_path_mode = 'ra'  "0 - respect cwd, c - dir of current file, r - look for .git, a - like 0 if not under cwd
-  let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
-      \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
-  if executable('ag')
-      " Replace native grep with ag
-      set grepprg=ag\ --vimgrep\ --hidden\ $1 " Si no funciona eliminar $1
-      set grepformat=%f:%l:%c%m
-      " set ctrlp to use ag
-      let g:ctrlp_user_command = 'ag --nocolor --hidden -l -g "" %s'
-      let g:ctrlp_use_caching=0 " ag is fast enough not to need caching
-  endif
 endif
 " }
 

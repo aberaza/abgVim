@@ -1,8 +1,3 @@
-" lua require("lsp_config")
-:lua << EOF
--- For nvim-tree or other filetree pluggins
-vim.g.loaded = 1 
-vim.g.loaded_netrwPlugin = 1 
 
 -- Basic LSP config
 local nvim_lsp = require('lspconfig')
@@ -109,12 +104,12 @@ require'null-ls'.setup({
 })
 
 -- REST.nvim 
-require'rest-nvim'.setup({
-    highlight = {
-        enabled = true,
-        timeout = 150,
-    },
-})
+-- require'rest-nvim'.setup({
+--     highlight = {
+--        enabled = true,
+--        timeout = 150,
+--    },
+-- })
 
 -- nvim_lsp.omnisharp.setup {}
 
@@ -150,18 +145,6 @@ require'rest-nvim'.setup({
 --    },
 --})
 
--- Treesitter syntax config
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "bash", "lua", "javascript", "typescript" },
-    sync_install = false,
-    highlight = {
-        enable = true,
-        -- list of languages that will be disabled
-        disable = { "" },
-        -- Next line prevents default syntax from working as it will colide with plugin
-        additional_vim_regex_highlighting = false,
-        }
-}
 --require'treesitter-context'.setup{
 --    enable = true,
 --    throttle =  true,
@@ -180,85 +163,107 @@ require'nvim-treesitter.configs'.setup {
 --  Hint = "#10B981"
 -- })
 
-require'nvim-tree'.setup {
-    sort_by = "case_sensitive",
-  view = {
-    adaptive_size = true,
-    mappings = {
-      list = {
-        { key = "u", action = "dir_up" },
-      },
-    },
-  },
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    dotfiles = true,
-  },
+require("indent_blankline").setup {
+    show_end_of_line = false,
+    space_char_blankline = " ",
+    show_current_context = true,
+    show_current_context_start = true,
 }
-vim.keymap.set("n", "<leader>nn", require("nvim-tree.api").marks.navigate.next)
-vim.keymap.set("n", "<leader>np", require("nvim-tree.api").marks.navigate.prev)
-vim.keymap.set("n", "<leader>ns", require("nvim-tree.api").marks.navigate.select)
 
-EOF
-
-" Treesitter
-set foldmethod=expr 
-set foldexpr=nvim_treesitter#foldexpr() 
-
-set completeopt-=preview
-"use omni comletion from lsp
-autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
-"KEYS {
-nnoremap <silent><leader>e <cmd>lua vim.diagnostic.open_float()<CR>
-"Go To keys
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gD <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-" Actions and menus
-nnoremap <silent><leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
-" nnoremap <silent><leader>ca :Lspsaga code_action<CR>
-" vnoremap <silent><leader>ca :<C-U>Lspsaga range_code_action<CR>
-nnoremap <silent><leader>cc :Lspsaga show_line_diagnostics<CR>
-"Hints and doc
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent><C-k>  <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> cs    <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent><leader>cs    <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> cd <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent><leader>cd <cmd>lua vim.lsp.buf.type_definition()<CR>
-" nnoremap <silent>K :Lspsaga hover_doc<CR> 
-" nnoremap <silent>cs :Lspsaga signature_help<CR>
-" nnoremap <silent><leader>cs :Lspsaga signature_help<CR>
-" nnoremap <silent>cd :Lspsaga preview_definition<CR>
-" nnoremap <silent><leader>cd :Lspsaga preview_definition<CR>
-"find references and definition of method/variable under cursor
-nnoremap <silent>ch <Cmd>Lspsaga lsp_finder<CR> 
-nnoremap <silent><leader>ch <Cmd>Lspsaga lsp_finder<CR> 
-
-" Other functionality
-" rename
-nnoremap <silent>cr <cmd>lua vim.lsp.buf.rename()<CR>'
-nnoremap <silent><leader>cr <cmd>lua vim.lsp.buf.rename()<CR>'
-" nnoremap <silent>cr :Lspsaga rename<CR>
-" nnoremap <silent><leader>cr :Lspsaga rename<CR>
-" scrolling inside popup
-nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
-nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>
-nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>
+require("which-key").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
 
 
-nnoremap <silent> <leader>E <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-nnoremap <silent> <leader>q <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
-" nnoremap <space>ca <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+require'fzf-lua'.setup {
+  file_ignore_patterns = {"%.py$", "%.git$", "node_modules", "packages", "build", "pub"},
+  multiprocess=true,
+  files = {
+    prompt = "Files> ",
+    git_icons = false,
+-- improve a bit of speed
+    file_icons = true,
+-- but keep some icons
+  }
+}
 
-# neovim-tree
-nnoremap <Leader>nl :NvimTreeFindFileToggle<CR>
-map <C-B> :NvimTreeToggle<CR>
+
+
+-- Treesitter
+vim.opt.foldmethod='expr'
+vim.opt.completeopt = 'menuone,noinsert,noselect'
+
+-- set foldmethod=expr 
+-- set foldexpr=nvim_treesitter#foldexpr() 
+-- set completeopt-=preview
+-- use omni comletion from lsp
+-- autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+-- KEYS {
+vim.keymap.set( '', '<leader>e', vim.diagnostic.open_float)
+-- nnoremap <silent><leader>e <cmd>lua vim.diagnostic.open_float()<CR>
+-- Go To keys
+local bufopts = { noremap=true, silent=true }
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+-- nnoremap <silent> gd <cmd>lua vim.lsp.buf.declaration()<CR>
+-- nnoremap <silent> gD <cmd>lua vim.lsp.buf.definition()<CR>
+-- nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
+-- nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+-- Actions and menus
+-- nnoremap <silent><leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+--" nnoremap <silent><leader>ca :Lspsaga code_action<CR>
+--" vnoremap <silent><leader>ca :<C-U>Lspsaga range_code_action<CR>
+--nnoremap <silent><leader>cc :Lspsaga show_line_diagnostics<CR>
+--"Hints and doc
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+vim.keymap.set('n', 'cs', vim.lsp.buf.signature_help, bufopts)
+vim.keymap.set('n', 'cd', vim.lsp.buf.type_definition, bufopts)
+-- nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+-- nnoremap <silent><C-k>  <cmd>lua vim.lsp.buf.signature_help()<CR>
+-- nnoremap <silent> cs    <cmd>lua vim.lsp.buf.signature_help()<CR>
+-- nnoremap <silent><leader>cs    <cmd>lua vim.lsp.buf.signature_help()<CR>
+-- nnoremap <silent> cd <cmd>lua vim.lsp.buf.type_definition()<CR>
+-- nnoremap <silent><leader>cd <cmd>lua vim.lsp.buf.type_definition()<CR>
+--" nnoremap <silent>K :Lspsaga hover_doc<CR> 
+--" nnoremap <silent>cs :Lspsaga signature_help<CR>
+--" nnoremap <silent><leader>cs :Lspsaga signature_help<CR>
+--" nnoremap <silent>cd :Lspsaga preview_definition<CR>
+--" nnoremap <silent><leader>cd :Lspsaga preview_definition<CR>
+--"find references and definition of method/variable under cursor
+-- nnoremap <silent>ch <Cmd>Lspsaga lsp_finder<CR> 
+-- nnoremap <silent><leader>ch <Cmd>Lspsaga lsp_finder<CR> 
+
+--" Other functionality
+--" rename
+vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+vim.keymap.set('n', 'cr', vim.lsp.buf.rename, bufopts)
+vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+--nnoremap <silent>cr <cmd>lua vim.lsp.buf.rename()<CR>'
+--nnoremap <silent><leader>cr <cmd>lua vim.lsp.buf.rename()<CR>'
+--" nnoremap <silent>cr :Lspsaga rename<CR>
+--" nnoremap <silent><leader>cr :Lspsaga rename<CR>
+--" scrolling inside popup
+--nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+--nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+--nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>
+--nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>
+
+
+--nnoremap <silent> <leader>E <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+--nnoremap <silent> <leader>q <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+--" nnoremap <space>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+--nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+--nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+--nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
+
+-- Telescope / Fuzzy finder 
+
+vim.keymap.set('n', '<c-P>', "<cmd>lua require('fzf-lua').files()<CR>", { noremap = true, silent = true })
 

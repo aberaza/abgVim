@@ -51,10 +51,30 @@ if(has("termguicolors"))
     set termguicolors
 endif
 
-set background=dark
-colorscheme gruvbox
+if NEOVIM()
+  set background=dark
+  let g:gruvbox_material_foreground = 'original' " material, mix, original 
+  let g:gruvbox_material_background = 'hard' " sofr, medium, hard 
+  let g:gruvbox_material_better_performance = 1
+  let g:gruvbox_material_enable_bold = 1 
+  let g:gruvbox_material_diagnostic_line_highlight = 1
+  let g:gruvbox_material_cursor = 'orange' " auto, red, orange, yellow, green, aqua, blue, purple
+  let g:gruvbox_material_statusline_style = 'original' " default, mix, original
+  " colorscheme gruvbox-material
 
-"minimalist
+  let g:sonokai_style = 'shusia'
+  let g:sonokai_enable_italic= 1 
+  let g:sonokai_enable_bold = 1 
+  let g:sonokai_cursor = 'orange' " auto, ....
+  let g:sonokai_transparent_background = 0 " 0 1 o 2 (segun cuantas cosas queremos sean transparentes)
+  let g:sonokai_better_performance = 1
+  colorscheme sonokai 
+else
+  set background=dark
+  colorscheme gruvbox
+endif
+
+"minimalistº
 
 " }
 

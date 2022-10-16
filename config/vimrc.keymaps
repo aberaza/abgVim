@@ -3,7 +3,9 @@ let mapleader = "\<Space>" " <leader> == Spacebar
 let g:mapleader = "\<Space>" " <leader> == Spacebar
 let g:maplocalleader = "," " <leader> == Spacebar
 " }
-call which_key#register('<Space>', "g:which_key_map")
+if !NEOVIM()
+  call which_key#register('<Space>', "g:which_key_map")
+endif
 
 " Define prefix dictionary
 let g:which_key_map =  {}

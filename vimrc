@@ -20,11 +20,6 @@ endif
 
 " Local settings file
 call SourceFile("~/.vim/vimrc.local")
-" Configuration and flags should be put there
-" Variables por defecto para la configuración {
-" Usar FZF o Ctrl-P ?
-  let g:abg_use_fzf =  get(g:, 'abg_use_fzf', 1)
-  let g:abg_use_ctrlp = get(g:, 'abg_use_ctrlp', 0)
 " LSP / COC / Code Completion
   let g:abg_use_lsp = get(g:, 'abg_use_lsp', 1) && NEOVIM()
   let g:abg_use_coc = get(g:, 'abg_use_coc', 0) && NEOVIM()
@@ -43,7 +38,7 @@ call SourceFile("~/.vim/config/vimrc.editor")
 call SourceFile("~/.vim/config/vimrc.bundles")
 call SourceFile("~/.vim/config/vimrc.bundlesConfig")
 if NEOVIM()
-  call SourceFile("~/.vim/config/vimrc.lsp")
+  luafile ~/.vim/config/vimrc.lua
 endif
 " UI
 call SourceFile("~/.vim/config/vimrc.ui")
