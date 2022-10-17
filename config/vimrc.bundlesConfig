@@ -1,11 +1,13 @@
-" Rainbow {
+"Rainbow 
+if exists('g:plugs["rainbow"]') 
   let g:rainbow_active = 1
-" }
+endif
 
-" Vim-indent-guides {
-" <lader>ig toggles indent guides
-" let g:indent_guides_enable_on_vim_startup = 1
-" }
+if exists('g:plugs["indentLine"]')
+  let g:indentLine_setColors = 0 " concel is overwritten with grey, to keep conceal color with current theme , disable italic
+  let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+  " let g:indentLine_enabled = 0 " disabled by default
+endif
 
 " Lightline {
 " Powerfont Separators:                                       
@@ -39,115 +41,6 @@
     return ('' . ' ' . FugitiveHead())
   endfunction
 " }
-
-" NerdTREE {
-if exists('g:plugs["nerdtree"]')
-  if !has('gui_running')
-      let g:airline_powerline_fonts=1
-  endif
-  "let g:NERDTreeDirArrowExpandable = '' "'▸'       ﱮ
-  "let g:NERDTreeDirArrowCollapsible = '' "'▾'
-  let NERDTreeShowBookmarks=1
-  let NERDTreeIgnore=['\.pyc','\.$', '\.\.$', '\~$', '\.swo$','\.swp$', '\.git$', '\.hg$', '\.svn$', '\.bzr$', 'node_modules$[[dir]]', 'build$[[dir]]', 'packages$[[dir]]', 'pub$[[dir]]']
-  let NERDTreeRespectWildIgnore=1 "Respect wildingore setting
-  let NERDTreeChDirMode=2
-  let NERDTreeQuitOnOpen=1
-  let NERDTreeMouseMode=2
-  let NERDTreeShowHidden=0
-  let NERDTreeKeepTreeInNewTab=1
-  let NERDTreeStatusline=0
-  let NERDTreeMinimalUI=1
-  let NERDTreeHijcakNetrw=1
-  highlight! link NERDTreeFlags NERDTreeDir
-  " se supone que es para evitar colores raros
-" DevIcons {
-if exists('g:plugs["vim-devicons"]')
-  let g:webdevicons_conceal_nerdtree_brackets = 1 " whether or not to show the nerdtree brackets around flags
-  let g:WebDevIconsNerdTreeBeforeGlyphPadding = ""
-let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
-endif
-" }
-endif
-" }
-
-" Ack/Ag {
-if exists('g:plugs["ack.vim"]')
-  let g:ackprg = 'ag --vimgrep'
-endif
-" }
-
-" FZF {
-if exists('g:plugs["fzf"]')
-  let g:fzf_buffers_jump = 1
-  let g:fzf_preview_window = (&columns >=120 ? 'right:40%' : (&lines > 50 ? 'up:50%' : '')) " Enable allways preview on the right
-  let g:fzf_layout = { 'down' : '~25%' }
-  " let g:fzf_layout = { 'window': { 'width': 0.9, 'height':0.7 } }
-  if executable('ag')
-    :let $FZF_DEFAULT_COMMAND='ag -l --nocolor --hidden -g ""'
-  endif
-
-  " Inspired in FZF-vim
-  function! s:p(bang, opts)
-    let preview_window = a:bang ? '' : g:fzf_preview_window
-    echom preview_window
-    if len(preview_window)
-      return call('fzf#vim#with_preview', add([a:opts], preview_window))
-    endif
-    return a:opts
-  endfunction
-
-  command! -bang -nargs=* AgFiles
-        \ call fzf#vim#files('',
-        \ s:p(<bang>0, {'source': 'ag --hidden -f -g ""'} ))
-
-endif
-" }
-
-" POLYGLOT & Extra syntaxes
-" pangloss / Vim-Javascript <polyglot> {
-  let g:javascript_plugin_jsdoc   = 1   " JsDoc Enabled
-  " Custom conceal chars:
-  set conceallevel=0  " Disable conceal
-  let g:javascript_conceal_null                 = "ø"
-  let g:javascript_conceal_NaN                  = "ℕ"
-  let g:javascript_conceal_function             = "ƒ"
-  let g:javascript_conceal_this                 = "@"
-  let g:javascript_conceal_return               = "⇚"
-  let g:javascript_conceal_undefined            = "¿"
-  let g:javascript_conceal_prototype            = "¶"
-  let g:javascript_conceal_static               = "•"
-  let g:javascript_conceal_super                = "Ω"
-  let g:javascript_conceal_arrow_function       = "⇒"
-  let g:javascript_conceal_noarg_arrow_function = "🞅"
-  let g:javascript_conceal_underscore_arrow_function = "🞅"
-" }
-"  maxmellon / vim JSX pretty {
-  let g:vim_jsx_pretty_disable_tsx = 1 " Disable JSX for TS (another script)
-  let g:vim_jsx_pretty_colorful_config = 1 " colourful
-"  }
-
-
-" EMMET (HTML) {
-  " let g:user_emmet_mode='n'    "only enable normal mode functions.
-  " let g:user_emmet_mode='inv'  "enable all functions, which is equal to
-  " let g:user_emmet_mode='a'    "enable all function in all mode.
-  " To enable only for html/css/js/jsx files:
-  let g:user_emmet_install_global = 0
-  autocmd FileType html,css,js,jsx EmmetInstall
-  "Trigger key is <C-Y> , (ctrl+y ,) con la coma tras el ctrl y
-  " let g:user_emmet_leader_key='<C-Z>' " para cambiar la parte del ctrl y
-" }
-
-" " JSON {
-"     let g:vim_json_syntax_conceal = 0
-" " }
-" " TypeScript {
-"     " If indenting does not work as desired
-"     " let g:typescript_indent_disable = 1
-"     " Compiler options
-"     " let g:typescript_compiler_binary = 'tsc'
-"     " let g:typescript_compiler_options = ''
-" " }
 
 
 " Errors Warnings Bugs

@@ -15,7 +15,11 @@ set number          " Line numbers on
 set list            " Show special chars nolist no prevent
 set listchars=tab:→\ ,extends:›,precedes:‹,nbsp:·,trail:• " Highlight whitespaces
 set showbreak=↪\  " char to display on a wrapped line
-set fillchars=vert:│,fold:- " make vertical lines look continuous
+if NEOVIM()
+  set fillchars=vert:│,fold:-,eob:\ ,msgsep:‾ " make vertical lines look continuous, remove ~ from empty lines
+else
+  set fillchars=vert:│,fold:- " make vertical lines look continuous, remove ~ from empty lines
+endif 
 " }
 
 " Scroll and Mouse {
@@ -65,7 +69,7 @@ if NEOVIM()
   let g:sonokai_style = 'shusia'
   let g:sonokai_enable_italic= 1 
   let g:sonokai_enable_bold = 1 
-  let g:sonokai_cursor = 'orange' " auto, ....
+  let g:sonokai_cursor = 'orange' " auto, ...
   let g:sonokai_transparent_background = 0 " 0 1 o 2 (segun cuantas cosas queremos sean transparentes)
   let g:sonokai_better_performance = 1
   colorscheme sonokai 

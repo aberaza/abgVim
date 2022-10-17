@@ -40,6 +40,8 @@ cnoreabbrev X x
 " Ctrl-O to jump back
 " Visual and Normal
 
+nnoremap gp :PlugConfigEditUnderCursor<CR>
+
 if exists('g:plugs["ale"]')
   let g:which_key_map.g = {
         \ 'name': '+go_to_...',
@@ -114,7 +116,7 @@ if exists('g:plugs["vim-fugitive"]')
       if buflisted(bufname('.git/index'))
           bd .git/index
       else
-          Git 
+          Git
       endif
   endfunction
 
@@ -134,7 +136,7 @@ if exists('g:plugs["vim-fugitive"]')
         \ 's': 'toggle git status',
         \ 'b': 'toggle git blame',
         \ 'g': 'toggle git signify',
-        \  } 
+        \  }
 endif
 
 " AutoComplete
@@ -178,19 +180,20 @@ if exists('g:plugs["fzf.vim"]')
     autocmd FileType fzf tnoremap <buffer> <Esc> <Esc>
     autocmd FileType fzf tnoremap <C-P> <Esc> <Esc>
   endif
+
+  nnoremap <Leader>s :Ag <C-R><C-W><CR>
+  nnoremap <Leader>* :Ag <C-R><C-W><CR>
+  " <,F> or <Ctrl+F> To do a workspace search
+  " This breaks original Ctrl F (scroll on page down)
+  nnoremap <Leader>f :Ag<SPACE>
+  nnoremap <C-F> :Ag<SPACE>
+  inoremap <C-F> <C-O>:Ag<SPACE>
 endif
 " }
 
 
 " Ag or FZF {
 " bind <,s> and <,*>  to  search for word under cursor
-nnoremap <Leader>s :Ag <C-R><C-W><CR>
-nnoremap <Leader>* :Ag <C-R><C-W><CR>
-" <,F> or <Ctrl+F> To do a workspace search
-" This breaks original Ctrl F (scroll on page down)
-nnoremap <Leader>f :Ag<SPACE>
-nnoremap <C-F> :Ag<SPACE>
-inoremap <C-F> <C-O>:Ag<SPACE>
 "}
 
 nmap <silent> <C-DOWN> :cnext<CR>
@@ -214,54 +217,32 @@ noremap  <C-Tab> <C-W>w
 inoremap <C-Tab> <C-O><C-W>w
 cnoremap <C-Tab> <C-C><C-W>w
 onoremap <C-Tab> <C-C><C-W>w
-" CTRL arrows or CTRL hjkw to change windows on visual mode
+" Window switch CTRL-Arrows
 noremap <C-Up> <C-w>k
 noremap <C-Down> <C-w>j
 noremap <C-Left> <C-w>h
 noremap <C-Right> <C-w>l
-" CTRL-F4 is Close window
-noremap <C-F4> <C-W>c
-inoremap <C-F4> <C-O><C-W>c
-cnoremap <C-F4> <C-C><C-W>c
-onoremap <C-F4> <C-C><C-W>c
+" Paste in place without yanking yext
+vnoremap <silent>p "_dP
+snoremap <silent>p "_dP
+" Switch buffers
+noremap <S-h> :bprevious<CR>
+noremap <S-l> :bnext<CR>
+" Move selected line / block of text in visual mode
+nnoremap <M-up> mz:m-2<CR>`z==
+nnoremap <M-down> mz:m+<CR>`z==
+vnoremap <M-up> :m'<-2<CR>gv=`>my`<mzgv`yo`z
+vnoremap <M-down> :m'>+<CR>gv=`<my`>mzgv`yo`z 
 
 " ESC in terminal kills it
 if has('nvim')
-    :tnoremap <Esc> <C-\><C-n>
+    :tnoremap <Esc> <C-\\><C-n>
 endif
 
-" backspace in Visual mode deletes selection
-" vnoremap <BS> d
-" CTRL-X and SHIFT-Del are Cut
-" vnoremap <C-X> "+x
-" vnoremap <S-Del> "+x
-" CTRL-C and CTRL-Insert are Copy
-" vnoremap <C-C> "+y
-" vnoremap <C-Insert> "+y
-" CTRL-V and SHIFT-Insert are Paste
-" map <C-V>		"+gP
-" map <S-Insert>		"+gP
-
-" cmap <C-V>		<C-R>+
-" cmap <S-Insert>		<C-R>+
-
-" Pasting blockwise and linewise selections is not possible in Insert and
-" Visual mode without the +virtualedit feature.  They are pasted as if they
-" were characterwise instead.
-" Uses the paste.vim autoload script.
-" Use CTRL-G u to have CTRL-Z only undo the paste.
-
-" exe 'inoremap <script> <C-V> <C-G>u' . paste#paste_cmd['i']
-" exe 'vnoremap <script> <C-V> ' . paste#paste_cmd['v']
-
-" imap <S-Insert>		<C-V>
-" vmap <S-Insert>		<C-V>
-" Use CTRL-Q to do what CTRL-V used to do
-" noremap <C-Q>		<C-V> 
 " Use CTRL-S for saving, also in Insert mode
-noremap <C-S>		:update<CR>
-vnoremap <C-S>		<C-C>:update<CR>
-inoremap <C-S>		<C-O>:update<CR>
+noremap <C-S>	  :update<CR>
+vnoremap <C-S>  <C-C>:update<CR>
+inoremap <C-S>  <C-O>:update<CR>
 
 " Tagbar {
 nnoremap <silent> <leader>tt :TagbarToggle<CR>
