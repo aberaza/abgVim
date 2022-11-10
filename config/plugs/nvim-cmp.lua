@@ -55,9 +55,8 @@ cmp.setup({
         ['<CR>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ['<Tab>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }), -- Accept currently selected item  
     },
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-      winhighlight = "NormalFloat:NormalFloat,FloatBorder:TelescopeBorder",
+    window = {
+      documentation = cmp.config.window.bordered(),
     },
     formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -73,10 +72,14 @@ cmp.setup({
         { name = 'buffer' },
         { name = 'path' },
         { name = 'vsnip' },
+        { name = 'nvim_lua' },
         { name = 'nvim_lsp_signature_help' },
-        -- { name = 'treesitter' },
     }, {}
-    )
+    ),
+    experimental = {
+      -- native_menu = true
+      ghost_text = true
+    }
 })
 
 -- Assist on commands that start with / or ?
@@ -96,3 +99,27 @@ cmp.setup({
 --       { name = 'cmdline' }
 --     })
 --   })
+--   
+-- null-ls extras for autompletion
+local status, nullls = pcall(require, "null-ls")
+if (not status) then return end
+nullls.setup({
+  debounce = 150,
+  save_after_format = false,
+  sources = { 
+    -- formatting
+    nullls.builtins.formatting.prettierd,
+    nullls.builtins.formatting.shfmt,
+    nullls.builtins.formatting.fixjson,
+    -- diagnostics
+    nullls.builtins.diagnostics.tsc,
+    -- nullls.builtins.eslint_d,
+    -- Code Actions
+    -- nullls.builtins.code_actions.gitsign,
+    -- nullls.builtins.gitrebase,
+    -- hover 
+    nullls.builtins.hover.dictionary,
+  },
+  root_dir = require'null-ls.utils'.root_pattern ".git",
+})
+
