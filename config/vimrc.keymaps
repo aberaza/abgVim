@@ -278,7 +278,7 @@ endfunction
 " }}}
 
 " nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR> " toggle menu bar
-nnoremap <space> za     " Mapping toggle folds
+" nnoremap <space> za     " Mapping toggle folds
 " Expand-region {
 " vmap v <Plug>(expand_region_expand)
 " vmap V <Plug>(expand_region_shrink)

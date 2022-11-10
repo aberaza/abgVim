@@ -1,14 +1,21 @@
 
 -- Basic LSP config
 local nvim_lsp = require('lspconfig')
+local lsp_defaults = nvim_lsp.util.default_config
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
   properties = { "documentation", "detail", "additionalTextEdits" },
 }
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
+local signs = { Error = "", Warn = "", Hint = "", Info = "" } 
+-- local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "" } 
+for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
+end
 
 local function on_attach(client, bufnr)
   print('Attached to ' .. client.name)
@@ -22,7 +29,7 @@ local function on_attach(client, bufnr)
   -- require("config.lsp.keymaps").setup(client, bufnr)
 end
 
-local servers = { 'tsserver', 'jsonls', 'html', 'elmls', 'gopls', 'vimls' }
+local servers = { 'tsserver', 'jsonls', 'csharp_ls', 'html', 'elmls', 'gopls', 'vimls' }
 
 for _, lsp in pairs(servers) do
     nvim_lsp[lsp].setup ({
@@ -35,73 +42,13 @@ for _, lsp in pairs(servers) do
     })
 end
 
--- CMP autocomplete engine
-local cmp = require'cmp'
-cmp.setup({
-    snippet = {
-        expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-    end,
-    },
-    mapping = {
-        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-        ['<C-e>'] = cmp.mapping({
-            i = cmp.mapping.abort(),
-            c = cmp.mapping.close(),
-        }),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    },
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-      winhighlight = "NormalFloat:NormalFloat,FloatBorder:TelescopeBorder",
-    },
-    formatting = {
-        format = function(entry, vim_item)
-          vim_item.menu = ({
-            nvim_lsp = "[LSP]",
-            buffer = "[Buff]",
-            treesitter = "[Trees]",
-            path = "[Path]",
-            nvim_lsp_signature_help = "[Signature]",
-          })[entry.source.name]
-          return vim_item
-        end,
-    },
-    sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'treesitter' },
-        { name = 'buffer' },
-        { name = 'path' },
-        { name = 'vsnip' },
-        { name = 'nvim_lsp_signature_help' },
+nvim_lsp.omnisharp.setup {
+  cmd = { "dotnet", "~/.local/opt/omnisharp-net6.0/OmniSharp.dll" },
+  enable_editorconfig_support = true,
+  enable_import_completion = false, -- can negatively impact performance
+  sdk_include_prereleases = true,
+}
 
-    }, {}
-    )
-})
-
--- null-ls extras for autompletion
-require'null-ls'.setup({
-  debounce = 150,
-  save_after_format = false,
-  sources = { 
-    -- formatting
-    require'null-ls'.builtins.formatting.prettierd,
-    require'null-ls'.builtins.formatting.shfmt,
-    require'null-ls'.builtins.formatting.fixjson,
-    -- diagnostics
-    require'null-ls'.builtins.diagnostics.tsc,
-    -- require'null-ls'.builtins.eslint_d,
-    -- Code Actions
-    -- require'null-ls'.builtins.code_actions.gitsign,
-    -- require'null-ls'.builtins.gitrebase,
-    -- hover 
-    require'null-ls'.builtins.hover.dictionary,
-  },
-  root_dir = require'null-ls.utils'.root_pattern ".git",
-})
 
 -- REST.nvim 
 -- require'rest-nvim'.setup({
@@ -164,10 +111,16 @@ require'null-ls'.setup({
 -- })
 
 require("indent_blankline").setup {
+    use_treesitter = true,
+    use_treesitter_scop = true,
     show_end_of_line = false,
+    char = "", -- indicator for all contexts not in focus
+    context_char="▏", --indicator for context in focus
     space_char_blankline = " ",
     show_current_context = true,
     show_current_context_start = true,
+    -- context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', '^block', 'arguments'},
+    -- max_indent_increase = 1, -- Aligned trailing multiline commnets not create indentation 
 }
 
 require("which-key").setup {
@@ -175,21 +128,6 @@ require("which-key").setup {
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
   }
-
-
-require'fzf-lua'.setup {
-  file_ignore_patterns = {"%.py$", "%.git$", "node_modules", "packages", "build", "pub"},
-  multiprocess=true,
-  files = {
-    prompt = "Files> ",
-    git_icons = false,
--- improve a bit of speed
-    file_icons = true,
--- but keep some icons
-  }
-}
-
-
 
 -- Treesitter
 vim.opt.foldmethod='expr'
@@ -209,6 +147,7 @@ vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
 vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+vim.keymap.set('n', 'gtd', vim.lsp.buf.type_definition, bufopts)
 -- nnoremap <silent> gd <cmd>lua vim.lsp.buf.declaration()<CR>
 -- nnoremap <silent> gD <cmd>lua vim.lsp.buf.definition()<CR>
 -- nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -222,8 +161,9 @@ vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
 --"Hints and doc
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
 vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-vim.keymap.set('n', 'cs', vim.lsp.buf.signature_help, bufopts)
-vim.keymap.set('n', 'cd', vim.lsp.buf.type_definition, bufopts)
+vim.keymap.set('n', '<C-h>', vim.lsp.buf.hover, bufopts) -- help on mouseover
+vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, bufopts)
+vim.keymap.set('n', 'gca', vim.lsp.buf.code_action, bufopts)
 -- nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 -- nnoremap <silent><C-k>  <cmd>lua vim.lsp.buf.signature_help()<CR>
 -- nnoremap <silent> cs    <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -262,8 +202,4 @@ vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } e
 --nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 --nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
-
--- Telescope / Fuzzy finder 
-
-vim.keymap.set('n', '<c-P>', "<cmd>lua require('fzf-lua').files()<CR>", { noremap = true, silent = true })
 

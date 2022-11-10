@@ -1,4 +1,5 @@
 local status, ms = pcall(require, 'material')
+if (not status) then return end
 
 vim.g.material_style = "darker"
 
