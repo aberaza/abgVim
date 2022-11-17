@@ -21,8 +21,8 @@ call plug#begin('~/.vim/bundle') " {
       Plug 'kyazdani42/nvim-web-devicons'
     endif
     Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
-
   " IDE  Functionality
+    Plug 'editorconfig/editorconfig-vim'
     " FileBrowserBar
     if NEOVIM()
       Plug 'nvim-tree/nvim-tree.lua'
@@ -51,7 +51,8 @@ call plug#begin('~/.vim/bundle') " {
       Plug 'puremourning/vimspector'
     endif
     " Testing / Units Test
-    " Plug 'tpope/vim-dispatch' " Is needed for vim-test
+    Plug 'tpope/vim-dispatch' " Is recommended for vim-test
+    Plug 'vim-test/vim-test'
     " Plug 'janko-m/vim-test' "needs vim-dispatch
     " Plug 'tpope/vim-projectionist'
     " Git

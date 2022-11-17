@@ -1,3 +1,4 @@
+if exists('g:plugs[""]')
 " NerdTREE {
   " let g:airline_powerline_fonts=1
   "let g:NERDTreeDirArrowExpandable = '' "'▸'       ﱮ
@@ -20,3 +21,5 @@
     let g:NERDTreeHighlightFolders = 1
 " endif
 " }
+endif
+
