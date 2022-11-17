@@ -1,4 +1,4 @@
 abgVim
 ======
 
-My gVIM configuration
+My xVIM configuration
