@@ -173,6 +173,13 @@ dap.configurations.cs = {
   }, 
   { 
     type = "coreclr",
+    name = "Debug C# - CampaignIndexation.Microservice",
+    request = "launch",
+    program = "${workspaceFolder}/src/Application/Vp.Pim.CampaignIndexation.Microservice/bin/Debug/net6.0/Vp.Pim.CampaignIndexation.Microservice.dll",
+    cwd = "${workspaceFolder}/src/Application/Vp.Pim.CampaignIndexation.Microservice/bin/Debug/net6.0/"
+  }, 
+  { 
+    type = "coreclr",
     name = "Attach to C#",
     request = "attach",
     processId = function()

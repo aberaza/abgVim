@@ -10,8 +10,8 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-local signs = { Error = "", Warn = "", Hint = "", Info = "" } 
--- local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "" } 
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+-- local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "" }
 for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
@@ -29,7 +29,7 @@ local function on_attach(client, bufnr)
   -- require("config.lsp.keymaps").setup(client, bufnr)
 end
 
-local servers = { 'tsserver', 'jsonls', 'csharp_ls', 'html', 'elmls', 'gopls', 'vimls' }
+local servers = { 'tsserver', 'jsonls', 'html', 'elmls', 'gopls', 'vimls' }
 
 for _, lsp in pairs(servers) do
     nvim_lsp[lsp].setup ({
@@ -37,29 +37,38 @@ for _, lsp in pairs(servers) do
         on_attach = on_attach,
         flags = {
             -- default in neovim 0.7+
-            debounce_text_changes = 150, 
+            debounce_text_changes = 150,
         },
     })
 end
 
-nvim_lsp.omnisharp.setup {
-  cmd = { "dotnet", "~/.local/opt/omnisharp-net6.0/OmniSharp.dll" },
-  enable_editorconfig_support = true,
-  enable_import_completion = false, -- can negatively impact performance
-  sdk_include_prereleases = true,
+local util = require('lspconfig').util
+nvim_lsp.csharp_ls.setup {
+  filetypes = { 'cs', 'csx', 'vb' },
+  root_dir = function(file, _)
+    if file:sub(-#".csx") == ".csx" then
+      return util.path.dirname(file)
+    end
+    -- return util.root_pattern("*.sln")(file) or util.root_pattern("*.csproj")(file)
+    return util.root_pattern("*.sln")(file)
+end,
 }
 
+-- nvim_lsp.omnisharp.setup {
+--   cmd = { "dotnet", "~/.local/opt/omnisharp-net6.0/OmniSharp.dll" },
+--   enable_editorconfig_support = true,
+--   enable_import_completion = false, -- can negatively impact performance
+--   sdk_include_prereleases = true,
+-- }
 
--- REST.nvim 
+
+-- REST.nvim
 -- require'rest-nvim'.setup({
 --     highlight = {
 --        enabled = true,
 --        timeout = 150,
 --    },
 -- })
-
--- nvim_lsp.omnisharp.setup {}
-
 -- require'lspsaga'.init_lsp_saga{
 --   error_sign = '',
 --   warn_sign = '',
@@ -120,7 +129,7 @@ require("indent_blankline").setup {
     show_current_context = true,
     show_current_context_start = true,
     -- context_patterns = {'class', 'function', 'method', '^if', '^while', '^for', '^object', '^table', '^block', 'arguments'},
-    -- max_indent_increase = 1, -- Aligned trailing multiline commnets not create indentation 
+    -- max_indent_increase = 1, -- Aligned trailing multiline commnets not create indentation
 }
 
 require("which-key").setup {
@@ -133,8 +142,8 @@ require("which-key").setup {
 vim.opt.foldmethod='expr'
 vim.opt.completeopt = 'menuone,noinsert,noselect'
 
--- set foldmethod=expr 
--- set foldexpr=nvim_treesitter#foldexpr() 
+-- set foldmethod=expr
+-- set foldexpr=nvim_treesitter#foldexpr()
 -- set completeopt-=preview
 -- use omni comletion from lsp
 -- autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
@@ -170,14 +179,14 @@ vim.keymap.set('n', 'gca', vim.lsp.buf.code_action, bufopts)
 -- nnoremap <silent><leader>cs    <cmd>lua vim.lsp.buf.signature_help()<CR>
 -- nnoremap <silent> cd <cmd>lua vim.lsp.buf.type_definition()<CR>
 -- nnoremap <silent><leader>cd <cmd>lua vim.lsp.buf.type_definition()<CR>
---" nnoremap <silent>K :Lspsaga hover_doc<CR> 
+--" nnoremap <silent>K :Lspsaga hover_doc<CR>
 --" nnoremap <silent>cs :Lspsaga signature_help<CR>
 --" nnoremap <silent><leader>cs :Lspsaga signature_help<CR>
 --" nnoremap <silent>cd :Lspsaga preview_definition<CR>
 --" nnoremap <silent><leader>cd :Lspsaga preview_definition<CR>
 --"find references and definition of method/variable under cursor
--- nnoremap <silent>ch <Cmd>Lspsaga lsp_finder<CR> 
--- nnoremap <silent><leader>ch <Cmd>Lspsaga lsp_finder<CR> 
+-- nnoremap <silent>ch <Cmd>Lspsaga lsp_finder<CR>
+-- nnoremap <silent><leader>ch <Cmd>Lspsaga lsp_finder<CR>
 
 --" Other functionality
 --" rename
@@ -201,5 +210,3 @@ vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } e
 --nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 --nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 --nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-
-
