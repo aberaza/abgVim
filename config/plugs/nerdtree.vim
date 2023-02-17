@@ -21,5 +21,9 @@ if exists('g:plugs["nerdtree"]')
     let g:NERDTreeHighlightFolders = 1
 " endif
 " }
+"
+"
+  nnoremap <Leader>nl :NERDTreeFind<CR>
+  map <C-B> :NERDTreeToggle<CR>
 endif
 

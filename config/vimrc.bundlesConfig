@@ -23,6 +23,7 @@ let g:vim_monokai_tasty_italic = g:abg_theme_enable_italics
 " Deeps-Space
 let g:deepspace_italics = g:abg_theme_enable_italics
 " gruvbox theme
+"
 let g:gruvbox_italic    = g:abg_theme_enable_italics
 let g:gruvbox_bold      = g:abg_theme_enable_bold
 let g:gruvbox_underline = g:abg_theme_enable_underline

@@ -14,11 +14,11 @@ call plug#begin('~/.vim/bundle') " {
   let g:plug_config_vim_dir = $HOME . '/.vim/config/plugs'
   let g:plug_config_lua_dir = $HOME . '/.vim/config/plugs'
   Plug 'ouuan/vim-plug-config'
-    
+
   " Dependencias y requisitos
   NPlug 'kyazdani42/nvim-web-devicons'
   NPlug 'nvim-lua/plenary.nvim'
-  Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
+  Plug 'ryanoasis/vim-devicons'
   Plug 'editorconfig/editorconfig-vim'
 
   " FileTree / Browse 
@@ -51,7 +51,7 @@ call plug#begin('~/.vim/bundle') " {
   " Syntaxes & Indentations 
   NPlug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'}  " We recommend updating the parsers on update
   NPlug 'ellisonleao/glow.nvim' " Markdown preview with :Glow 
-  VPlug 'sheerun/vim-polyglot' " All in one!
+  VPlug 'sheerun/vim-polyglot'
   Plug 'tpope/vim-jdaddy', { 'for': 'json' } " JSON
   " Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' } " C# .Net
   Plug 'lervag/vimtex', { 'for': 'tex' } "TeX LaTeX
@@ -71,7 +71,6 @@ call plug#begin('~/.vim/bundle') " {
   " Snippets
   NPlug 'hrsh7th/cmp-vsnip'
   NPlug 'hrsh7th/vim-vsnip'
-
       " Plug 'ray-x/lsp_signature.nvim' " hint funciton signatures while you type
       " " improve ui
       " Plug 'glepnir/lspsaga.nvim'

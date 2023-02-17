@@ -3,24 +3,7 @@ let mapleader = "\<Space>" " <leader> == Spacebar
 let g:mapleader = "\<Space>" " <leader> == Spacebar
 let g:maplocalleader = "," " <leader> == Spacebar
 " }
-if !NEOVIM()
-  call which_key#register('<Space>', "g:which_key_map")
-endif
 
-" Define prefix dictionary
-let g:which_key_map =  {}
-" Reload Vim Config
-let g:which_key_map.v = {
-  \ 'name' : '+vim',
-  \ 'r': 'Reload config',
-  \ 'c': 'Open vim config'
-  \ }
-nnoremap <leader>vr :source $MYVIMRC<CR>
-nnoremap <leader>vc :e $MYVIMRC<CR>
-
-" Show leader-help
-noremap <silent> <leader><leader> :WhichKey '<Space>'<CR>
-" <lader>ig toggles indent guides
 
 " Abbreviations / Typos {
 cnoreabbrev W! w!
@@ -36,165 +19,11 @@ cnoreabbrev Q q
 cnoreabbrev X x
 " }
 
-" JUMPS
-" Ctrl-O to jump back
-" Visual and Normal
-
+" Config files {
 nnoremap gp :PlugConfigEditUnderCursor<CR>
-
-if exists('g:plugs["ale"]')
-  let g:which_key_map.g = {
-        \ 'name': '+go_to_...',
-        \ 'd': 'symbol definition',
-        \ 't': 'type definition',
-        \ 'r': 'references'
-        \ }
-  " Changed map to nnoremap so it works only in normal mode
-  nnoremap <leader>gd <Plug>(ale_go_to_definition)
-  nnoremap <leader>gt <Plug>(ale_to_to_type_definition)
-  nnoremap <leader>gr <Plug>(ale_find_references)
-  " Refactoring
-  let g:which_key_map.c = {
-        \ 'name': '+code',
-        \ 'r': 'Rename symbol',
-        \ 'f': 'Linter Code Fix',
-        \ }
-  nnoremap <leader>cr :ALERename  " Rename a symbol/var
-  nnoremap <leader>cf <Plug>(ale_fix)     " Autofix error
-
-  " Errors Warnings {
-  " With ALE {{
-  map <leader>lt <Plug>(ale_toggle)  " Switch on/off
-  " Fix
-  map <leader>lf <Plug>(ale_fix)     " Autofix error
-  map <leader>ld <Plug>(ale_detail)  " Show extra info on selected error
-  map <leader>lr <Plug>(ale_reset)   " Reset errors
-  " or we could try :lnext and :lprev
-  map <slient> <Plug>(ale_previous_wrap)
-  map <slient> <leader>lp <Plug>(ale_previous_wrap)
-  map <slient> <C-j> <Plug>(ale_next_wrap)
-  map <slient> <leader>ln <Plug>(ale_next_wrap)
-" }}
-endif
-
-
-" GoTo code navigation.
-if exists('g:plugs["coc.nvim"]')
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gt <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gr <Plug>(coc-references)
-  nnoremap <silent> gh :call CocAction('doHover')<CR>
-
-  " rename the current word in the cursor
-  nmap <leader>cr  <Plug>(coc-rename)
-  nmap <leader>cf  <Plug>(coc-format-selected)
-  vmap <leader>cf  <Plug>(coc-format-selected)
-
-  " run code actions
-  vmap <leader>ca  <Plug>(coc-codeaction-selected)
-  nmap <leader>ca  <Plug>(coc-codeaction-selected)
-  " Errors & Warnings {
-  " With COC
-  map <leader> lf <Plug>(coc-codeaction)
-  " List errors
-  nnoremap <silent> <leader>cl  :<C-u>CocList locationlist<cr>
-  " }
-  " list commands available in tsserver (and others)
-  nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
-
-  " restart when tsserver gets wonky
-  nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
-
-" }}
-endif
-
-
-if exists('g:plugs["vim-fugitive"]')
-  " Code Control / Versioning :: Git
-  function! ToggleFugitive()
-      if buflisted(bufname('.git/index'))
-          bd .git/index
-      else
-          Git
-      endif
-  endfunction
-
-  function! s:ToggleBlame()
-      if &l:filetype ==# 'fugitiveblame'
-          close
-      else
-          Git blame
-      endif
-  endfunction
-  nnoremap <leader>gs :call ToggleFugitive()<CR>
-  nnoremap <leader>gb :call <SID>ToggleBlame()<CR>
-  nnoremap <leader>gg :SignifyToggle<CR>
-
-  let g:which_key_map.g = {
-        \ 'name': '+git',
-        \ 's': 'toggle git status',
-        \ 'b': 'toggle git blame',
-        \ 'g': 'toggle git signify',
-        \  }
-endif
-
-" AutoComplete
-" COC {
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-if exists('g:plugs["coc.vim"]')
-  inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-
-  " Use <c-space> to trigger completion.
-  inoremap <silent><expr> <c-space> coc#refresh()
-  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-  " position. Coc only does snippet and additional edit on confirm.
-  " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-  if exists('*complete_info')
-    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-  else
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  endif
-endif
-
-" Find Files FZF {
-if exists('g:plugs["fzf.vim"]')
-  noremap <silent> <C-p> :Files<CR>
-  " TODO: conflicts with autocmplete?
-  inoremap <silent> <C-p> <C-o>:Files<CR>
-  noremap <silent> <leader>p :Files<CR>
-  noremap <silent> <leader>P :Files!<CR> " Full Screen
-  " Leave fzf with CtrlP or ESC
-  if has("nvim")
-    autocmd FileType fzf tnoremap <buffer> <Esc> <Esc>
-    autocmd FileType fzf tnoremap <C-P> <Esc> <Esc>
-  endif
-
-  nnoremap <Leader>s :Ag <C-R><C-W><CR>
-  nnoremap <Leader>* :Ag <C-R><C-W><CR>
-  " <,F> or <Ctrl+F> To do a workspace search
-  " This breaks original Ctrl F (scroll on page down)
-  nnoremap <Leader>f :Ag<SPACE>
-  nnoremap <C-F> :Ag<SPACE>
-  inoremap <C-F> <C-O>:Ag<SPACE>
-endif
+nnoremap <leader>vr :source $MYVIMRC<CR>
+nnoremap <leader>vc :e $MYVIMRC<CR>
 " }
-
-
-" Ag or FZF {
-" bind <,s> and <,*>  to  search for word under cursor
-"}
 
 nmap <silent> <C-DOWN> :cnext<CR>
 nmap <silent> <C-UP> :cprevious<CR>
@@ -206,17 +35,17 @@ inoremap <C-Z> <C-O>u " insert mode
 noremap <C-Y> <C-R>
 inoremap <C-Y> <C-O><C-R>
 " CTRL-A is Select all
-noremap <C-A> gggH<C-O>G
-inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
-cnoremap <C-A> <C-C>gggH<C-O>G
-onoremap <C-A> <C-C>gggH<C-O>G
-snoremap <C-A> <C-C>gggH<C-O>G
-xnoremap <C-A> <C-C>ggVG
+" noremap <C-A> gggH<C-O>G
+" inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
+" cnoremap <C-A> <C-C>gggH<C-O>G
+" onoremap <C-A> <C-C>gggH<C-O>G
+" snoremap <C-A> <C-C>gggH<C-O>G
+" xnoremap <C-A> <C-C>ggVG
 " CTRL-Tab is Next window
-noremap  <C-Tab> <C-W>w
-inoremap <C-Tab> <C-O><C-W>w
-cnoremap <C-Tab> <C-C><C-W>w
-onoremap <C-Tab> <C-C><C-W>w
+" noremap  <C-Tab> <C-W>w
+" inoremap <C-Tab> <C-O><C-W>w
+" cnoremap <C-Tab> <C-C><C-W>w
+" onoremap <C-Tab> <C-C><C-W>w
 " Window switch CTRL-Arrows
 noremap <C-Up> <C-w>k
 noremap <C-Down> <C-w>j
@@ -244,20 +73,6 @@ noremap <C-S>	  :update<CR>
 vnoremap <C-S>  <C-C>:update<CR>
 inoremap <C-S>  <C-O>:update<CR>
 
-" Tagbar {
-nnoremap <silent> <leader>tt :TagbarToggle<CR>
-" }
-
-
-" NerdTREE {
-if exists('g:plugs["nerdtree"]')
-  nnoremap <Leader>nl :NERDTreeFind<CR>
-  map <C-B> :NERDTreeToggle<CR>
-endif
-" }
-
-
-
 " Toggle the quickfix window {{{
 " From Steve Losh, http://learnvimscriptthehardway.stevelosh.com/chapters/38.html
 nnoremap <C-q> :call <SID>QuickfixToggle()<cr>
@@ -277,8 +92,6 @@ function! s:QuickfixToggle()
 endfunction
 " }}}
 
-" nnoremap <C-F9> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR> " toggle menu bar
-" nnoremap <space> za     " Mapping toggle folds
 " Expand-region {
 " vmap v <Plug>(expand_region_expand)
 " vmap V <Plug>(expand_region_shrink)

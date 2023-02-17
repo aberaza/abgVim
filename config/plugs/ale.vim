@@ -32,5 +32,40 @@ if exists('g:plugs["ale"]')
   "  " highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
   " hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=NONE gui=bold guifg=#F92672 guibg=NONE
   " hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=NONE gui=bold guifg=#FD971F guibg=NONE
+  "
+  "
+  "
+  "
+  let g:which_key_map.g = {
+        \ 'name': '+go_to_...',
+        \ 'd': 'symbol definition',
+        \ 't': 'type definition',
+        \ 'r': 'references'
+        \ }
+  " Changed map to nnoremap so it works only in normal mode
+  nnoremap <leader>gd <Plug>(ale_go_to_definition)
+  nnoremap <leader>gt <Plug>(ale_to_to_type_definition)
+  nnoremap <leader>gr <Plug>(ale_find_references)
+  " Refactoring
+  let g:which_key_map.c = {
+        \ 'name': '+code',
+        \ 'r': 'Rename symbol',
+        \ 'f': 'Linter Code Fix',
+        \ }
+  nnoremap <leader>cr :ALERename  " Rename a symbol/var
+  nnoremap <leader>cf <Plug>(ale_fix)     " Autofix error
+
+  " Errors Warnings {
+  " With ALE {{
+  map <leader>lt <Plug>(ale_toggle)  " Switch on/off
+  " Fix
+  map <leader>lf <Plug>(ale_fix)     " Autofix error
+  map <leader>ld <Plug>(ale_detail)  " Show extra info on selected error
+  map <leader>lr <Plug>(ale_reset)   " Reset errors
+  " or we could try :lnext and :lprev
+  map <slient> <Plug>(ale_previous_wrap)
+  map <slient> <leader>lp <Plug>(ale_previous_wrap)
+  map <slient> <C-j> <Plug>(ale_next_wrap)
+  map <slient> <leader>ln <Plug>(ale_next_wrap)
 endif
 " }

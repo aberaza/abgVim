@@ -36,10 +36,6 @@ if exists('g:plugs["fzf"]')
   noremap <silent> <leader>p :Files<CR>
   noremap <silent> <leader>P :Files!<CR> " Full Screen
   " Leave fzf with CtrlP or ESC
-  if has("nvim")
-    autocmd FileType fzf tnoremap <buffer> <Esc> <Esc>
-    autocmd FileType fzf tnoremap <C-P> <Esc> <Esc>
-  endif
 
   nnoremap <Leader>s :Ag <C-R><C-W><CR>
   nnoremap <Leader>* :Ag <C-R><C-W><CR>
