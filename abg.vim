@@ -25,5 +25,19 @@ silent function! abg#switch_colors(name)
   " silent execute 'doautocmd ColorScheme' fnameescape(a:name)
 endfunction
 
+silent function! abg#plug_neovim(name,...)
+  if NEOVIM()
+    call plug#(a:name)
+  endif
+endfunction
+silent function! abg#plug_vim(name,...)
+  if VIM()
+    call plug#(a:name)
+  endif
+endfunction
+
+command -nargs=+ -bar NPlug call abg#plug_neovim(<args>)
+command -nargs=+ -bar VPlug call abg#plug_vim(<args>)
+  
 " silent function! abg#switch_lightline_colors(name)
 

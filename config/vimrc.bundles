@@ -14,138 +14,94 @@ call plug#begin('~/.vim/bundle') " {
   let g:plug_config_vim_dir = $HOME . '/.vim/config/plugs'
   let g:plug_config_lua_dir = $HOME . '/.vim/config/plugs'
   Plug 'ouuan/vim-plug-config'
+    
+  " Dependencias y requisitos
+  NPlug 'kyazdani42/nvim-web-devicons'
+  NPlug 'nvim-lua/plenary.nvim'
+  Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
+  Plug 'editorconfig/editorconfig-vim'
 
-  " Deps 
-    if NEOVIM()
-      Plug 'nvim-lua/plenary.nvim'
-      Plug 'kyazdani42/nvim-web-devicons'
-    endif
-    Plug 'ryanoasis/vim-devicons' " fancy icons for nerdtree, airline, git and others
-  " IDE  Functionality
-    Plug 'editorconfig/editorconfig-vim'
-    " FileBrowserBar
-    if NEOVIM()
-      Plug 'nvim-tree/nvim-tree.lua'
-    else
-      Plug 'preservim/nerdtree'
-      Plug 'Xuyuanp/nerdtree-git-plugin'
-      Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
-      Plug 'tpope/vim-vinegar' 
-    endif
-    " Find Files, and Bufersoi
-    if NEOVIM()
-      Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
-      Plug 'nvim-telescope/telescope.nvim'
-      Plug 'nvim-telescope/telescope-file-browser.nvim'
-    else
-      Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-      Plug 'junegunn/fzf.vim'
-    endif
-    " Debug 
-    if NEOVIM()
-      Plug 'mfussenegger/nvim-dap'
-      Plug 'rcarriga/nvim-dap-ui' " Not needed but fancy to have UI for nvim-dap 
-      Plug 'theHamsta/nvim-dap-virtual-text'
-      Plug 'nvim-telescope/telescope-dap.nvim'
+  " FileTree / Browse 
+  NPlug 'nvim-tree/nvim-tree.lua'
+  VPlug 'preservim/nerdtree'
+  VPlug 'Xuyuanp/nerdtree-git-plugin'
+  VPlug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
+  VPlug 'tpope/vim-vinegar' 
 
-      Plug 'puremourning/vimspector'
-    endif
-    " Testing / Units Test
-    Plug 'tpope/vim-dispatch' " Is recommended for vim-test
-    Plug 'vim-test/vim-test'
-    " Plug 'janko-m/vim-test' "needs vim-dispatch
-    " Plug 'tpope/vim-projectionist'
-    " Git
-    Plug 'tpope/vim-fugitive'     " GIT integration
-    Plug 'idanarye/vim-merginal'  " Fugitive plugin for branches 
-    Plug 'mhinz/vim-signify'      " show changes in the file
+  " Files and Buffer find
+  NPlug 'ibhagwan/fzf-lua', {'branch': 'main'}
+  NPlug 'nvim-telescope/telescope.nvim'
+  NPlug 'nvim-telescope/telescope-file-browser.nvim'
+  VPlug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  VPlug 'junegunn/fzf.vim'
+  " Debug 
+  NPlug 'mfussenegger/nvim-dap'
+  NPlug 'rcarriga/nvim-dap-ui' " Not needed but fancy to have UI for nvim-dap 
+  NPlug 'theHamsta/nvim-dap-virtual-text'
+  NPlug 'nvim-telescope/telescope-dap.nvim'
+  NPlug 'puremourning/vimspector'
+  " Testing / Units Test
+  Plug 'tpope/vim-dispatch' " Is recommended for vim-test
+  Plug 'vim-test/vim-test'
+  " Plug 'tpope/vim-projectionist'
+  " Git
+  Plug 'tpope/vim-fugitive'     " GIT integration
+  Plug 'idanarye/vim-merginal'  " Fugitive plugin for branches 
+  Plug 'mhinz/vim-signify'      " show changes in the file
+  " Syntaxes & Indentations 
+  NPlug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  NPlug 'ellisonleao/glow.nvim' " Markdown preview with :Glow 
+  VPlug 'sheerun/vim-polyglot' " All in one!
+  Plug 'tpope/vim-jdaddy', { 'for': 'json' } " JSON
+  " Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' } " C# .Net
+  Plug 'lervag/vimtex', { 'for': 'tex' } "TeX LaTeX
 
-    " Syntaxes & Indentations {
-    if NEOVIM()
-      Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-    else
-      Plug 'sheerun/vim-polyglot' " All in one!
-    endif
-
-    Plug 'tpope/vim-jdaddy', { 'for': 'json' } " JSON
-    " Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' } " C# .Net
-    Plug 'lervag/vimtex', { 'for': 'tex' } "TeX LaTeX
-
-" Autocomplete 
-    if NEOVIM()
-      " Autocomplete engine:
-      Plug 'neovim/nvim-lspconfig'
-      Plug 'hrsh7th/nvim-cmp'
-      " CMP automplete for lsp
-      Plug 'hrsh7th/cmp-nvim-lsp'
-      Plug 'hrsh7th/cmp-buffer'
-      Plug 'hrsh7th/cmp-path'
-      Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-      Plug 'hrsh7th/cmp-nvim-lua'
-      " Plug 'hrsh7th/cmp-cmdline'
-      " It requries a snippet engine, use suggested one for now
-      Plug 'hrsh7th/cmp-vsnip'
-      Plug 'hrsh7th/vim-vsnip'
-      " Add other sources
-      Plug 'jose-elias-alvarez/null-ls.nvim'
+  " Autocomplete 
+  NPlug 'neovim/nvim-lspconfig'
+  NPlug 'hrsh7th/nvim-cmp'
+    " CMP automplete for lsp
+  NPlug 'hrsh7th/cmp-nvim-lsp'
+  NPlug 'hrsh7th/cmp-buffer'
+  NPlug 'hrsh7th/cmp-path'
+  NPlug 'hrsh7th/cmp-nvim-lsp-signature-help'
+  NPlug 'hrsh7th/cmp-nvim-lua'
+  NPlug 'jose-elias-alvarez/null-ls.nvim'
+    " Plug 'hrsh7th/cmp-cmdline'
+  VPlug 'dense-analysis/ale'
+  " Snippets
+  NPlug 'hrsh7th/cmp-vsnip'
+  NPlug 'hrsh7th/vim-vsnip'
 
       " Plug 'ray-x/lsp_signature.nvim' " hint funciton signatures while you type
       " " improve ui
       " Plug 'glepnir/lspsaga.nvim'
       " Plug 'folke/lsp-colors.nvim' "add extra color definitions to colorschemes that don't support lsp syntax
-    else
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-      Plug 'wokalski/autocomplete-flow'
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
-      " For func argument completion
-      Plug 'Shougo/neosnippet', { 'do': 'npm install -g tern' } |
-            \ Plug 'Shougo/neosnippet-snippets'
 
-      Plug 'dense-analysis/ale'
-    endif
-
-  " Themes & UI {
-    if NEOVIM()
-      Plug 'marko-cerovac/material.nvim'
-    endif
-    Plug 'sainnhe/sonokai'
-    Plug 'sainnhe/gruvbox-material'
-    Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
-    Plug 'patstockwell/vim-monokai-tasty'
-
-    Plug 'fxn/vim-monochrome'
-    let g:monochrome_italic_comments = 1
-    " Plug 'Jorengarenar/vim-darkness'
-    Plug 'kvrohit/rasmus.nvim'
-    let g:rasmus_bold_functions = 1
-    let g:rasmus_variant = 'monochrome' " dark, monochrome ***
-    Plug 'andreypopp/vim-colors-plain'" una nota de azules ***
-    Plug 'davidosomething/vim-colors-meh' " azules low contrast con más elementos,UI resaltados
-  " }
-
-  " UI Look & Feel {
-    Plug 'itchyny/lightline.vim'
-    if NEOVIM()
-      Plug 'folke/which-key.nvim'
-      Plug 'lukas-reineke/indent-blankline.nvim'
-      Plug 'p00f/nvim-ts-rainbow'
-    else
-      Plug 'liuchengxu/vim-which-key'    " Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-      Plug 'Yggdroot/indentLine'
-      Plug 'luochen1990/rainbow' " Colorize parenthesis
-    endif
-    "Other Bells'nWhistles
-    Plug 'tpope/vim-commentary' " Comentarios
-
-  " }
+  " Themes & Colorschemes
+  NPlug 'marko-cerovac/material.nvim'
+  Plug 'sainnhe/sonokai'
+  Plug 'sainnhe/gruvbox-material'
+  Plug 'rafi/awesome-vim-colorschemes' " molokai/yo, minimalist, papercolor, solarized and many more
+  Plug 'patstockwell/vim-monokai-tasty'
+  Plug 'fxn/vim-monochrome'
+  Plug 'Jorengarenar/vim-darkness'
+  Plug 'kvrohit/rasmus.nvim'
+  Plug 'andreypopp/vim-colors-plain'" una nota de azules ***
+  Plug 'davidosomething/vim-colors-meh' " azules low contrast con más elementos,UI resaltados
+  " UI Look & Feel
+  Plug 'itchyny/lightline.vim'
+  NPlug 'folke/which-key.nvim'
+  NPlug 'lukas-reineke/indent-blankline.nvim'
+  NPlug 'p00f/nvim-ts-rainbow'
+  VPlug 'liuchengxu/vim-which-key'    " Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+  VPlug 'Yggdroot/indentLine'
+  VPlug 'luochen1990/rainbow' " Colorize parenthesis
+  " Other Bells'nWhistles
+  Plug 'tpope/vim-commentary' " Comentarios
 
   " REST Api as with postman/insomnia
   " Plug 'diepm/vim-rest-console'
-  " Plug 'NTBBloodbath/rest.nvim'
   " Plug 'NTBBloodbath/rest.nvim', { 'on' : [ 'RestNvim', 'RestNvimPreview', 'RestNvimLast' ] }
   " Plug 'eliba2/vim-node-inspect'
 call plug#end() " }
 call plug#helptags()
-" }
-"

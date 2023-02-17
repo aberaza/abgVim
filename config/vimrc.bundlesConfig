@@ -1,138 +1,3 @@
-"Rainbow
-if exists('g:plugs["rainbow"]')
-  let g:rainbow_active = 1
-endif
-
-if exists('g:plugs["indentLine"]')
-  let g:indentLine_setColors = 0 " concel is overwritten with grey, to keep conceal color with current theme , disable italic
-  let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-  " let g:indentLine_enabled = 0 " disabled by default
-endif
-
-" Lightline {
-" Powerfont Separators:                                       
-  let g:lightline = {
-    \   'colorscheme' : 'material',
-    \   'enable': { 'tabline': 1 },
-    \   'separator': { 'left':'' ,'right':'' },
-    \   'subseparator' : { 'left': '','right': '' },
-    \   'tabline_separator' : { 'left' : '', 'right' : '' },
-    \   'tabline_subseparator' : { 'left' : '', 'right' : 'R' },
-    \   'active' : {
-    \     'left' : [['mode', 'paste'], ['filetype', 'filename', 'modified'] ],
-    \     'right': [['gitbranch'], ['fileformat']]
-    \   },
-    \   'component_function': {
-    \     'fileformat': 'MyFileformat',
-    \     'filetype': 'MyIconFileType',
-    \     'gitbranch': 'MyGitBranch',
-    \   },
-    \   'mode_map': {
-    \     'n' : ' N ',
-    \     'i' : ' I ',
-    \     'R' : ' R ',
-    \     'v' : ' V ',
-    \     'V' : ' VL',
-    \     "\<C-v>": ' VB',
-    \     'c' : ' C ',
-    \     's' : ' S ',
-    \     'S' : ' SL',
-    \     "\<C-s>": ' SB',
-    \     't': ' T ',
-    \   },
-    \ }
-  " Some icons for file format:            גּ     者
-  function! MyIconFileType()
-    " return winwidth(0)>65 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-    return winwidth(0)>20 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-  endfunction
-
-  function! MyIconFileformat()
-    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
-  endfunction
-
-  function! MyProgressFormat()
-    " let l:spinner = { 0: ' ', 1: '▏', 2: '▏', 3: '▎', 4: '▍', 5:'▌', 6:'▋', 7: '▊', 8: '▉', 9: '█', 10: 'X', 'steps': 10 }
-    let l:spinner = { 0: '▁', 1: '▃', 2: '▄', 3: '▅', 4: '▆', 5: '▇', 6: '█', 7: '█', 'steps': 7 } 
-    let l:position = float2nr(floor(1.0 * l:spinner['steps'] * line('.') / line('$')))
-
-    return l:spinner[l:position]
-  endfunction
-  function! MyGitBranch()
-    return (' ' . MyProgressFormat() . '  ' . ' ' . FugitiveHead())
-  endfunction
-" }
-
-
-" Errors Warnings Bugs
-" Symbols from nerdfonts:     ﮖ           謹            
-"                   ﮏ ﰸ  ﲲ            﫵 ﱗ ﮢ 戴  塚 
-"    ﴫ 
-" Gutter/column symbols
-let g:lint_error_sign   = ''
-let g:lint_warn_sign    = ''
-let g:style_error_sign  = ''
-let g:style_warn_sign   = ''
-
-" Linting + Completion COC {
-if exists('g:plugs["coc.nvim"]')
-endif
-" }
-
-"Linting ALE  {
-if exists('g:plugs["ale"]')
-  " let g:ale_completion_enabled = 1    " For now allow ALE to add suggestions
-  " (not needed, use deoplete)
-  let g:ale_fix_on_save = 1           " Lint on save
-  let g:ale_open_list = 1             " Open LWindow on errors
-  let g:ale_keep_list_window_open = 1 " Keep it open all the time
-  let g:ale_list_window_size=5        " Resize it to 5 lines
-  let g:ale_fixers = {
-        \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-        \ 'javascript': ['eslint']
-        \}
-  let g:ale_sign_error         = g:lint_error_sign " ⏺ ⏺ • ✗
-  let g:ale_sign_warning       = g:lint_warn_sign " ⏺ ⬤  • ⚠
-  let g:ale_sign_style_error   = g:style_error_sign " 'ﮙ'  ''
-  let g:ale_sign_style_warning = g:style_warn_sign "''  ''
-  "  " ALEErrorSign guifg=darkred
-  "  " red
-  "  " Change how signs are colorized. BG remains same, color only to the symbol
-  "  " hi ALEErrorSign ctermbg=NONE ctermfg=red
-  "  " hi ALEErrorSign ctermfg=red ctermbg=none
-  "  " highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
-  " hi ALEErrorSign cterm=bold ctermfg=161 ctermbg=NONE gui=bold guifg=#F92672 guibg=NONE
-  " hi ALEWarningSign cterm=bold ctermfg=208 ctermbg=NONE gui=bold guifg=#FD971F guibg=NONE
-endif
-" }
-
-"Neocomplcache {
-if exists('g:plugs["deoplete.nvim"]')
-  let g:deoplete#enable_at_startup = 1
-  call deoplete#custom#option({
-    \ 'auto_complete_delay': 200,
-    \ 'smart_case': v:true,
-    \ })
-
-  " call deoplete#custom#options('sources', {'_' : ['ale','vim','tag']} " USe only this sources
-  call deoplete#custom#source('ale', 'dup', v:true) " onedarkAdd ALE candidates even if already present
-  call deoplete#custom#source('ale', 'mark', '') " 
-  " call deoplete#custom#source('ternjs', 'mark','')
-  call deoplete#custom#source('vim', 'mark','') " 
-  call deoplete#custom#source('tag', 'mark','')
-  call deoplete#custom#source('buffer', 'mark','﬘')
-  call deoplete#custom#source('omni', 'mark','ﱶ') " ﴄ ﱶ卵
-  " " deoplete-tern config
-  " let g:deoplete#sources#ternjs#timeout = 1
-  " let g:deoplete#sources#ternjs#docs = 1
-  " let g:deoplete#sources#ternjs#guess = 0
-  " let g:deoplete#sources#ternjs#expand_word_forward = 0 "search word matches from cursor to back, not the whole word under cursor
-  " neosnippet
-  let g:neosnippet#enable_completed_snippet = 0
-endif
-
-
-
 " vim-markdown {
   let g:vim_markdown_auto_insert_bullets = 0 " Do not add new bullets to list on ENTER
   let g:vim_markdown_fenced_languages = ['bash=sh', 'html', 'css', 'json=javascript', 'javascript', 'python']
@@ -140,10 +5,6 @@ endif
   let g:vim_markdown_toml_frontmatter = 1   " TOML support
   let g:vim_markdown_json_frontmatter = 1   " JSON FM support
 " }
-
-" use dispatch for vim-test
-let test#strategy = "dispatch"
-let g:test#preserve_screen = 1
 
 " Vim-rest
 let g:vrc_response_default_content_type = 'application/json'
@@ -154,13 +15,7 @@ let g:abg_theme_enable_italics  = get(g:, 'abg_theme_enable_italics', 1)
 let g:abg_theme_enable_bold     = get(g:, 'abg_theme_enable_bold', 1)
 let g:abg_theme_enable_underline= get(g:, 'abg_theme_enable_underline', 1)
 
-" PaperColor Theme {
-let g:PaperColor_Theme_Options = {
-    \   'theme' : {
-    \       'default': {'allow_italic':0, 'allow_bold':0 }
-    \   }
-    \}
-
+" PaperColor_Theme_Options
 let g:PaperColor_Theme_Options.theme.default.allow_italic = g:abg_theme_enable_italics
 let g:PaperColor_Theme_Options.theme.default.allow_bold   = g:abg_theme_enable_bold
 
@@ -174,6 +29,11 @@ let g:gruvbox_underline = g:abg_theme_enable_underline
 let g:gruvbox_udercurl  = g:abg_theme_enable_underline
 let g:gruvbox_contrast_dark = 'hard'
 
+" monochrome_italic_comments
+  let g:monochrome_italic_comments = 1
+" rasmus_bold_functions
+  let g:rasmus_bold_functions = 1
+  let g:rasmus_variant = 'monochrome' " dark, monochrome ***
 " one theme
 let g:one_allow_italics = g:abg_theme_enable_italics
 " space-vim-dark
