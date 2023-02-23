@@ -4,7 +4,6 @@ let g:mapleader = "\<Space>" " <leader> == Spacebar
 let g:maplocalleader = "," " <leader> == Spacebar
 " }
 
-
 " Abbreviations / Typos {
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
@@ -102,23 +101,6 @@ if maparg('<C-L>', 'n') ==# ''
   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 endif
 
-
-"{{{Theme Rotating from https://gist.github.com/jnaulty/55d03392c37e9720631a
-let themeindex=0
-function! RotateColorTheme()
-  let y = -1
-  while y == -1
-    let colorstring = "#gruvbox#purify#sonokai#molokai#molokayo#OceanicNext#ron#evening#pablo#desert#torte#"
-    let x = match( colorstring, "#", g:themeindex )
-    let y = match( colorstring, "#", x + 1 )
-    let g:themeindex = x + 1
-    if y == -1
-      let g:themeindex = 0
-    else
-      let themestring = strpart(colorstring, x + 1, y - x - 1)
-      return ":colorscheme ".themestring
-    endif
-  endwhile
-endfunction
-" }}}
-nnoremap <silent> <F8> :execute RotateColorTheme()<CR>
+" Rotate favourite color themes
+nnoremap <silent> <F8> :call abg#rotate_colors(1)<CR>
+nnoremap <silent> <S-F8> :call abg#rotate_colors()<CR>
