@@ -19,11 +19,17 @@ silent function! NEOVIM()
   return has('nvim')
 endfunction
 " }
+" Variables Definitions {
+" LSP / COC / Code Completion
+  " let g:abg_use_lsp = get(g:, 'abg_use_lsp', 1) && NEOVIM()
 
+let g:abg_fav_colorschemes = get(g:, 'abg_fav_colorschemes', [])
+let g:abg_fav_lofi_colorschemes = get(g:, 'abg_fav_lofi_colorschemes',[])
+let g:abg_theme_enable_italics = get(g:, 'abg_theme_enable_italics', 1)
+let g:abg_theme_enable_bold = get(g:, 'abg_theme_enable_bold', 1)
+let g:abg_theme_enable_underline = get(g:, 'abg_theme_enable_underline', 1)
+" }
 let abg_themeindex=0
-
-let g:abg_fav_colorschemes = []
-let g:abg_fav_lofi_colorschemes = []
 function! abg#rotate_colors(lofi)
   if lofi
     let g:abg_themeindex = (g:abg_themeindex +1) % len(g:abg_fav_lofi_colorschemes)
