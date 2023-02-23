@@ -57,9 +57,9 @@ call plug#begin('~/.vim/bundle') " {
   Plug 'lervag/vimtex', { 'for': 'tex' } "TeX LaTeX
 
   " Autocomplete 
+  NPlug 'jose-elias-alvarez/typescript.nvim'
   NPlug 'neovim/nvim-lspconfig'
   NPlug 'hrsh7th/nvim-cmp'
-    " CMP automplete for lsp
   NPlug 'hrsh7th/cmp-nvim-lsp'
   NPlug 'hrsh7th/cmp-buffer'
   NPlug 'hrsh7th/cmp-path'
