@@ -20,12 +20,6 @@ endif
 
 " Local settings file
 call SourceFile("~/.vim/vimrc.local")
-" LSP / COC / Code Completion
-  let g:abg_use_lsp = get(g:, 'abg_use_lsp', 1) && NEOVIM()
-  let g:abg_use_coc = get(g:, 'abg_use_coc', 0) && NEOVIM()
-" Usar ALE Linter (prettier, eslint, etc) 
-  let g:abg_use_ale = get(g:, 'abg_use_ale', 0) || !g:abg_use_coc || !g:abg_use_lsp
-" Fuente/Letra
   " let g:gui_font= get(g: 'gui_font', 'DejaVuSansMono Nerd Font Mono:h11')
 " }
 
