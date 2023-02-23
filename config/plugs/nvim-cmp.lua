@@ -34,9 +34,12 @@ local cmp_sources = {
   buffer = "[Buff]",
   treesitter = "[Trees]",
   path = "[Path]",
+  vsnip = "[Snip]",
   nvim_lsp_signature_help = "[Signature]",
 }
 
+
+vim.opt.completeopt = "menu,menuone,noinsert,noselect"
 
 cmp.setup({
     snippet = {
@@ -44,6 +47,10 @@ cmp.setup({
         expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
     },
     mapping = {
+        ['<C-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+        ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+        ['<C-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+        ['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
         ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
@@ -69,57 +76,38 @@ cmp.setup({
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
+        { name = 'vsnip' },
         { name = 'buffer' },
         { name = 'path' },
-        { name = 'vsnip' },
-        { name = 'nvim_lua' },
         { name = 'nvim_lsp_signature_help' },
-    }, {}
-    ),
+        -- { name = 'nvim_lua' }, nvim lua api
+    }),
     experimental = {
+      ghost_text = true,
       -- native_menu = true
-      ghost_text = true
-    }
+    },
 })
 
--- Assist on commands that start with / or ?
--- cmp.setup.cmdline({ '/', '?' }, {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = {
---       { name = 'buffer' }
---     }
---   })
-
--- Assist on commands that start with :
--- cmp.setup.cmdline(':', {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = cmp.config.sources({
---       { name = 'path' }
---     }, {
---       { name = 'cmdline' }
---     })
---   })
---   
 -- null-ls extras for autompletion
-local status, nullls = pcall(require, "null-ls")
-if (not status) then return end
-nullls.setup({
-  debounce = 150,
-  save_after_format = false,
-  sources = { 
-    -- formatting
-    nullls.builtins.formatting.prettierd,
-    nullls.builtins.formatting.shfmt,
-    nullls.builtins.formatting.fixjson,
-    -- diagnostics
-    nullls.builtins.diagnostics.tsc,
-    -- nullls.builtins.eslint_d,
-    -- Code Actions
-    -- nullls.builtins.code_actions.gitsign,
-    -- nullls.builtins.gitrebase,
-    -- hover 
-    nullls.builtins.hover.dictionary,
-  },
-  root_dir = require'null-ls.utils'.root_pattern ".git",
-})
+-- local status, nullls = pcall(require, "null-ls")
+-- if (not status) then return end
+-- nullls.setup({
+--   debounce = 150,
+--   save_after_format = false,
+--   sources = { 
+--     -- formatting
+--     nullls.builtins.formatting.prettierd,
+--     nullls.builtins.formatting.shfmt,
+--     nullls.builtins.formatting.fixjson,
+--     -- diagnostics
+--     nullls.builtins.diagnostics.tsc,
+--     -- nullls.builtins.eslint_d,
+--     -- Code Actions
+--     -- nullls.builtins.code_actions.gitsign,
+--     -- nullls.builtins.gitrebase,
+--     -- hover 
+--     nullls.builtins.hover.dictionary,
+--   },
+--   root_dir = require'null-ls.utils'.root_pattern ".git",
+-- })
 
