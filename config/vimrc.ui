@@ -57,13 +57,13 @@ endif
 
 if NEOVIM()
   set background=dark
-  let g:gruvbox_material_foreground = 'original' " material, mix, original 
-  let g:gruvbox_material_background = 'hard' " sofr, medium, hard 
-  let g:gruvbox_material_better_performance = 1
-  let g:gruvbox_material_enable_bold = 1 
-  let g:gruvbox_material_diagnostic_line_highlight = 1
-  let g:gruvbox_material_cursor = 'orange' " auto, red, orange, yellow, green, aqua, blue, purple
-  let g:gruvbox_material_statusline_style = 'original' " default, mix, original
+"  let g:gruvbox_material_foreground = 'original' " material, mix, original 
+"  let g:gruvbox_material_background = 'hard' " sofr, medium, hard 
+"  let g:gruvbox_material_better_performance = 1
+"  let g:gruvbox_material_enable_bold = 1 
+"  let g:gruvbox_material_diagnostic_line_highlight = 1
+"  let g:gruvbox_material_cursor = 'orange' " auto, red, orange, yellow, green, aqua, blue, purple
+"  let g:gruvbox_material_statusline_style = 'original' " default, mix, original
   " colorscheme gruvbox-material
 
   let g:sonokai_style = 'shusia'
@@ -77,9 +77,6 @@ else
   set background=dark
   colorscheme gruvbox
 endif
-
-"minimalistº
-
 " }
 
 " GUI Vim (all) {
