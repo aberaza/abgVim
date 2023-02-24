@@ -7,8 +7,6 @@ silent function! SourceFile(file)
   endif
 endfunction
 
-" HomeMade helper functions
-call SourceFile("~/.vim/abg.vim")
 " }
 
 " Environment {
@@ -18,14 +16,10 @@ if UNIXLIKE()
 endif
 
 
+" HomeMade helper functions
+call SourceFile("~/.vim/abg.vim")
 " Local settings file
 call SourceFile("~/.vim/vimrc.local")
-  " let g:gui_font= get(g: 'gui_font', 'DejaVuSansMono Nerd Font Mono:h11')
-" }
-
-
-
-" Source Config {
 " General Editor Config
 call SourceFile("~/.vim/config/vimrc.editor")
 " Bundles

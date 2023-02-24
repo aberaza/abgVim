@@ -2,14 +2,13 @@
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
 call plug#begin('~/.vim/bundle') " {
-  if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
-    autocmd VimEnter * PlugInstall | q
-  endif
+  " if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
+  "   autocmd VimEnter * PlugInstall | q
+  " endif
   " One config file autoload for each plugin!
   let g:plug_config_vim_dir = $HOME . '/.vim/config/plugs'
   let g:plug_config_lua_dir = $HOME . '/.vim/config/plugs'
@@ -25,7 +24,7 @@ call plug#begin('~/.vim/bundle') " {
   NPlug 'nvim-tree/nvim-tree.lua'
   VPlug 'preservim/nerdtree'
   VPlug 'Xuyuanp/nerdtree-git-plugin'
-  VPlug 'tiagofumo/vim-nerdtree-syntax-highlight' " colorines
+  VPlug 'tiagofumo/vim-nerdtree-syntax-highlight' 
   VPlug 'tpope/vim-vinegar' 
 
   " Files and Buffer find
@@ -50,10 +49,9 @@ call plug#begin('~/.vim/bundle') " {
   Plug 'mhinz/vim-signify'      " show changes in the file
   " Syntaxes & Indentations 
   NPlug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-  NPlug 'ellisonleao/glow.nvim' " Markdown preview with :Glow 
+  NPlug 'ellisonleao/glow.nvim', { 'for': 'markdown' }
   VPlug 'sheerun/vim-polyglot'
-  Plug 'tpope/vim-jdaddy', { 'for': 'json' } " JSON
-  " Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' } " C# .Net
+  Plug 'tpope/vim-jdaddy', { 'for': 'json' }
   Plug 'lervag/vimtex', { 'for': 'tex' } "TeX LaTeX
 
   " Autocomplete 
@@ -66,15 +64,10 @@ call plug#begin('~/.vim/bundle') " {
   NPlug 'hrsh7th/cmp-nvim-lsp-signature-help'
   NPlug 'hrsh7th/cmp-nvim-lua'
   NPlug 'jose-elias-alvarez/null-ls.nvim'
-    " Plug 'hrsh7th/cmp-cmdline'
   VPlug 'dense-analysis/ale'
   " Snippets
   NPlug 'hrsh7th/cmp-vsnip'
   NPlug 'hrsh7th/vim-vsnip'
-      " Plug 'ray-x/lsp_signature.nvim' " hint funciton signatures while you type
-      " " improve ui
-      " Plug 'glepnir/lspsaga.nvim'
-      " Plug 'folke/lsp-colors.nvim' "add extra color definitions to colorschemes that don't support lsp syntax
 
   " Themes & Colorschemes
   NPlug 'marko-cerovac/material.nvim'
@@ -92,7 +85,7 @@ call plug#begin('~/.vim/bundle') " {
   NPlug 'folke/which-key.nvim'
   NPlug 'lukas-reineke/indent-blankline.nvim'
   NPlug 'p00f/nvim-ts-rainbow'
-  VPlug 'liuchengxu/vim-which-key'    " Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+  VPlug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
   VPlug 'Yggdroot/indentLine'
   VPlug 'luochen1990/rainbow' " Colorize parenthesis
   " Other Bells'nWhistles

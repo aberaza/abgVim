@@ -45,19 +45,19 @@ silent function! abg#switch_colors(name)
   " silent execute 'doautocmd ColorScheme' fnameescape(a:name)
 endfunction
 
-silent function! abg#plug_neovim(name,...)
-  if NEOVIM()
-    call plug#(a:name)
+silent function! abg#plug_condition(condition, ...)
+  if a:0 < 1  
+    return s:err('Invalid number of arguments (1..2)')
   endif
-endfunction
-silent function! abg#plug_vim(name,...)
-  if VIM()
-    call plug#(a:name)
+  if a:condition
+    let opts = get(a:000, 0, {})
+    call plug#(a:1, opts)
   endif
 endfunction
 
-command -nargs=+ -bar NPlug call abg#plug_neovim(<args>)
-command -nargs=+ -bar VPlug call abg#plug_vim(<args>)
+command -nargs=+ -bar NPlug call abg#plug_condition(NEOVIM(), <args>)
+command -nargs=+ -bar VPlug call abg#plug_condition(VIM(), <args>)
+command -nargs=+ -bar CPlug call abg#plug_condition(<args>)
   
 " silent function! abg#switch_lightline_colors(name)
 

@@ -2,7 +2,7 @@ local status, ts = pcall(require, 'nvim-treesitter.configs')
 if (not status) then return end
 
 ts.setup {
-  ensure_installed = { "bash", "lua", "javascript", "typescript", "json", "yaml" },
+  ensure_installed = { "bash", "lua", "javascript", "typescript", "json", "yaml", "c_sharp" },
   sync_install = false,
   -- requires tree-sitter-cli
   auto_install = true,
@@ -19,3 +19,7 @@ ts.setup {
     max_file_lines = nil,
   }
 }
+
+
+
+vim.opt.foldmethod='expr'
