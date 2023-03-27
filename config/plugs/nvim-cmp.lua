@@ -30,20 +30,20 @@ local cmp_kinds =  {
 }
 
 local cmp_sources = {
-  nvim_lsp = "[LSP]",
-  buffer = "[Buff]",
-  treesitter = "[Trees]",
-  path = "[Path]",
-  vsnip = "[Snip]",
-  nvim_lsp_signature_help = "[Signature]",
+  nvim_lsp  = "[LSP]",
+  buffer    = "[Buf]",
+  treesitter = "[Trs]",
+  path      = "[Pth]",
+  vsnip     = "[Snp]",
+  nvim_lsp_signature_help = "[Sig]",
 }
 
 
 vim.opt.completeopt = "menu,menuone,noinsert,noselect"
 
 cmp.setup({
+    preselect = cmp.PreselectMode.None,
     snippet = {
-        -- use vsnip
         expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
     },
     mapping = {
@@ -69,17 +69,18 @@ cmp.setup({
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
           -- vim_item.menu = (cmp_sources[entry.source.name] or "")
-          vim_item.menu = "   [" .. vim_item.kind .. "]"
+          vim_item.menu = "  " .. cmp_sources[entry.source.name] 
           vim_item.kind = " " .. (cmp_kinds[vim_item.kind] or vim_item.kind) .. " "
           return vim_item
         end,
     },
     sources = cmp.config.sources({
+        { name = 'nvim_lsp_signature_help' },
         { name = 'nvim_lsp' },
         { name = 'vsnip' },
-        { name = 'buffer' },
         { name = 'path' },
-        { name = 'nvim_lsp_signature_help' },
+      }, {
+        { name = 'buffer' },
         -- { name = 'nvim_lua' }, nvim lua api
     }),
     experimental = {

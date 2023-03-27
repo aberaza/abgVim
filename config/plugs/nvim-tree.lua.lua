@@ -5,12 +5,12 @@ if (not status) then return end
 vim.g.loaded = 1 
 vim.g.loaded_netrwPlugin = 1 
 
-nvimtree.setup { 
+nvimtree.setup({ 
   disable_netrw = true,
   hijack_netrw = true,
   hijack_cursor = false,
   open_on_setup = false,
-  sort_by = "case_sensitive",
+  sort_by = 'case_sensitive',
   sync_root_with_cwd = true,
   -- respect_buf_cwd = true,
   update_cwd = true,
@@ -26,7 +26,17 @@ nvimtree.setup {
     adaptive_size = false,
     mappings = {
       list = {
-        { key = "u", action = "dir_up" },
+        -- { key = "[e", action = "" }, -- prev_diag_item
+        -- { key = "]e", action = "" }, -- next_diag_item
+        -- { key = "[c", action = "" }, -- prev_git_item
+        -- { key = "]c", action = "" }, -- next_git_item
+        -- { key = "g?", action = "" }, -- toggle_help
+        -- { key = "?", action = "toggle_help" },
+        -- { key = "u", action = "dir_up" },
+        -- { key = "<Space>p", action = "prev_diag_item" },
+        -- { key = "<Space>.", action = "next_diag_item" },
+        -- { key = "<Space>k", action = "prev_git_item" },
+        -- { key = "<Space>j", action = "next_git_item" },
       },
     },
   },
@@ -49,7 +59,7 @@ nvimtree.setup {
       quit_on_open = true,
     }
   }
-}
+})
 
 --# neovim-tree
 vim.keymap.set('n', '<leader>nl', ':NvimTreeFindFileToggle<CR>')

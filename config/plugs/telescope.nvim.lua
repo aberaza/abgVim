@@ -1,5 +1,5 @@
 local status, telescope = pcall(require, 'telescope')
-if (not status) then return end
+if not status then return end
 
 local actions = require('telescope.actions')
 local builtin = require('telescope.builtin')
@@ -40,8 +40,8 @@ telescope.setup {
           ['<C-w>'] = function() vim.cmd('normal vbd') end,
         },
         ['n'] = {
-          ['N'] = fb_actions.create,
-          ["h"] = fb_actions.goto_parent_dir,
+          ['a'] = fb_actions.create,
+          ["u"] = fb_actions.goto_parent_dir,
           ["/"] = function() vim.cmd('startinsert') end
         },
       },

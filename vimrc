@@ -1,23 +1,17 @@
 " Helper Functions {
 " Source config file only if it exists
-silent function! SourceFile(file)
-  if filereadable(expand(a:file))
-    " echo "Sourcing " a:file
-    exe 'source' a:file
-  endif
-endfunction
 
 " }
 
+" HomeMade helper functions
+source ~/.vim/abg.vim
 " Environment {
 set nocompatible " Must  line
-if UNIXLIKE()
+if MAC()
+  set shell=/usr/local/bin/zsh
+elseif UNIXLIKE()
   set shell=/usr/bin/zsh
 endif
-
-
-" HomeMade helper functions
-call SourceFile("~/.vim/abg.vim")
 " Local settings file
 call SourceFile("~/.vim/vimrc.local")
 " General Editor Config

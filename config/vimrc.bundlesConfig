@@ -48,5 +48,7 @@ let g:one_allow_italics = g:abg_theme_enable_italics
 " molokayo, one, onedark, space-vim-dark, tender
 let g:abg_fav_colorschemes += ['ayu', 'deep-space', 'carbonized-dark', 'molokayo', 'one', 'onedark', 'space-vim-dark', 'tender', 'gruvbox', 'purify', 'sonokai', 'OceanicNext', 'ron' ]
 let g:abg_fav_lofi_colorschemes += ['monochrome', 'rasmus', '256_noir', 'habamax', 'iceberg', 'meh', 'paramount', 'plain', 'quiet', 'rakr' ]
-
-autocmd ColorScheme * :echo "ColorScheme::" .expand('<amatch>')
+" augroup abg#colorscheme
+"   autocmd!
+"   autocmd ColorScheme * :echo "ColorScheme::" .expand('<amatch>')
+" augroup END

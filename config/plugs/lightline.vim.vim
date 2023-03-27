@@ -1,5 +1,6 @@
 " Powerfont Separators:                                       
-if exists('g:plugs["lightline"]')
+if exists('g:plugs["lightline.vim-----"]')
+
   let g:lightline = {
     \   'colorscheme' : 'material',
     \   'enable': { 'tabline': 1 },
@@ -8,13 +9,18 @@ if exists('g:plugs["lightline"]')
     \   'tabline_separator' : { 'left' : '', 'right' : '' },
     \   'tabline_subseparator' : { 'left' : '', 'right' : 'R' },
     \   'active' : {
-    \     'left' : [['mode', 'paste'], ['filetype', 'filename', 'modified'] ],
-    \     'right': [['gitbranch'], ['fileformat']]
+    \     'left' : [['mode', 'paste'], ['fileformat','filetype', 'filename'] ],
+    \     'right': [['gitbranch'], ['percent']],
+    \   },
+    \   'inactive' : {
+    \     'left': ['filename'],
     \   },
     \   'component_function': {
-    \     'fileformat': 'MyFileformat',
+    \     'filename': 'MyFilename',
+    \     'fileformat': 'MyIconFileformat',
     \     'filetype': 'MyIconFileType',
     \     'gitbranch': 'MyGitBranch',
+    \     'percent': 'MyProgressFormat',
     \   },
     \   'mode_map': {
     \     'n' : ' N ',
@@ -30,24 +36,120 @@ if exists('g:plugs["lightline"]')
     \     't': ' T ',
     \   },
     \ }
+
+  " if false
+  "   call add(g:lightline.active.right, [ 'diag_warnings', 'diag_hints', 'diag_infos', 'diag_ok'])
+
+    " \   'component_expand' : {
+    " \     'diag_errors': 'Diag_error',
+    " \   },
+    " \   'component_type': {
+    " \     'diag_hints': 'right',
+    " \     'diag_infos': 'right',
+    " \     'diag_warnings': 'warning',
+    " \     'diag_errors': 'error',
+    " \     'diag_ok': 'right',
+    " \   },
+  " endif
+
+  " if exists('g:plugs["lightline-lsp"]')
+  "   let g:lightline.component_expand = {
+  "       \  'diag_hints': 'lightline#lsp#hints',
+  "       \  'diag_infos': 'lightline#lsp#infos',
+  "       \  'diag_warnings': 'lightline#lsp#warnings',
+  "       \  'diag_errors': 'lightline#lsp#errors',
+  "       \  'diag_ok': 'lightline#lsp#ok',
+  "       \ }
+
+  "   let g:lightline.component_type = {
+  "       \     'diag_hints': 'right',
+  "       \     'diag_infos': 'right',
+  "       \     'diag_warnings': 'warning',
+  "       \     'diag_errors': 'error',
+  "       \     'diag_ok': 'right',
+  "       \ }
+
+  "   call add(g:lightline.active.right, ['diag_hints', 'diag_infos', 'diag_warnings', 'diag_errors', 'diag_ok'])
+  "   let g:lightline.active.right =[ ['gitbranch'], ['percent'], ['diag_hints', 'diag_infos', 'diag_warnings', 'diag_errors', 'diag_ok'] ]
+    
+  "   let g:lightline#lsp#indicator_hints   = ''
+  "   let g:lightline#lsp#indicator_infos   = ''
+  "   let g:lightline#lsp#indicator_warnings= ''
+  "   let g:lightline#lsp#indicator_errors  = ''
+  "   let g:lightline#lsp#indicator_ok      = "\uf00c"
+  " endif
   " Some icons for file format:            גּ     者
   function! MyIconFileType()
     " return winwidth(0)>65 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-    return winwidth(0)>20 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+    return winwidth(0)>20 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : '?') : ''
+  endfunction
+
+  function! MyFilename()
+    let filename = expand('N:~:.') !=# '' ? expand('%:~:.') : '[None]'
+    let modified = &modified? '+':''
+    return filename . modified
   endfunction
 
   function! MyIconFileformat()
-    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+    return winwidth(0) > 30 ?  WebDevIconsGetFileFormatSymbol() : ''
   endfunction
 
   function! MyProgressFormat()
     " let l:spinner = { 0: ' ', 1: '▏', 2: '▏', 3: '▎', 4: '▍', 5:'▌', 6:'▋', 7: '▊', 8: '▉', 9: '█', 10: 'X', 'steps': 10 }
-    let l:spinner = { 0: '▁', 1: '▃', 2: '▄', 3: '▅', 4: '▆', 5: '▇', 6: '█', 7: '█', 'steps': 7 } 
+    " let l:spinner = { 0: '▁', 1: '▃', 2: '▄', 3: '▅', 4: '▆', 5: '▇', 6: '█', 7: '█', 'steps': 7 } 
+    let l:spinner = { 0: '█', 1: '▇', 2: '▆', 3: '▅', 4: '▄', 5: '▃', 6: '▁', 7: ' ', 'steps': 7 } 
     let l:position = float2nr(floor(1.0 * l:spinner['steps'] * line('.') / line('$')))
-
     return l:spinner[l:position]
   endfunction
   function! MyGitBranch()
-    return (' ' . MyProgressFormat() . '  ' . ' ' . FugitiveHead())
+    return (' ' . FugitiveHead())
   endfunction
+
+   " function! MyDiagnostics()
+   "   return Diag_info() . s:abg_diag_error() . s:abg_diag_warn() . s:abg_diag_hint()
+   " endfunction
+
+   " function! Diag_error()
+   "   let errors = ''
+   "   let errors_count = s:abg_get_diags('vim.diagnostic.severity.ERROR')
+   "   return errors_count > 0 ? printf('%d', errors_count) : ''
+   " endfunction
+
+   " function! Diag_warn()
+   "   let warns = ''
+   "   let warns_count = s:abg_get_diags('vim.diagnostic.severity.WARN')
+   "   return warns_count > 0 ? warns . warns_count : ''
+   " endfunction
+
+   " function! Diag_hint()
+   "   let hints = ''
+   "   let hints_count = s:abg_get_diags('vim.diagnostic.severity.HINT')
+   "   return hints_count > 0 ? hints . hints_count : ''
+   " endfunction
+
+   " function! Diag_info()
+   "   let infos = ''
+   "   let infos_count = s:abg_get_diags('vim.diagnostic.severity.INFO')
+   "   return infos_count > 0 ? infos . infos_count : ''
+   " endfunction
+
+   " function! s:abg_get_diags(dtype) abort
+   "   if !s:abg_lsp_active()
+   "     return 0
+   "   endif
+   "   return luaeval('vim.tbl_count(vim.diagnostic.get(0, { severity = ' . a:dtype . '}))')
+   "   " return luaeval('vim.tbl_count(vim.diagnostic.get(' . bufnr() . ', { severity = ' . a:dtype . '}))')
+
+   " endfunction
+
+
+   " function! s:abg_lsp_active() abort
+   "   " return !!luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients('.bufnr().'))')
+   "   return !!luaeval('not vim.tbl_isempty(vim.lsp.buf_get_clients(0))')
+   " endfunction
+
+   " augroup lightline#diagnostic
+   "  autocmd!
+   "  autocmd DiagnosticChanged * call lightline#update()
+   " augroup END
 endif

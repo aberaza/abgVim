@@ -1,3 +1,8 @@
+silent function! SourceFile(file)
+  if filereadable(expand(a:file))
+    exe 'source' a:file
+  endif
+endfunction
 " Platform identification (from spf13-vim)
 silent function! MAC()
   return has('macunix')
@@ -51,7 +56,11 @@ silent function! abg#plug_condition(condition, ...)
   endif
   if a:condition
     let opts = get(a:000, 0, {})
-    call plug#(a:1, opts)
+    if opts 
+      call plug#(a:1, opts)
+    else
+      call plug#(a:1)
+    endif
   endif
 endfunction
 
