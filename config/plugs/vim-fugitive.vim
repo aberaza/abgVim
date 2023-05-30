@@ -16,14 +16,8 @@ if exists('g:plugs["vim-fugitive"]')
       endif
   endfunction
 
-  nnoremap <leader>gs :call ToggleFugitive()<CR>
-  nnoremap <leader>gb :call <SID>ToggleBlame()<CR>
-  nnoremap <leader>gg :SignifyToggle<CR>
-
-  " let g:which_key_map.g = {
-  "       \ 'name': '+git',
-  "       \ 's': 'toggle git status',
-  "       \ 'b': 'toggle git blame',
-  "       \ 'g': 'toggle git signify',
-  "       \  }
+  " Keymaps 
+  nnoremap <leader>tf :call ToggleFugitive()<CR>
+  nnoremap <leader>tb :call <SID>ToggleBlame()<CR>
+  nnoremap <leader>tg :SignifyToggle<CR>
 endif
