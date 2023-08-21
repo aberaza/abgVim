@@ -23,6 +23,9 @@ endfunction
 silent function! NEOVIM()
   return has('nvim')
 endfunction
+silent function! MINI()
+  return 0
+endfunction
 " }
 " Variables Definitions {
 " LSP / COC / Code Completion

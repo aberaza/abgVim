@@ -12,13 +12,16 @@ call plug#begin('~/.vim/bundle') " {
   " One config file autoload for each plugin!
   let g:plug_config_vim_dir = $HOME . '/.vim/config/plugs'
   let g:plug_config_lua_dir = $HOME . '/.vim/config/plugs'
-  Plug 'ouuan/vim-plug-config'
+  NPlug 'ouuan/vim-plug-config'
 
   " Dependencias y requisitos
   NPlug 'kyazdani42/nvim-web-devicons'
   NPlug 'nvim-lua/plenary.nvim'
   Plug 'ryanoasis/vim-devicons'
   Plug 'editorconfig/editorconfig-vim'
+
+  " Mini.nvim 
+  NPlug 'echasnovski/mini.nvim'
 
   " FileTree / Browse 
   NPlug 'nvim-tree/nvim-tree.lua'
@@ -28,19 +31,18 @@ call plug#begin('~/.vim/bundle') " {
   VPlug 'tpope/vim-vinegar' 
 
   " Files and Buffer find
-  NPlug 'ibhagwan/fzf-lua', {'branch': 'main'}
-  NPlug 'nvim-telescope/telescope.nvim'
-  NPlug 'nvim-telescope/telescope-file-browser.nvim'
-  VPlug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  VPlug 'junegunn/fzf.vim'
+  " NPlug 'ibhagwan/fzf-lua', {'branch': 'main'}
+  " NPlug 'nvim-telescope/telescope.nvim'
+  " NPlug 'nvim-telescope/telescope-file-browser.nvim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
   " Debug 
   NPlug 'mfussenegger/nvim-dap'
   NPlug 'rcarriga/nvim-dap-ui' " Not needed but fancy to have UI for nvim-dap 
   NPlug 'theHamsta/nvim-dap-virtual-text'
   NPlug 'nvim-telescope/telescope-dap.nvim'
-  NPlug 'puremourning/vimspector'
   " Testing / Units Test
-  Plug 'tpope/vim-dispatch' " Is recommended for vim-test
+  VPlug 'tpope/vim-dispatch' " Is recommended for vim-test
   Plug 'vim-test/vim-test'
   " Plug 'tpope/vim-projectionist'
   " Git
@@ -48,13 +50,13 @@ call plug#begin('~/.vim/bundle') " {
   Plug 'idanarye/vim-merginal'  " Fugitive plugin for branches 
   Plug 'mhinz/vim-signify'      " show changes in the file
   " Syntaxes & Indentations 
-  NPlug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  " NPlug 'nvim-treesitter/nvim-treesitter' , {'do': ':TSUpdate'}  " We recommend updating the parsers on update
   NPlug 'ellisonleao/glow.nvim', { 'for': 'markdown' }
+  NPlug 'iamcco/markdown-preview.nvim' 
   VPlug 'sheerun/vim-polyglot'
-  Plug 'tpope/vim-jdaddy', { 'for': 'json' }
-  Plug 'lervag/vimtex', { 'for': 'tex' } "TeX LaTeX
+  " Plug 'lervag/vimtex', { 'for': 'tex' } "TeX LaTeX
   " Diagnostics show
-  " NPlug 'folke/trouble.nvim'
+  NPlug 'folke/trouble.nvim'
   " NPlug 'ten3roberts/qf.nvim'
 
   " NPlug 'ErichDonGubler/lsp_lines.nvim' 
@@ -86,15 +88,12 @@ call plug#begin('~/.vim/bundle') " {
   Plug 'davidosomething/vim-colors-meh' " azules low contrast con más elementos,UI resaltados
   " UI Look & Feel
   Plug 'itchyny/lightline.vim'
-  " NPlug 'spywhere/lightline-lsp'
   NPlug 'folke/which-key.nvim'
-  NPlug 'lukas-reineke/indent-blankline.nvim'
-  NPlug 'p00f/nvim-ts-rainbow'
+  " NPlug 'lukas-reineke/indent-blankline.nvim'
   VPlug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
   VPlug 'Yggdroot/indentLine'
   VPlug 'luochen1990/rainbow' " Colorize parenthesis
-  " Other Bells'nWhistles
-  Plug 'tpope/vim-commentary' " Comentarios
+  VPlug 'tpope/vim-commentary' " Comentarios
 
   " REST Api as with postman/insomnia
   " Plug 'diepm/vim-rest-console'

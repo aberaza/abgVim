@@ -11,6 +11,7 @@ require('glow').setup()
 
 -- Treesitter
 vim.opt.foldmethod='expr'
-vim.opt.completeopt = 'menuone,noinsert,noselect'
+-- set in editor config file
+-- vim.opt.completeopt = 'menuone,noinsert,noselect'
 
 

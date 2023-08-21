@@ -1,81 +1,74 @@
 local status, nvim_lsp = pcall(require, 'lspconfig')
 if not status then return end
-
--- Keybindings
-local keymap = vim.keymap
-
+local util = require 'lspconfig.util'
+-- Helpers
 local function fixTSImports()
   typescript.actions.addMissingImports()
   typescript.actions.removeUnused()
   typescript.actions.organizeImports()
 end
-local whichkey = require "which-key"
-local function addKeymappings(client, bufnr)
-  print('Adding keybindings with whichkey for '..client.name)
-  local opts = { noremap=true, silent=true , buffer=true} -- buffer=true o 0 para solo buffer local
-  -- Key mappings
-  keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  -- WhichKey config
-  local keymap_g = {
-    name = "LSP Goto",
-    d = { "<Cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-    D = { "<Cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
-    h = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-    i = { "<Cmd>lua vim.lsp.buf.implementation<CR>", "Goto Implementation"},
-    I = { "<cmd>Telescope lsp_implementations<CR>", "Goto Implementation(TC)" },
-    b = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" },
-    td = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" },
-  }
 
-  local keymap_leader = {
-    l = {
-      name="LSP Servers",
-      R = { "<cmd>Trouble lsp_references<cr>", "Trouble References" },
-      a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
-      d = { "<cmd>Telescope diagnostics<CR>", "Diagnostics" },
-      f = { "<cmd>Lspsaga lsp_finder<CR>", "Finder" },
-      i = { "<cmd>LspInfo<CR>", "Lsp Info" },
-      n = { "<cmd>lua require('renamer').rename()<CR>", "Rename" },
-      r = { "<cmd>Telescope lsp_references<CR>", "References" },
-      s = { "<cmd>Telescope lsp_document_symbols<CR>", "Document Symbols" },
-      t = { "<cmd>TroubleToggle document_diagnostics<CR>", "Trouble" },
-      L = { "<cmd>lua vim.lsp.codelens.refresh()<CR>", "Refresh CodeLens" },
-      l = { "<cmd>lua vim.lsp.codelens.run()<CR>", "Run CodeLens" },
-      D = { "<cmd>lua require('config.lsp').toggle_diagnostics()<CR>", "Toggle Inline Diagnostics" },
-    },
-  }
+-- Keybindings
+local keymap = vim.keymap
 
-  local keymap_v_leader = {
-    l = {
-      name="LSP Servers",
-      a = { "<cmd>'<,'>lua vim.lsp.buf.range_code_action()<CR>", "Code Action" },
-    }
-  }
+-- local wk_status, whichkey = pcall(require, 'which-key')
+-- local function addKeymappings(client, bufnr)
+--   print('Adding keybindings with whichkey for '..client.name)
+--   -- Key mappings
+--   keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+--   whichkey.register({
+--     g = {
+--       name = "LSP Goto",
+--       d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
+--       D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
+--       h = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
+--       i = { "<cmd>lua vim.lsp.buf.implementation<CR>", "Goto Implementation"},
+--       I = { "<cmd>Telescope lsp_implementations<CR>", "Goto Implementation(TC)" },
+--       b = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" },
+--       td = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" },
+--     },
+--     c = {
+--       name = "LSP Code",
+--       r = { "<cmd>lua vim.lsp.buf.rename<CR>", "Rename Buf"},
+--       K = { "<cmd>lua vim.lsp.buf.hover<CR>", "Hover"},
+--       k = { "<cmd>lua vim.lsp.signature_help<CR>", "Signature"},
+--       h = { "<cmd>lua vim.lsp.signature_help<CR>", "Signature"},
+--       a = { "<cmd>lua vim.lsp.buf.code_action<CR>", "Code Actions"},
+--     },
+--     "<leader>" = {
+--       l = {
+--         name="LSP Servers",
+--         R = { "<cmd>Trouble lsp_references<cr>", "Trouble References" },
+--         a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
+--         d = { "<cmd>Telescope diagnostics<CR>", "Diagnostics" },
+--         f = { "<cmd>Lspsaga lsp_finder<CR>", "Finder" },
+--         i = { "<cmd>LspInfo<CR>", "Lsp Info" },
+--         n = { "<cmd>lua require('renamer').rename()<CR>", "Rename" },
+--         r = { "<cmd>Telescope lsp_references<CR>", "References" },
+--         s = { "<cmd>Telescope lsp_document_symbols<CR>", "Document Symbols" },
+--         t = { "<cmd>TroubleToggle document_diagnostics<CR>", "Trouble" },
+--         L = { "<cmd>lua vim.lsp.codelens.refresh()<CR>", "Refresh CodeLens" },
+--         l = { "<cmd>lua vim.lsp.codelens.run()<CR>", "Run CodeLens" },
+--         D = { "<cmd>lua require('config.lsp').toggle_diagnostics()<CR>", "Toggle Inline Diagnostics" },
+--       },
+--     },
+--   })
 
-  local keymap_c = {
-    name = "LSP Code",
-    r = { "<cmd>lua vim.lsp.buf.rename<CR>", "Rename Buf"},
-    K = { "<cmd>lua vim.lsp.buf.hover<CR>", "Hover"},
-    k = { "<cmd>lua vim.lsp.signature_help<CR>", "Signature"},
-    h = { "<cmd>lua vim.lsp.signature_help<CR>", "Signature"},
-    a = { "<cmd>lua vim.lsp.buf.code_action<CR>", "Code Actions"},
-  }
-  if client.name == 'tsserver' then
-    keymap_c.r = {"<cmd>TypescriptRenameFile<CR>", "TS RenameFile"}
-    keymap_c.i = {"<cmd>lua fixTSImports<CR>", "TS FIx Imports"}
-    keymap_c.f = {"<cmd>lua typescript.actions.fixAll<CR>", "TS FixAll"}
-  end
+  -- local keymap_visual = {
+  --   '<leader>' = {
+  --     l = {
+  --       name="LSP Servers",
+  --       a = { "<cmd>'<,'>lua vim.lsp.buf.range_code_action()<CR>", "Code Action" },
+  --     }
+  --   }
+  -- }
 
-  whichkey.register(keymap_g, { buffer = nil, mode="n", prefix = "g" })
-  whichkey.register(keymap_c, { buffer = nil, mode="n", prefix = "c" })
-  whichkey.register(keymap_leader, {buffer = bufnr, prefix = "<leader>"})
-  whichkey.register(keymap_v_leader, {buffer = bufnr, mode="v", prefix="<leader>"})
-
-end
+  -- whichkey.register(keymap, { buffer = bufnr, mode="n"})
+  -- whichkey.register(keymap_visual, { buffer = bufnr, mode="v"})
+-- end
 
 local function on_attach(client, bufnr)
   -- keymappings(client, bufnr)
-  -- print('Attached to ' .. client.name)
   -- keymaps for the buffer
   local bufopts = { noremap=true, silent=true }
   -- Go To keys
@@ -131,29 +124,23 @@ end
 
 -- Per Sever specific config
 -- omnisharp
-nvim_lsp.omnisharp.setup {
-  cmd = { "dotnet", "~/bin/omnisharp/OmniSharp.dll" },
-  enable_editorconfig_support = true,
-  enable_roslyn_analyzers = true,
-  enable_import_completion = true,
-}
-
--- csharp lsp
--- nvim_lsp.csharp_ls.setup {
+-- nvim_lsp.omnisharp.setup {
+--   cmd = { "dotnet", "~/bin/omnisharp/OmniSharp.dll" },
+--   enable_editorconfig_support = true,
+--   enable_roslyn_analyzers = true,
+--   enable_import_completion = true,
 --   capabilities = capabilities,
---   on_attach = on_attach,
---   filetypes = { 'cs', 'csx', 'vb' },
---   -- init_options = { AutomaticWorkspaceInit = true },
---   root_dir = nvim_lsp.util.root_pattern('*.sln')
---   -- root_dir = function(file, _)
---   --   if file:sub(-#".csx") == ".csx" then
---   --     return nvim_lsp.util.path.dirname(file)
---   --   end
---   --   -- return util.root_pattern("*.sln")(file) or util.root_pattern("*.csproj")(file)
---   --   return nvim_lsp.util.root_pattern("*.sln")(file)
--- -- end,
+--   on_attach = on_attach
 -- }
 
+nvim_lsp.csharp_ls.setup({
+  root_dir = function(fname)
+    return util.root_pattern '*.sln'(fname) or util.root_pattern '*.csproj'(fname)
+  end,
+  debounce_text_changes = 300, -- Wait 300ms before sending didChange
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
 -- typescript 
 local ts_status, typescript = pcall(require, 'typescript')
 if ts_status then

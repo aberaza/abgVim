@@ -39,7 +39,8 @@ local cmp_sources = {
 }
 
 
-vim.opt.completeopt = "menu,menuone,noinsert,noselect"
+-- set this in eiitor config file
+-- vim.opt.completeopt = "menu,menuone,noinsert,noselect"
 
 cmp.setup({
     preselect = cmp.PreselectMode.None,

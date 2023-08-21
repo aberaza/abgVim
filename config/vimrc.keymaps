@@ -24,8 +24,8 @@ nnoremap <leader>vr :source $MYVIMRC<CR>
 nnoremap <leader>vc :e $MYVIMRC<CR>
 " }
 
-nmap <silent> <C-DOWN> :cnext<CR>
-nmap <silent> <C-UP> :cprevious<CR>
+nmap <silent><C-DOWN> :cnext<CR>
+nmap <silent><C-UP> :cprevious<CR>
 
 " CTRL-Z is Undo; not in cmdline though
 noremap <C-Z> u 			" visual and normal modes
@@ -50,7 +50,12 @@ noremap <C-Up> <C-w>k
 noremap <C-Down> <C-w>j
 noremap <C-Left> <C-w>h
 noremap <C-Right> <C-w>l
-" Paste in place without yanking yext
+" Window resize
+noremap <C-H> <Cmd>vertical resize -<CR>
+noremap <C-J> <Cmd>resize -<CR>
+noremap <C-K> <Cmd>resize +<CR>
+noremap <C-L> <Cmd>vertical resize +<CR>
+" Paste in place without yanking text
 vnoremap <silent>p "_dP
 snoremap <silent>p "_dP
 " Switch buffers
@@ -62,9 +67,10 @@ nnoremap <M-down> mz:m+<CR>`z==
 vnoremap <M-up> :m'<-2<CR>gv=`>my`<mzgv`yo`z
 vnoremap <M-down> :m'>+<CR>gv=`<my`>mzgv`yo`z 
 
-" ESC in terminal kills it
+" ESC in terminal kills it. Original posed an issue with FZF so updating it 
 if has('nvim')
-    :tnoremap <Esc> <C-\\><C-n>
+    " :tnoremap <Esc> <C-\\><C-n>
+    tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
 endif
 
 " Use CTRL-S for saving, also in Insert mode

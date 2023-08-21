@@ -17,7 +17,11 @@ call SourceFile("~/.vim/vimrc.local")
 " General Editor Config
 call SourceFile("~/.vim/config/vimrc.editor")
 " Bundles
-call SourceFile("~/.vim/config/vimrc.bundles")
+if MINI()
+  call SourceFile("~/.vim/config/vimrc.bundlesMini")
+else
+  call SourceFile("~/.vim/config/vimrc.bundles")
+endif
 call SourceFile("~/.vim/config/vimrc.bundlesConfig")
 if NEOVIM()
   luafile ~/.vim/config/vimrc.lua

@@ -9,7 +9,6 @@ nvimtree.setup({
   disable_netrw = true,
   hijack_netrw = true,
   hijack_cursor = false,
-  open_on_setup = false,
   sort_by = 'case_sensitive',
   sync_root_with_cwd = true,
   -- respect_buf_cwd = true,

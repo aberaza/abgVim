@@ -1,9 +1,11 @@
 local status, indent = pcall(require, 'indent_blankline')
 if (not status) then return end
 
+local has_treesitter, _ = pcall(require, 'treesitter.configs')
+
 indent.setup {
-    use_treesitter = true,
-    use_treesitter_scop = true,
+    use_treesitter = has_treesitter,
+    use_treesitter_scop = has_treesitter,
     show_end_of_line = false,
     char = "", -- indicator for all contexts not in focus
     context_char="▏", --indicator for context in focus

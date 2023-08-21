@@ -3,10 +3,23 @@ if exists('g:plugs["fzf"]')
   let g:fzf_preview_window = (&columns >=120 ? 'right:40%' : (&lines > 50 ? 'up:50%' : '')) " Enable allways preview on the right
   let g:fzf_layout = { 'down' : '~25%' }
   " let g:fzf_layout = { 'window': { 'width': 0.9, 'height':0.7 } }
-  if executable('ag')
-    :let $FZF_DEFAULT_COMMAND='ag -l --nocolor --hidden -g ""'
-  endif
 
+" Customize fzf colors to match your color scheme                                          
+    " - fzf#wrap translates this to a set of `--color` options                                 
+    let g:fzf_colors =                                                                         
+    \ { 'fg':      ['fg', 'Normal'],                                                           
+      \ 'bg':      ['bg', 'Normal'],                                                           
+      \ 'hl':      ['fg', 'Comment'],                                                          
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],                             
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],                                       
+      \ 'hl+':     ['fg', 'Statement'],                                                        
+      \ 'info':    ['fg', 'PreProc'],                                                          
+      \ 'border':  ['fg', 'Ignore'],                                                           
+      \ 'prompt':  ['fg', 'Conditional'],                                                      
+      \ 'pointer': ['fg', 'Exception'],                                                        
+      \ 'marker':  ['fg', 'Keyword'],                                                          
+      \ 'spinner': ['fg', 'Label'],                                                            
+      \ 'header':  ['fg', 'Comment'] }
   " Inspired in FZF-vim
   function! s:p(bang, opts)
     let preview_window = a:bang ? '' : g:fzf_preview_window
@@ -17,31 +30,49 @@ if exists('g:plugs["fzf"]')
     return a:opts
   endfunction
 
-  command! -bang -nargs=* AgFiles
-        \ call fzf#vim#files('',
-        \ s:p(<bang>0, {'source': 'ag --hidden -f -g ""'} ))
-
 " KEYMAPS 
-" Ctrl-P for files
-" Ctrl-F Find in files
-" Alt-B for buffers
-"
-  noremap <silent> <C-p> :Files<CR>
-  noremap <silent> <A-b> :Buffers<CR>
-  noremap <silent> <leader>vt :Colors<CR>
-  noremap <silent> <leader>vh :Helptags<CR>
-  noremap <silent> <leader>vk :Maps<CR>
-  " TODO: conflicts with autocmplete?
-  inoremap <silent> <C-p> <C-o>:Files<CR>
-  noremap <silent> <leader>p :Files<CR>
-  noremap <silent> <leader>P :Files!<CR> " Full Screen
-  " Leave fzf with CtrlP or ESC
+  nnoremap <silent> <C-p> :Files<CR>
+  inoremap <C-p> <C-o>:Files<CR>
+  noremap <silent> <leader>ff :Files<CR>
+  noremap <silent> <leader>fF :Files!<CR> " Full Screen
 
-  nnoremap <Leader>s :Ag <C-R><C-W><CR>
-  nnoremap <Leader>* :Ag <C-R><C-W><CR>
-  " <,F> or <Ctrl+F> To do a workspace search
-  " This breaks original Ctrl F (scroll on page down)
-  nnoremap <Leader>f :Ag<SPACE>
-  nnoremap <C-F> :Ag<SPACE>
-  inoremap <C-F> <C-O>:Ag<SPACE>
+  nnoremap <leader>b :Buffers<CR> 
+  nnoremap <leader>c :Commands<CR>
+  nnoremap <leader>fb :Buffers<CR> 
+  nnoremap <leader>fc :Colors<CR>
+  nnoremap <leader>fh :Helptags<CR>
+  nnoremap <leader>fm :Maps<CR>
+
+
+  if executable('ag')
+    :let $FZF_DEFAULT_COMMAND='ag -l --nocolor --hidden -g ""'
+    nnoremap <Leader>s :Ag <C-R><C-W><CR>
+    nnoremap <Leader>* :Ag <C-R><C-W><CR>
+    " <,F> or <Ctrl+F> To do a workspace search
+    " This breaks original Ctrl F (scroll on page down)
+    nnoremap <Leader>f :Ag<SPACE>
+    nnoremap <C-F> :Ag<SPACE>
+    inoremap <C-F> <C-O>:Ag<SPACE>
+  elseif executable('rg')
+    :let $FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+    nnoremap <Leader>s :Rg <C-R><C-W><CR>
+    nnoremap <Leader>* :Rg <C-R><C-W><CR>
+    " <,F> or <Ctrl+F> To do a workspace search
+    " This breaks original Ctrl F (scroll on page down)
+    nnoremap <Leader>f :Rg<SPACE>
+    nnoremap <C-F> :Rg<SPACE>
+    inoremap <C-F> <C-O>:Rg<SPACE>
+  endif
+
+
+  " Statusline for FZF window
+  function! s:fzf_statusline()
+  " Override statusline as you like
+    highlight fzf1 ctermfg=161 ctermbg=251
+    highlight fzf2 ctermfg=23 ctermbg=251
+    highlight fzf3 ctermfg=237 ctermbg=251
+    setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
+  endfunction
+
+  autocmd! User FzfStatusLine call <SID>fzf_statusline()
 endif

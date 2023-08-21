@@ -2,30 +2,77 @@ local status, dap = pcall(require, "dap")
 if (not status) then return end
 
 local dap_breakpoint = {
-    error = {
-      text = "🛑",
+    breakpoint = {
+      text = " ",
       texthl = "LspDiagnosticsSignError",
       linehl = "",
       numhl = "",
     },
+    condbreak = {
+      text = "",
+      texthl = "LspDiagnosticsSignError",
+      linehl = "",
+      numhl = "",
+    },
+    logpoint = {
+      text = "",
+      texthl = "LspDiagnosticsSignHint",
+      linehl = "",
+      numhl = "",
+    },
     rejected = {
-      text = "",
+      text = "",
       texthl = "LspDiagnosticsSignHint",
       linehl = "",
       numhl = "",
     },
     stopped = {
-      text = "⭐️",
+      text = "",
       texthl = "LspDiagnosticsSignInformation",
       linehl = "DiagnosticUnderlineInfo",
       numhl = "LspDiagnosticsSignInformation",
     },
   }
 
-vim.fn.sign_define("DapBreakpoint", dap_breakpoint.error)
+vim.fn.sign_define("DapBreakpoint", dap_breakpoint.breakpoint)
+vim.fn.sign_define("DapBreakpointCondition", dap_breakpoint.condbreak)
+vim.fn.sign_define("DapLogPoint", dap_breakpoint.logpoint)
 vim.fn.sign_define("DapStopped", dap_breakpoint.stopped)
 vim.fn.sign_define("DapBreakpointRejected", dap_breakpoint.rejected)
 
+-- c# Helpers from https://github.com/mfussenegger/nvim-dap/wiki/Cookbook
+vim.g.dotnet_build_project = function()
+  local default_path = vim.fn.getcwd() .. '/'
+  if vim.g['dotnet_last_proj_path'] ~= nil then
+    default_path = vim.g['dotnet_last_proj_path']
+  end
+  local path = vim.fn.input('Path to your *proj file', default_path, 'file')
+  vim.g['dotnet_last_proj_path'] = path
+  local cmd = 'dotnet build -c Debug ' .. path .. ' > /dev/null'
+  print('')
+  print('Cmd to execute: ' .. cmd)
+  local f = os.execute(cmd)
+  if f == 0 then
+    print('\nBuild: ✔️ ')
+  else
+    print('\nBuild: ❌ (code: ' .. f .. ')')
+  end
+end
+vim.g.dotnet_get_dll_path = function()
+    local request = function()
+        return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+    end
+
+    if vim.g['dotnet_last_dll_path'] == nil then
+        vim.g['dotnet_last_dll_path'] = request()
+    else
+        if vim.fn.confirm('Do you want to change the path to dll? \n' .. vim.g['dotnet_last_dll_path'], '&yes\n&no', 2) == 1 then
+            vim.g['dotnet_last_dll_path'] = request()
+        end
+    end
+
+    return vim.g['dotnet_last_dll_path']
+end
 
 -- -- Keymaps
 local whichkey = require "which-key"
@@ -133,7 +180,6 @@ whichkey.register(keymap_v, {
 dap.adapters.coreclr = {
   type = "executable",
   command = 'netcoredbg',
-  -- command = CSHARP_DEBUGGER,
   args = { "--interpreter=vscode" },
 }
 
@@ -180,12 +226,31 @@ dap.configurations.cs = {
   }, 
   { 
     type = "coreclr",
+    name = "Debug C# - Taxonomy.Api",
+    request = "launch",
+    program = "${workspaceFolder}/src/Application/Vp.Pim.Taxonomy.Api/bin/Debug/net6.0/Vp.Pim.Taxonomy.Api.dll",
+    -- cwd = "${workspaceFolder}/src/Application/Vp.Pim.Taxonomy.Api/bin/Debug/net6.0/"
+    args = { '--interpreter=vscode' },
+  }, 
+  { 
+    type = "coreclr",
     name = "Attach to C#",
     request = "attach",
-    processId = function()
-      return vim.fn.input('Process PID > ')
-    end,
-    cwd = "${workspaceFolder}"
+    pid = require('dap.utils').pick_process,
+    -- processId = function()
+    --   return vim.fn.input('Process PID > ')
+    -- end,
+    cwd = "${workspaceFolder}",
   }, 
-
+  {
+    type = "coreclr",
+    name = "launch - netcoredbg",
+    request = "launch",
+    program = function()
+        if vim.fn.confirm('Should I recompile first?', '&yes\n&no', 2) == 1 then
+            vim.g.dotnet_build_project()
+        end
+        return vim.g.dotnet_get_dll_path()
+    end,
+  },
 }
