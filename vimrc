@@ -13,23 +13,19 @@ elseif UNIXLIKE()
   set shell=/usr/bin/zsh
 endif
 " Local settings file
-call SourceFile("~/.vim/vimrc.local")
+call SourceFile("~/.vim/local.vimrc")
 " General Editor Config
-call SourceFile("~/.vim/config/vimrc.editor")
+call SourceFile("~/.vim/config/editor.vimrc")
 " Bundles
-if MINI()
-  call SourceFile("~/.vim/config/vimrc.bundlesMini")
-else
-  call SourceFile("~/.vim/config/vimrc.bundles")
-endif
-call SourceFile("~/.vim/config/vimrc.bundlesConfig")
+call SourceFile("~/.vim/config/bundles.vimrc")
+call SourceFile("~/.vim/config/bundlesConfig.vimrc")
 if NEOVIM()
   luafile ~/.vim/config/vimrc.lua
 endif
 " UI
-call SourceFile("~/.vim/config/vimrc.ui")
+call SourceFile("~/.vim/config/ui.vimrc")
 " KeyMappings
-call SourceFile("~/.vim/config/vimrc.keymaps")
+call SourceFile("~/.vim/config/keymaps.vimrc")
 " Autocommands/Settings per file type
-call SourceFile("~/.vim/config/vimrc.autocmds")
+call SourceFile("~/.vim/config/autocmds.vimrc")
 " }
