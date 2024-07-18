@@ -9,13 +9,13 @@ whichkey.setup {
       marks = true, -- list of marks on ' and `
       registers = true, -- list of registers on <C-r>
       presets = {
-        operators = false,
-        motions = false,
+        operators = true,
+        motions = true,
         text_objects = true,
-        windows = false, 
+        windows = true, 
         nav = true,
-        z = false,
-        g = false,
+        z = true,
+        g = true,
       },
     }, 
 }

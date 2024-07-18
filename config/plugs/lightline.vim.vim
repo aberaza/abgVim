@@ -1,20 +1,19 @@
-" Powerfont Separators:                                       
-if exists('g:plugs["lightline.vim-----"]')
-
+if exists('g:plugs["lightline.vim"]')
+  set noshowmode
+  " \   'colorscheme' : 'material',
   let g:lightline = {
-    \   'colorscheme' : 'material',
+    \   'colorscheme' : 'deus',
     \   'enable': { 'tabline': 1 },
     \   'separator': { 'left':'' ,'right':'' },
     \   'subseparator' : { 'left': '','right': '' },
-    \   'tabline_separator' : { 'left' : '', 'right' : '' },
-    \   'tabline_subseparator' : { 'left' : '', 'right' : 'R' },
     \   'active' : {
-    \     'left' : [['mode', 'paste'], ['fileformat','filetype', 'filename'] ],
-    \     'right': [['gitbranch'], ['percent']],
+    \     'left' : [['mode', 'paste'], ['filename'], ['gitbranch']],
+    \     'right': [['fileformat', 'filetype'],['lsp_info', 'lsp_hints', 'lsp_errors', 'lsp_warnings', 'lsp_ok', 'lsp_status']],
     \   },
     \   'inactive' : {
-    \     'left': ['filename'],
-    \   },
+    \     'left': [['filename']],
+    \     'right': []
+    \   }, 
     \   'component_function': {
     \     'filename': 'MyFilename',
     \     'fileformat': 'MyIconFileformat',
@@ -22,20 +21,21 @@ if exists('g:plugs["lightline.vim-----"]')
     \     'gitbranch': 'MyGitBranch',
     \     'percent': 'MyProgressFormat',
     \   },
-    \   'mode_map': {
-    \     'n' : ' N ',
-    \     'i' : ' I ',
-    \     'R' : ' R ',
-    \     'v' : ' V ',
-    \     'V' : ' VL',
-    \     "\<C-v>": ' VB',
-    \     'c' : ' C ',
-    \     's' : ' S ',
-    \     'S' : ' SL',
-    \     "\<C-s>": ' SB',
-    \     't': ' T ',
-    \   },
-    \ }
+    \}
+    " \   'mode_map': {
+    " \     'n' : ' N ',
+    " \     'i' : ' I ',
+    " \     'R' : ' R ',
+    " \     'v' : ' V ',
+    " \     'V' : ' VL',
+    " \     "\<C-v>": ' VB',
+    " \     'c' : ' C ',
+    " \     's' : ' S ',
+    " \     'S' : ' SL',
+    " \     "\<C-s>": ' SB',
+    " \     't': ' T ',
+    " \   },
+    " \ }
 
   " if false
   "   call add(g:lightline.active.right, [ 'diag_warnings', 'diag_hints', 'diag_infos', 'diag_ok'])
@@ -52,42 +52,28 @@ if exists('g:plugs["lightline.vim-----"]')
     " \   },
   " endif
 
-  " if exists('g:plugs["lightline-lsp"]')
-  "   let g:lightline.component_expand = {
-  "       \  'diag_hints': 'lightline#lsp#hints',
-  "       \  'diag_infos': 'lightline#lsp#infos',
-  "       \  'diag_warnings': 'lightline#lsp#warnings',
-  "       \  'diag_errors': 'lightline#lsp#errors',
-  "       \  'diag_ok': 'lightline#lsp#ok',
-  "       \ }
-
-  "   let g:lightline.component_type = {
-  "       \     'diag_hints': 'right',
-  "       \     'diag_infos': 'right',
-  "       \     'diag_warnings': 'warning',
-  "       \     'diag_errors': 'error',
-  "       \     'diag_ok': 'right',
-  "       \ }
-
-  "   call add(g:lightline.active.right, ['diag_hints', 'diag_infos', 'diag_warnings', 'diag_errors', 'diag_ok'])
-  "   let g:lightline.active.right =[ ['gitbranch'], ['percent'], ['diag_hints', 'diag_infos', 'diag_warnings', 'diag_errors', 'diag_ok'] ]
+  if exists('g:plugs["nvim-lightline-lsp"]') && NEOVIM() 
+    call add(g:lightline.active.right, ['lsp_info', 'lsp_hints', 'lsp_errors', 'lsp_warnings', 'lsp_ok', 'lsp_status' ])
+    let g:lightline.active.right =[ ['lsp_info', 'lsp_hints', 'lsp_errors', 'lsp_warnings', 'lsp_ok', 'lsp_status' ] ]
+    call lightline#lsp#register()
     
-  "   let g:lightline#lsp#indicator_hints   = ''
-  "   let g:lightline#lsp#indicator_infos   = ''
-  "   let g:lightline#lsp#indicator_warnings= ''
-  "   let g:lightline#lsp#indicator_errors  = ''
-  "   let g:lightline#lsp#indicator_ok      = "\uf00c"
-  " endif
-  " Some icons for file format:            גּ     者
+    let g:lightline#lsp#indicator_hints   = '󰌵'
+    let g:lightline#lsp#indicator_infos   = ''
+    let g:lightline#lsp#indicator_warnings= ''
+    let g:lightline#lsp#indicator_errors  = ''
+    let g:lightline#lsp#indicator_ok      = "\uf00c"
+  endif
+
   function! MyIconFileType()
-    " return winwidth(0)>65 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-    return winwidth(0)>20 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() : '?') : ''
+    " return WebDevIconsGetFileTypeSymbol() . (winwidth(0)>65 ?  &filetype : '') 
+    return WebDevIconsGetFileTypeSymbol() 
   endfunction
 
   function! MyFilename()
     let filename = expand('N:~:.') !=# '' ? expand('%:~:.') : '[None]'
-    let modified = &modified? '+':''
-    return filename . modified
+    let modified = &modified? '': WebDevIconsGetFileTypeSymbol()
+    return filename . ' ' . modified  
+    " return filename
   endfunction
 
   function! MyIconFileformat()
@@ -101,8 +87,9 @@ if exists('g:plugs["lightline.vim-----"]')
     let l:position = float2nr(floor(1.0 * l:spinner['steps'] * line('.') / line('$')))
     return l:spinner[l:position]
   endfunction
+
   function! MyGitBranch()
-    return (' ' . FugitiveHead())
+    return ' ' . FugitiveHead()
   endfunction
 
    " function! MyDiagnostics()

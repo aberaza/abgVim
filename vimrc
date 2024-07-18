@@ -28,4 +28,6 @@ call SourceFile("~/.vim/config/ui.vimrc")
 call SourceFile("~/.vim/config/keymaps.vimrc")
 " Autocommands/Settings per file type
 call SourceFile("~/.vim/config/autocmds.vimrc")
+" Mouse Menu
+call SourceFile("~/.vim/config/mousemenu.vimrc")
 " }

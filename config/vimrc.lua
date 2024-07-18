@@ -5,10 +5,6 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl= hl, numhl = hl })
 end
 
-
-require('glow').setup()
-
-
 -- Treesitter
 vim.opt.foldmethod='expr'
 -- set in editor config file

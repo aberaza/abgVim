@@ -1,7 +1,4 @@
 " Errors Warnings Bugs
-" Symbols from nerdfonts:     ﮖ           謹            
-"                   ﮏ ﰸ  ﲲ            﫵 ﱗ ﮢ 戴  塚 
-"    ﴫ 
 " Gutter/column symbols
 let g:lint_error_sign   = ''
 let g:lint_warn_sign    = ''
@@ -18,7 +15,8 @@ if exists('g:plugs["ale"]')
   let g:ale_list_window_size=5        " Resize it to 5 lines
   let g:ale_fixers = {
         \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-        \ 'javascript': ['eslint']
+        \ 'javascript': ['eslint'],
+        \ 'cs' : ['dotnet-format']
         \}
   let g:ale_sign_error         = g:lint_error_sign " ⏺ ⏺ • ✗
   let g:ale_sign_warning       = g:lint_warn_sign " ⏺ ⬤  • ⚠
@@ -47,7 +45,7 @@ if exists('g:plugs["ale"]')
   nnoremap <leader>gt <Plug>(ale_to_to_type_definition)
   nnoremap <leader>gr <Plug>(ale_find_references)
   " Refactoring
-  let g:which_key_map.c = {
+  let g:which_key_map['c'] = {
         \ 'name': '+code',
         \ 'r': 'Rename symbol',
         \ 'f': 'Linter Code Fix',

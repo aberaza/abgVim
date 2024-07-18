@@ -1,11 +1,8 @@
-if VIM()
-  " Load preferent plugins onfig
-  so ~/abgVim/config/plugs/vim-which-key.vim
-  " Load the rest 
-  args ~/abgVim/config/plugs/*.vim
-  argd **/vim-which-key.vim
-  silent argdo so %
-endif
+for package in keys(g:plugs)
+  call abg#plug_load_config(package)
+endfor
+
+
 " Vim-rest
 let g:vrc_response_default_content_type = 'application/json'
 

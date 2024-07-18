@@ -52,12 +52,12 @@ telescope.setup {
 telescope.load_extension("file_browser")
 
 
-vim.keymap.set('n', 'ff', builtin.find_files)
-vim.keymap.set('n', 'fg', builtin.live_grep)
-vim.keymap.set('n', 'fb', builtin.buffers)
-vim.keymap.set('n', 'fh', builtin.help_tags)
-vim.keymap.set('n', 'fr', builtin.resume)
-vim.keymap.set('n', 'fd', builtin.diagnostics)
-vim.keymap.set('n', 'ft', telescope.extensions.file_browser.file_browser)
+vim.keymap.set('n', 'ff', builtin.find_files, { desc = 'Telescope: Find Files'})
+vim.keymap.set('n', 'fg', builtin.live_grep, { desc = 'Telescope: Live Grep'})
+vim.keymap.set('n', 'fb', builtin.buffers, { desc = 'Telescope: Buffers'})
+vim.keymap.set('n', 'fh', builtin.help_tags, { desc = 'Telescope: Tags'})
+vim.keymap.set('n', 'fr', builtin.resume, { desc = 'Telescope: Resume'})
+vim.keymap.set('n', 'fd', builtin.diagnostics, { desc = 'Telescope: Diagnostics'})
+vim.keymap.set('n', 'ft', telescope.extensions.file_browser.file_browser, { desc = 'Telescope: File Browser'})
 
 vim.keymap.set('','<C-f>', builtin.live_grep)

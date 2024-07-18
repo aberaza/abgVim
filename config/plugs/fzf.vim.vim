@@ -23,7 +23,6 @@ if exists('g:plugs["fzf"]')
   " Inspired in FZF-vim
   function! s:p(bang, opts)
     let preview_window = a:bang ? '' : g:fzf_preview_window
-    echom preview_window
     if len(preview_window)
       return call('fzf#vim#with_preview', add([a:opts], preview_window))
     endif
@@ -31,8 +30,8 @@ if exists('g:plugs["fzf"]')
   endfunction
 
 " KEYMAPS 
-  nnoremap <silent> <C-p> :Files<CR>
-  inoremap <C-p> <C-o>:Files<CR>
+  nnoremap <silent> <C-p> :execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'GFiles' : 'Files'<CR>
+  inoremap <C-p> <C-o> :Files<CR>
   noremap <silent> <leader>ff :Files<CR>
   noremap <silent> <leader>fF :Files!<CR> " Full Screen
 
@@ -46,20 +45,20 @@ if exists('g:plugs["fzf"]')
 
   if executable('ag')
     :let $FZF_DEFAULT_COMMAND='ag -l --nocolor --hidden -g ""'
-    nnoremap <Leader>s :Ag <C-R><C-W><CR>
-    nnoremap <Leader>* :Ag <C-R><C-W><CR>
+    nnoremap <leader>s :Ag <C-R><C-W><CR>
+    nnoremap <leader>* :Ag <C-R><C-W><CR>
     " <,F> or <Ctrl+F> To do a workspace search
     " This breaks original Ctrl F (scroll on page down)
-    nnoremap <Leader>f :Ag<SPACE>
+    nnoremap <leader>f :Ag<SPACE>
     nnoremap <C-F> :Ag<SPACE>
     inoremap <C-F> <C-O>:Ag<SPACE>
   elseif executable('rg')
     :let $FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
-    nnoremap <Leader>s :Rg <C-R><C-W><CR>
-    nnoremap <Leader>* :Rg <C-R><C-W><CR>
+    nnoremap <leader>s :Rg <C-R><C-W><CR>
+    nnoremap <leader>* :Rg <C-R><C-W><CR>
     " <,F> or <Ctrl+F> To do a workspace search
     " This breaks original Ctrl F (scroll on page down)
-    nnoremap <Leader>f :Rg<SPACE>
+    nnoremap <leader>f :Rg<SPACE>
     nnoremap <C-F> :Rg<SPACE>
     inoremap <C-F> <C-O>:Rg<SPACE>
   endif
