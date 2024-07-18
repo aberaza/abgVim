@@ -27,9 +27,6 @@ silent function! MINI()
   return 0
 endfunction
 " }
-" Variables Definitions {
-" LSP / COC / Code Completion
-  " let g:abg_use_lsp = get(g:, 'abg_use_lsp', 1) && NEOVIM()
 
 let g:abg_fav_colorschemes = get(g:, 'abg_fav_colorschemes', [])
 let g:abg_fav_lofi_colorschemes = get(g:, 'abg_fav_lofi_colorschemes',[])
@@ -53,23 +50,50 @@ silent function! abg#switch_colors(name)
   " silent execute 'doautocmd ColorScheme' fnameescape(a:name)
 endfunction
 
-silent function! abg#plug_condition(condition, ...)
-  if a:0 < 1  
-    return s:err('Invalid number of arguments (1..2)')
+function! abg#plug_condition(condition, plugin_name, ...)
+  if !a:condition
+    return
   endif
-  if a:condition
-    let opts = get(a:000, 0, {})
-    if opts 
-      call plug#(a:1, opts)
-    else
-      call plug#(a:1)
+
+  " echom 'Loading plugin' .. a:plugin_name
+  function! s:load_modules(task)
+    if empty(a:task)
+      return
     endif
-  endif
+
+    if type(a:task) == v:t_list
+      for t in a:task
+        call plug#(t)
+      endfor
+    else
+      call plug#(a:task)
+    endif
+  endfunction
+
+  let opts = get(a:000, 0, {})
+  " Handle 'requires' key in options, if exists
+  let requires = get(opts, 'requires', '')
+  call s:load_modules(requires)
+  " Register the main plugin with the remaining options
+  call plug#(a:plugin_name, opts)
+   " Handle 'post' key in options, if exists
+  let post = get(opts, 'post', '')
+  call s:load_modules(post)
 endfunction
 
 command -nargs=+ -bar NPlug call abg#plug_condition(NEOVIM(), <args>)
 command -nargs=+ -bar VPlug call abg#plug_condition(VIM(), <args>)
+command -nargs=+ -bar APlug call abg#plug_condition(1, <args>)
 command -nargs=+ -bar CPlug call abg#plug_condition(<args>)
-  
-" silent function! abg#switch_lightline_colors(name)
 
+function! abg#plug_load_config(package)
+   let vimConfigPath = resolve(g:plug_config_vim_dir . "/" . a:package . ".vim")
+   let luaConfigPath = resolve(g:plug_config_lua_dir . "/" . a:package . ".lua")
+  if filereadable(vimConfigPath)
+    exec "source " . vimConfigPath
+  elseif filereadable(luaConfigPath) && NEOVIM()
+    exec "luafile" . luaConfigPath
+  else
+    " echom "Could not load configs for " . a:package
+  endif
+endfunction
