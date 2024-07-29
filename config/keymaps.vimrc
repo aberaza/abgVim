@@ -62,10 +62,11 @@ snoremap <silent>p "_dP
 noremap <S-h> :bprevious<CR>
 noremap <S-l> :bnext<CR>
 " Move selected line / block of text in visual mode
-nnoremap <M-up> mz:m-2<CR>`z==
-nnoremap <M-down> mz:m+<CR>`z==
-vnoremap <M-up> :m'<-2<CR>gv=`>my`<mzgv`yo`z
-vnoremap <M-down> :m'>+<CR>gv=`<my`>mzgv`yo`z 
+" Replaced by mini.move
+" nnoremap <M-up> mz:m-2<CR>`z==
+" nnoremap <M-down> mz:m+<CR>`z==
+" vnoremap <M-up> :m'<-2<CR>gv=`>my`<mzgv`yo`z
+" vnoremap <M-down> :m'>+<CR>gv=`<my`>mzgv`yo`z 
 
 " ESC in terminal kills it. Original posed an issue with FZF so updating it 
 if has('nvim')

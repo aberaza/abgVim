@@ -17,18 +17,18 @@ fzf.setup {
   },
   lsp = {
     icons = {
-      ['Error'] = { icon = "", color = 'red' },
-      ['Warning'] = { icon = "", color = 'yellow' },
+      ['Error'] = { icon = "✘", color = 'red' },
+      ['Warning'] = { icon = "▲", color = 'yellow' },
       ['Information'] = { icon = "", color = 'blue' },
-      ['Hint'] = { icon = "", color = 'blue' },
+      ['Hint'] = { icon = "⚑", color = 'blue' },
     }
   },
   lsp_diagnostics_document = {
     icons = {
-      ['Error'] = { icon = "", color = 'red' },
-      ['Warning'] = { icon = "", color = 'yellow' },
+      ['Error'] = { icon = "✘", color = 'red' },
+      ['Warning'] = { icon = "▲", color = 'yellow' },
       ['Information'] = { icon = "", color = 'blue' },
-      ['Hint'] = { icon = "", color = 'blue' },
+      ['Hint'] = { icon = "⚑", color = 'blue' },
     }
   },
 }

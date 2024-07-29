@@ -1,9 +1,9 @@
+echom 'loading fzf config'
 if exists('g:plugs["fzf"]')
   let g:fzf_buffers_jump = 1
-  let g:fzf_preview_window = (&columns >=120 ? 'right:40%' : (&lines > 50 ? 'up:50%' : '')) " Enable allways preview on the right
-  let g:fzf_layout = { 'down' : '~25%' }
-  " let g:fzf_layout = { 'window': { 'width': 0.9, 'height':0.7 } }
-
+  let g:fzf_preview_window = (&columns >=120 ? 'right:65%' : (&lines > 50 ? 'up:50%' : '')) " Enable allways preview on the right
+  " let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } } " use a popup like window instead of a split
+  let g:fzf_layout = { 'down': '~60%' } 
 " Customize fzf colors to match your color scheme                                          
     " - fzf#wrap translates this to a set of `--color` options                                 
     let g:fzf_colors =                                                                         
@@ -20,47 +20,66 @@ if exists('g:plugs["fzf"]')
       \ 'marker':  ['fg', 'Keyword'],                                                          
       \ 'spinner': ['fg', 'Label'],                                                            
       \ 'header':  ['fg', 'Comment'] }
-  " Inspired in FZF-vim
-  function! s:p(bang, opts)
-    let preview_window = a:bang ? '' : g:fzf_preview_window
-    if len(preview_window)
-      return call('fzf#vim#with_preview', add([a:opts], preview_window))
-    endif
-    return a:opts
+
+  function! FZFRunning()
+    let buffers = filter(range(1, bufnr('$')), 'bufname(v:val) =~? ".*;#FZF"')
+    for i in buffers
+      " Delete buffer by ID
+      execute 'bw! ' . i
+    endfor
+    "fixes window focus issues"
+    sleep 10m 
   endfunction
+  
+  function! FZFRunCommand(fzf_command, ...)
+    call FZFRunning()
+    execute a:fzf_command . ' ' . join(a:000, ' ')
+  endfunction
+  command! -nargs=+ FZFRun call FZFRunCommand(<f-args>) " this command will
+  " rehuse existing fzf window if exists
+ 
+  function! ToggleFZFCommand(fzf_command, ...)
+    " Find all FZF buffers
+    let fzf_buffers = filter(range(1, bufnr('$')), 'bufname(v:val) =~? ".*;#FZF"')
+    if !empty(fzf_buffers)
+      " If FZF buffers exist, close them by id and ret<D-s>urn
+      for buf in fzf_buffers
+        execute 'bw! ' . buf
+      endfor
+    else
+      echom 'None found, running FZF'
+      execute a:fzf_command . ' ' . join(a:000, ' ')
+    endif
+  endfunction
+  " command! -nargs=+ FZFRun call ToggleFZFCommand(<f-args>)
 
 " KEYMAPS 
-  nnoremap <silent> <C-p> :execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'GFiles' : 'Files'<CR>
-  inoremap <C-p> <C-o> :Files<CR>
-  noremap <silent> <leader>ff :Files<CR>
-  noremap <silent> <leader>fF :Files!<CR> " Full Screen
+  nnoremap <silent> <C-p> :execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'FZFRun :GFiles' : 'FZFRun :Files'<CR>
+  inoremap <C-p> <C-o> :FZFRun :Files<CR>
+  " noremap <silent> <leader>ff :FZFRun :Files<CR>
+  noremap <silent> <leader>fF :FZFRun :Files!<CR> " Full Screen
 
-  nnoremap <leader>b :Buffers<CR> 
-  nnoremap <leader>c :Commands<CR>
-  nnoremap <leader>fb :Buffers<CR> 
-  nnoremap <leader>fc :Colors<CR>
-  nnoremap <leader>fh :Helptags<CR>
-  nnoremap <leader>fm :Maps<CR>
-
+  " nnoremap <leader>b :FZFRun :Buffers<CR> 
+  nnoremap <leader>c :FZFRun :Commands<CR>
+  nnoremap <leader>fb :FZFRun :Buffers<CR> 
+  nnoremap <leader>fc :FZFRun :Colors<CR>
+  nnoremap <leader>fh :FZFRun :Helptags<CR>
+  nnoremap <leader>fm :FZFRun :Maps<CR>
 
   if executable('ag')
     :let $FZF_DEFAULT_COMMAND='ag -l --nocolor --hidden -g ""'
-    nnoremap <leader>s :Ag <C-R><C-W><CR>
-    nnoremap <leader>* :Ag <C-R><C-W><CR>
-    " <,F> or <Ctrl+F> To do a workspace search
-    " This breaks original Ctrl F (scroll on page down)
-    nnoremap <leader>f :Ag<SPACE>
-    nnoremap <C-F> :Ag<SPACE>
-    inoremap <C-F> <C-O>:Ag<SPACE>
+    nnoremap <leader>s :FZFRun :Ag <C-R><C-W><CR>
+    nnoremap <leader>* :FZFRun :Ag <C-R><C-W><CR>
+    nnoremap <leader>f :FZFRun :Ag<SPACE>
+    nnoremap <C-F> :FZFRun :Ag<SPACE>
+    inoremap <C-F> <C-O>:FZFRun :Ag<SPACE>
   elseif executable('rg')
     :let $FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
-    nnoremap <leader>s :Rg <C-R><C-W><CR>
-    nnoremap <leader>* :Rg <C-R><C-W><CR>
-    " <,F> or <Ctrl+F> To do a workspace search
-    " This breaks original Ctrl F (scroll on page down)
-    nnoremap <leader>f :Rg<SPACE>
-    nnoremap <C-F> :Rg<SPACE>
-    inoremap <C-F> <C-O>:Rg<SPACE>
+    nnoremap <leader>s :FZFRun :FZFRun :Rg <C-R><C-W><CR>
+    nnoremap <leader>* :FZFRun :Rg <C-R><C-W><CR>
+    nnoremap <leader>f :FZFRun :Rg<SPACE>
+    nnoremap <C-F> :FZFRun :Rg<SPACE>
+    inoremap <C-F> <C-O>:FZFRun :Rg<SPACE>
   endif
 
 

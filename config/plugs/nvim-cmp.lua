@@ -26,13 +26,6 @@ cmp.setup({
   snippet = {
     expand = function(args) if has_snip then luasnip.lsp_expand(args.body) end end 
   },
-  -- snippet = {
-  --     expand = function(arts)
-  --        local lsnip = prequire('luasnip')
-  --        if not lsnip then return end
-  --        lsnip.lsp_expand(args.body)
-  --     end,
-  -- },
   duplicates = { 
     nvim_lsp = 1, luasnip = 1, buffer = 1, path = 1,
   },
@@ -65,6 +58,7 @@ cmp.setup({
 
   window = {
     documentation = cmp.config.window.bordered(),
+    -- completion = cmp.config.window.bordered(),
   },
   formatting = {
     fields = { "kind", "abbr", "menu" },

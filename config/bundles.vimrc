@@ -13,7 +13,7 @@ call plug#begin('~/.vim/bundle') " {
   Plug 'liuchengxu/vista.vim'
   " Files and Buffer find
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}
-  Plug 'junegunn/fzf.vim', { 'on': [ 'Files', 'GFiles', 'Buffers', 'Rg', 'Colors'] }
+  Plug 'junegunn/fzf.vim', { 'on': [ 'FZF', 'Files', 'GFiles', 'Buffers', 'Rg', 'Colors'] }
   " Mini.nvim 
   NPlug 'echasnovski/mini.nvim', { 'requires': 'nvim-tree/nvim-web-devicons'}
   " FileTree / Browse 
@@ -30,7 +30,7 @@ call plug#begin('~/.vim/bundle') " {
         \ 'nvim-neotest/neotest-go',
         \ 'nvim-neotest/neotest-vim-test' ]  }
   " Git
-  APlug 'tpope/vim-fugitive', { 'post' : 'idanarye/vim-merginal' }    " GIT integration
+  Plug 'tpope/vim-fugitive', { 'post' : 'idanarye/vim-merginal' }    " GIT integration
   Plug 'mhinz/vim-signify'      " show changes in the file
   " Syntaxes & Indentations 
   NPlug 'nvim-treesitter/nvim-treesitter' , { 'do': ':TSUpdate'}  " We recommend updating the parsers on update
@@ -66,13 +66,15 @@ call plug#begin('~/.vim/bundle') " {
   Plug 'andreypopp/vim-colors-plain' " una nota de azules ***
   Plug 'davidosomething/vim-colors-meh' " azules low contrast con más elementos,UI resaltados
   " UI Look & Feel
-  APlug 'itchyny/lightline.vim', { 'requires': 'ryanoasis/vim-devicons', 'post': 'josa42/nvim-lightline-lsp'}
+  VPlug 'itchyny/lightline.vim', { 'requires': 'ryanoasis/vim-devicons', 'post': 'josa42/nvim-lightline-lsp'}
   VPlug 'liuchengxu/vim-which-key'
   VPlug 'Yggdroot/indentLine'
   VPlug 'luochen1990/rainbow' " Colorize parenthesis
   VPlug 'tpope/vim-commentary' " Comentarios
 
   " Integration with kitty terminal 
-  Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
-call plug#end() " }
+  " Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
+
+call plug#end() 
 call plug#helptags()
+call abg#plug_config()

@@ -13,6 +13,7 @@ ts.setup {
     -- Next line prevents default syntax from working as it will colide with plugin
     additional_vim_regex_highlighting = false,
   },
+  textobjects = { enable = false },
   indent = {
     enable = true
   },

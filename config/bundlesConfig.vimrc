@@ -1,6 +1,3 @@
-for package in keys(g:plugs)
-  call abg#plug_load_config(package)
-endfor
 
 
 " Vim-rest

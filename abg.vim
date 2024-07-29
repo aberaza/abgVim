@@ -89,11 +89,31 @@ command -nargs=+ -bar CPlug call abg#plug_condition(<args>)
 function! abg#plug_load_config(package)
    let vimConfigPath = resolve(g:plug_config_vim_dir . "/" . a:package . ".vim")
    let luaConfigPath = resolve(g:plug_config_lua_dir . "/" . a:package . ".lua")
+   let configDir = resolve("config/plugs/" . a:package)
   if filereadable(vimConfigPath)
     exec "source " . vimConfigPath
-  elseif filereadable(luaConfigPath) && NEOVIM()
-    exec "luafile" . luaConfigPath
+  elseif filereadable(luaConfigPath) 
+    exec "source " . luaConfigPath
   else
-    " echom "Could not load configs for " . a:package
+    exec "runtime! " . configDir . "/**/*.{vim,lua}"
   endif
 endfunction
+
+function! abg#plug_config()
+  for package in keys(g:plugs)
+    if has_key(g:plugs[package], 'on') || has_key(g:plugs[package], 'for')
+      execute 'autocmd User ' . package . ' call abg#plug_load_config("'. package . '")' 
+      " execute 'autocmd User * echom "lazy package loaded"'
+    else
+      call abg#plug_load_config(package)
+    endif
+  endfor
+endfunction
+
+" function! on_load(name, exec)
+"   if has_key(g:plugs[a:name], 'on') || has_key(g:plugs[a:name], 'for')
+"     execute 'autocmd! User' a:name a:exec
+"   else
+"     execute 'autocmd VimEnter * call abg#plug_load_config(<sfile>)' 
+"   endif
+" endfunction
