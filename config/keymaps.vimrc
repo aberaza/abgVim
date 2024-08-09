@@ -19,9 +19,9 @@ cnoreabbrev X x
 " }
 
 " Config files {
-nnoremap gp :PlugConfigEditUnderCursor<CR>
-nnoremap <leader>vr :source $MYVIMRC<CR>
-nnoremap <leader>vc :e $MYVIMRC<CR>
+" NBind 'gp', ':PlugConfigEditUnderCursor<CR>'
+NBind '<leader>vr', ':source $MYVIMRC<CR>', { 'desc' : 'Reload Config'}
+NBind '<leader>vc', ':e $MYVIMRC<CR>', { 'desc' : 'Edit Config'}
 " }
 
 nmap <silent><C-DOWN> :cnext<CR>
@@ -29,10 +29,10 @@ nmap <silent><C-UP> :cprevious<CR>
 
 " CTRL-Z is Undo; not in cmdline though
 noremap <C-Z> u 			" visual and normal modes
-inoremap <C-Z> <C-O>u " insert mode
+IBind '<C-Z>', '<C-O>u' " insert mode
 " CTRL-Y is Redo (although not repeat); not in cmdline though
 noremap <C-Y> <C-R>
-inoremap <C-Y> <C-O><C-R>
+NBind '<C-Y>', '<C-O><C-R>'
 " CTRL-A is Select all
 " noremap <C-A> gggH<C-O>G
 " inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
@@ -56,7 +56,7 @@ noremap <C-J> <Cmd>resize -<CR>
 noremap <C-K> <Cmd>resize +<CR>
 noremap <C-L> <Cmd>vertical resize +<CR>
 " Paste in place without yanking text
-vnoremap <silent>p "_dP
+VBind 'p', '\"_dP'
 snoremap <silent>p "_dP
 " Switch buffers
 noremap <S-h> :bprevious<CR>
@@ -75,27 +75,17 @@ if has('nvim')
 endif
 
 " Use CTRL-S for saving, also in Insert mode
-noremap <C-S>	  :update<CR>
-vnoremap <C-S>  <C-C>:update<CR>
-inoremap <C-S>  <C-O>:update<CR>
+" noremap <C-S>	  :update<CR>
+NBind '<C-S>', ':update<CR>', { 'desc': 'Save current buffer'}
+VBind '<C-S>', '<C-C>:update<CR>', { 'desc': 'Save current buffer'}
+IBind '<C-S>', '<C-O>:update<CR>', { 'desc': 'Save current buffer'}
+
 
 " Toggle the quickfix window {{{
 " From Steve Losh, http://learnvimscriptthehardway.stevelosh.com/chapters/38.html
-nnoremap <C-q> :call <SID>QuickfixToggle()<cr>
+" NBind '<C-q>', ':call <SID>QuickfixToggle()<cr>'
+NBind '<C-q>', ':call abg#quickfix_toggle()<cr>', { 'desc': 'Toggle Quickfix window'}
 
-let g:quickfix_is_open = 0
-
-function! s:QuickfixToggle()
-    if g:quickfix_is_open
-        cclose
-        let g:quickfix_is_open = 0
-        execute g:quickfix_return_to_window . "wincmd w"
-    else
-        let g:quickfix_return_to_window = winnr()
-        copen
-        let g:quickfix_is_open = 1
-    endif
-endfunction
 " }}}
 
 " Expand-region {
@@ -109,5 +99,10 @@ if maparg('<C-L>', 'n') ==# ''
 endif
 
 " Rotate favourite color themes
-nnoremap <silent> <F8> :call abg#rotate_colors(1)<CR>
-nnoremap <silent> <S-F8> :call abg#rotate_colors()<CR>
+" nnoremap <silent> <F8> :call abg#rotate_colors(1)<CR>
+NBind '<F8>', ':call abg#rotate_colors(1)<CR>'
+NBind '<S-F8>', ':call abg#rotate_colors()<CR>'
+
+
+" Register  all bindings
+execute 'BindApply'
