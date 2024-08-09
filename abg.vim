@@ -117,3 +117,99 @@ endfunction
 "     execute 'autocmd VimEnter * call abg#plug_load_config(<sfile>)' 
 "   endif
 " endfunction
+"
+"
+" Manage Keymaps
+" Global dictionary to store registered keymaps
+let g:abg_registered_keymaps = {}
+
+function! abg#register_keys(mode, keys, command, ...) abort
+    " Create a unique key for the entry
+    let l:unique_key = a:mode . ':' . a:keys
+    let l:extras = get(a:000, 0, {})
+
+    " Store the keymap information in the global dictionary
+    let g:abg_registered_keymaps[l:unique_key] = {
+                \ 'mode': a:mode,
+                \ 'command': a:command,
+                \ 'keys': a:keys,
+                \ 'extras': l:extras
+                \ }
+endfunction
+function! abg#bind_keys() abort
+    " Iterate over each registered keymap
+    for l:keymap_key in keys(g:abg_registered_keymaps)
+        let l:keymap = g:abg_registered_keymaps[l:keymap_key]
+
+        let l:mode = l:keymap['mode']
+        let l:keys = l:keymap['keys']
+        let l:command = l:keymap['command']
+        let l:extras = get(l:keymap, 'extras', {})
+
+
+        if NEOVIM()
+          let l:lua_extras = []
+          for [l:key, l:value] in items(l:extras)
+            if type(l:value) == type('')
+              let l:value = '"' . substitute(l:value, '"', '\\"', 'g') . '"'
+            endif
+            call add(l:lua_extras, l:key . " = " . l:value)
+          endfor
+          " Merge extra options into a single Lua table
+          let l:lua_extra_str = '{' . join(l:lua_extras, ', ') . '}'
+
+          let l:lua_command = printf("vim.keymap.set('%s', '%s', '%s', %s)", l:mode, l:keys, l:command, l:lua_extra_str)
+
+          execute 'lua ' l:lua_command
+        else
+          if l:mode == 'n'
+              execute 'nnoremap' . l:keys . ' ' . l:command
+          elseif l:mode == 'i'
+              execute 'inoremap' l:keys l:command
+          elseif l:mode == 'v'
+              execute 'vnoremap' l:keys l:command
+          elseif l:mode == 'x'
+              execute 'xnoremap' l:keys l:command
+          elseif l:mode == 'c'
+              execute 'cnoremap' l:keys l:command
+          elseif l:mode == 't'
+              execute 'tnoremap' l:keys l:command
+          else
+              echoerr 'Unsupported mode: ' . l:mode
+          endif
+          if has_key(l:extras, 'desc')
+            if exists('g:plugs["wim-which-key"]')
+              call which_key#register(l:keys, {
+                          \ 'mode': l:mode,
+                          \ 'desc': l:extras['desc']
+                          \ })
+            endif
+          endif
+        endif
+    endfor
+endfunction
+
+command -nargs=+ -bar KeyBind call abg#register_keys(<args>)
+command -nargs=+ -bar NBind call abg#register_keys('n', <args>)
+command -nargs=+ -bar IBind call abg#register_keys('i', <args>)
+command -nargs=+ -bar VBind call abg#register_keys('v', <args>)
+command -nargs=+ -bar XBind call abg#register_keys('x', <args>)
+command -nargs=+ -bar CBind call abg#register_keys('c', <args>)
+command -nargs=+ -bar TBind call abg#register_keys('t', <args>)
+command -nargs=0 -bar BindApply call abg#bind_keys()
+
+
+
+let g:quickfix_is_open = 0
+
+function! abg#quickfix_toggle()
+    if g:quickfix_is_open
+        cclose
+        let g:quickfix_is_open = 0
+        execute g:quickfix_return_to_window . "wincmd w"
+    else
+        let g:quickfix_return_to_window = winnr()
+        copen
+        let g:quickfix_is_open = 1
+    endif
+endfunction
