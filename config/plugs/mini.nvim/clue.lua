@@ -44,8 +44,9 @@ miniclue.setup({
     { mode = 'n', keys = '<leader>*', desc='Find word under cursor' },
     { mode = 'n', keys = '<leader>b', desc=' Buffer' },
     { mode = 'n', keys = '<Leader>f', desc = ' Find' },
-    { mode = 'x', keys = '<Leader>f', desc = ' Find' },
     { mode = 'n', keys = '<Leader>g', desc = '󰊢 Git/Diff' },
+    { mode = 'n', keys = '<Leader>v', desc = ' Vim/NVim' },
+
     -- { mode = 'n', keys = '<leader>fb', desc='Find buffers' },
     { mode = 'n', keys = '<leader>c', desc='Find commands' },
     -- { mode = 'n', keys = '<leader>fc', desc='Find colorschemes' },

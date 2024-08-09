@@ -1,11 +1,20 @@
 local status, statusline = pcall(require, 'mini.statusline')
 if (not status) then return end
 
+local H = {}
+
+H.get_git_info = function() 
+  -- get branch name from fugitive 
+  return ' '..vim.fn.FugitiveHead()
+end
+
 statusline.setup( { 
   content = {
     active = function()
       local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-      local git           = MiniStatusline.section_git({ trunc_width = 40 })
+      -- local git           = MiniStatusline.section_git({ trunc_width = 40 })
+      local git = H.get_git_info()
+
       local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
       local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
       local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
