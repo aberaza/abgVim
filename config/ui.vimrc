@@ -7,18 +7,28 @@ set lazyredraw      " Don't update screen during macros
 
 " Lines {
 set nowrap          " Do not wrap long lines
+set breakindent     " Indent wrapped lines to match first line indentation
 set cursorline      " Highlight current line ladder-, to toggle
+set smartindent     " Smart line indentation
 set number          " Line numbers on
 " }
 
 " Special Chars {
 set list            " Show special chars nolist no prevent
-set listchars=tab:→\ ,extends:›,precedes:‹,nbsp:·,trail:• " Highlight whitespaces
+set listchars=tab:→\ ,extends:›,precedes:‹,nbsp:␣,trail:• " Highlight whitespaces
 set showbreak=↪\  " char to display on a wrapped line
-set fillchars=vert:│,fold:- " make vertical lines look continuous
+if NEOVIM()
+  set fillchars=vert:│,horiz:─,horizdown:┬,horizup:┴,verthoriz:┼,vertleft:┤,vertright:├,fold:-,eob:\ ,msgsep:‾ " make vertical lines look continuous, remove ~ from empty lines
+  " "set fillchars=vert:│,horiz:─,horizdown:┬,horizup:┴,verthoriz:┼,vertleft:┤,vertright:├
+  " set fillchars=vert:┃,horiz:━,horizdown:┳,horizup:┻,verthoriz:╋,vertleft:┫,vertright:┣ "bold 
+  " set fillchars=vert: ,horiz: ,horizdown: ,horizup: ,verthoriz: ,vertleft: ,vertright: 
+else
+  set fillchars=vert:│,fold:- " make vertical lines look continuous, remove ~ from empty lines
+endif 
 " }
 
 " Scroll and Mouse {
+" "set mouse=v " Middle click pastes
 set mouse=a " Automatically enable mouse usage
 set mousehide " Hide the mouse cursor while typing
 set scrolloff=4                 " Minimum lines to keep above and below cursor
@@ -50,11 +60,33 @@ if(has("termguicolors"))
     set termguicolors
 endif
 
-set background=dark
-colorscheme sonokai
+if NEOVIM()
+  " some transparency
+  set pumblend=10
+  set pumheight=20
+  set winblend=10 
 
-"minimalist
+  set background=dark
+"  let g:gruvbox_material_foreground = 'original' " material, mix, original 
+"  let g:gruvbox_material_background = 'hard' " sofr, medium, hard 
+"  let g:gruvbox_material_better_performance = 1
+"  let g:gruvbox_material_enable_bold = 1 
+"  let g:gruvbox_material_diagnostic_line_highlight = 1
+"  let g:gruvbox_material_cursor = 'orange' " auto, red, orange, yellow, green, aqua, blue, purple
+"  let g:gruvbox_material_statusline_style = 'original' " default, mix, original
+  " colorscheme gruvbox-material
 
+  let g:sonokai_style = 'shusia'
+  let g:sonokai_enable_italic= 1 
+  let g:sonokai_enable_bold = 1 
+  let g:sonokai_cursor = 'orange' " auto, ...
+  let g:sonokai_transparent_background = 0 " 0 1 o 2 (segun cuantas cosas queremos sean transparentes)
+  let g:sonokai_better_performance = 1
+  colorscheme sonokai 
+else
+  set background=dark
+  colorscheme gruvbox
+endif
 " }
 
 " GUI Vim (all) {
