@@ -68,6 +68,7 @@ if has('nvim')
     au FocusGained,BufWinEnter * checktime
 endif
 " }
+"
 
 
 

@@ -6,7 +6,7 @@ trouble.setup {
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     mode = "document_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
-    icons = true, -- use devicons for filenames
+    -- icons = true, -- use devicons for filenames
     group = true, -- group results by file
     -- auto_open = true, -- automatically open the list when you have diagnostics
     auto_close = true, -- automatically close the list when you have no diagnostics

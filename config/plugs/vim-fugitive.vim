@@ -28,6 +28,6 @@ if exists('g:plugs["vim-fugitive"]')
 
   " Keymaps 
   " nnoremap <leader>tf :call ToggleGstatus()<CR>
-  nnoremap <leader>tb :call <SID>ToggleBlame()<CR>
-  nnoremap <leader>tg :SignifyToggle<CR>
+  " nnoremap <leader>tb :call <SID>ToggleBlame()<CR>
+  " nnoremap <leader>tg :SignifyToggle<CR>
 endif

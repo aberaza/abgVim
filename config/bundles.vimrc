@@ -11,6 +11,10 @@ call plug#begin('~/.vim/bundle') " {
   " Generic
   Plug 'editorconfig/editorconfig-vim'
   Plug 'liuchengxu/vista.vim'
+  " Functionality for other plugins
+  NPlug 'nvim-lua/plenary.nvim' 
+  NPlug 'nvim-neotest/nvim-nio'
+  NPlug 'andythigpen/nvim-coverage'
   " Files and Buffer find
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() }}
   " Plug 'junegunn/fzf.vim', { 'on': [ 'FZF', 'Files', 'GFiles', 'Buffers', 'Rg', 'Colors'] }
@@ -22,34 +26,44 @@ call plug#begin('~/.vim/bundle') " {
   " NPlug 'nvim-tree/nvim-tree.lua', { 'requires':  'nvim-tree/nvim-web-devicons', 'on': [ 'NvimTreeToggle', 'NvimTreeFocus'] }
   VPlug 'preservim/nerdtree', { 'requires':  'ryanoasis/vim-devicons', 'post' : [ 'Xuyuanp/nerdtree-git-plugin',  'tiagofumo/vim-nerdtree-syntax-highlight' ]}
   NPlug 'stevearc/aerial.nvim'
-  " Testing / Units Test
-  VPlug 'vim-test/vim-test', { 'requires' : 'tpope/vim-dispatch', 'on': [ 'TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit', 'Make'] }
-  NPlug 'nvim-neotest/neotest', { 'requires': 'vim-test/vim-test', 
-        \'post': [
-        \ 'antoinemadec/FixCursorHold.nvim',
-        \ 'haydenmeade/neotest-jest',
-        \ 'Issafalcon/neotest-dotnet',
-        \ 'nvim-neotest/neotest-go',
-        \ 'nvim-neotest/neotest-vim-test' ]  }
-  " Git
-  Plug 'tpope/vim-fugitive', { 'post' : 'idanarye/vim-merginal' }    " GIT integration
-  Plug 'mhinz/vim-signify'      " show changes in the file
   " Syntaxes & Indentations 
   NPlug 'nvim-treesitter/nvim-treesitter' , { 'do': ':TSUpdate'}  " We recommend updating the parsers on update
   VPlug 'sheerun/vim-polyglot'
+  " Testing / Units Test
+  VPlug 'vim-test/vim-test', { 'requires' : 'tpope/vim-dispatch', 'on': [ 'TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit', 'Make'] }
+  NPlug 'nvim-neotest/neotest', { 'requires': [ 'antoinemadec/FixCursorHold.nvim', 'nvim-treesitter/nvim-treesitter',  'nvim-neotest/nvim-nio',  'nvim-lua/plenary.nvim', 'https://github.com/Issafalcon/neotest-dotnet', 'nvim-neotest/neotest-jest' ] } 
+  " Git
+  Plug 'tpope/vim-fugitive', { 'post' : 'idanarye/vim-merginal' }    " GIT integration
+  VPlug 'mhinz/vim-signify'      " show changes in the file
+  NPlug 'lewis6991/gitsigns.nvim'
+'
   " Diagnostics show
   NPlug 'folke/trouble.nvim'
+  NPlug 'rachartier/tiny-inline-diagnostic.nvim'
   " Autocomplete & Snippets
   VPlug 'dense-analysis/ale'
-  NPlug 'neovim/nvim-lspconfig', { 'requires':  [ 'jose-elias-alvarez/typescript.nvim', 'williamboman/mason.nvim', 'williamboman/mason-lspconfig.nvim'] }
+  NPlug 'neovim/nvim-lspconfig', { 'requires':  ['williamboman/mason.nvim', 'williamboman/mason-lspconfig.nvim'] }
   NPlug 'L3MON4D3/LuaSnip', { 'tag': 'v2.*', 'do': 'make install_jsregexp', 'requires' : 'rafamadriz/friendly-snippets' }
 
   " NPlug 'Exafunction/codeium.nvim', { 'requires':  'nvim-lua/plenary.nvim' }
-  NPlug 'nvim-lua/plenary.nvim' 
-  NPlug 'zbirenbaum/copilot.lua', { 'post': 'CopilotC-Nvim/CopilotChat.nvim' }
+  NPlug 'zbirenbaum/copilot.lua'  " , { 'post' :   'zbirenbaum/copilot-cmp'} , { 'post': 'CopilotC-Nvim/CopilotChat.nvim' }
+
+  NPlug 'olimorris/codecompanion.nvim', { 'requires': [ 'MeanderingProgrammer/render-markdown.nvim' ] }
+  " NPlug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make', 'requires': [  'stevearc/dressing.nvim',  'nvim-lua/plenary.nvim',  'MunifTanjim/nui.nvim', 'HakonHarnes/img-clip.nvim']}
+        " Deps
+        " Plug 'stevearc/dressing.nvim'
+        " Plug 'nvim-lua/plenary.nvim'
+        " Plug 'MunifTanjim/nui.nvim'
+        "
+        " " Optional deps
+        " Plug 'nvim-tree/nvim-web-devicons' "or Plug 'echasnovski/mini.icons'
+        " Plug 'HakonHarnes/img-clip.nvim'
+        " Plug 'zbirenbaum/copilot.lua'
+        "
+        " " Yay, pass source=true if you want to build from source
+        " Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
 
 
-'
   NPlug 'hrsh7th/nvim-cmp', { 'requires': 'hrsh7th/cmp-vsnip',
         \'post': [
         \  'onsails/lspkind-nvim',
@@ -59,11 +73,15 @@ call plug#begin('~/.vim/bundle') " {
         \  'hrsh7th/cmp-nvim-lsp-signature-help',
         \  'jose-elias-alvarez/null-ls.nvim',
         \  'saadparwaiz1/cmp_luasnip',
-        \  'zbirenbaum/copilot-cmp',
         \]}
+        " \  'zbirenbaum/copilot-cmp',
 
-  " Debug 
-  NPlug 'mfussenegger/nvim-dap', { 'post' : [ 'rcarriga/nvim-dap-ui', 'theHamsta/nvim-dap-virtual-text'] }
+
+  " remote work
+  NPlug 'amitds1997/remote-nvim.nvim', { 'requires': [ 'MunifTanjim/nui.nvim', 'nvim-telescope/telescope.nvim']}
+   " Debug 
+  NPlug 'mfussenegger/nvim-dap', { 'post' : [ 'rcarriga/nvim-dap-ui', 'theHamsta/nvim-dap-virtual-text' ] }
+  NPlug 'mxsdev/nvim-dap-vscode-js', { 'requires': 'mfussenegger/nvim-dap', 'do': 'npm install --legacy-peer-deps @vscode/js-debug-browsers && npm update && npx gulp vsDebugServerBundle && mv dist out'}
   " NPlug 'nvim-telescope/telescope-dap.nvim'
   " Themes & Colorschemes
   NPlug 'marko-cerovac/material.nvim'
@@ -83,9 +101,8 @@ call plug#begin('~/.vim/bundle') " {
   " Easier Working with native marks 
   Plug 'kshenoy/vim-signature'
 
-
   " Integration with kitty terminal 
-  " Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
+  Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'}
 
 call plug#end() 
 call plug#helptags()

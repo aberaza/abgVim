@@ -33,4 +33,9 @@ vim.keymap.set({'n','v'},"<leader>fb",   "<cmd>Pick buffers<CR>",{ desc = "Switc
 vim.keymap.set({'n','v'}, "<leader>fbs",   "<cmd>Pick buf_lines scope='current'<CR>",{ desc= "Search buffer"} )
 -- vim.keymap.set("n", "<leader>fc", pick_colorscheme, { noremap = true, silent = true, desc = 'Change Colorscheme' })
 
+-- some colorschemes
+
+vim.api.nvim_set_hl(0, "MiniPickMatchCurrent", {link ="Green"})
+vim.api.nvim_set_hl(0, "MiniPickMatchMarked", {link ="Blue"})
+vim.api.nvim_set_hl(0, "MiniPickMatchRanges", {link ="Red"})
 -- I see not many isssues in this project

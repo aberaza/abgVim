@@ -1,7 +1,6 @@
-echom 'loading fzf config'
 if exists('g:plugs["fzf"]')
   let g:fzf_buffers_jump = 1
-  let g:fzf_preview_window = (&columns >=120 ? 'right:65%' : (&lines > 50 ? 'up:50%' : '')) " Enable allways preview on the right
+  let g:fzf_preview_window = (&columns >=120 ? 'right:55%' : (&lines > 50 ? 'up:50%' : '')) " Enable allways preview on the right
   " let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } } " use a popup like window instead of a split
   let g:fzf_layout = { 'down': '~60%' } 
 " Customize fzf colors to match your color scheme                                          
@@ -55,6 +54,7 @@ if exists('g:plugs["fzf"]')
 
 " KEYMAPS 
   nnoremap <silent> <C-p> :execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'FZFRun :GFiles' : 'FZFRun :Files'<CR>
+  nnoremap <silent> <C-P> :FZFRun :Files<CR>
   inoremap <C-p> <C-o> :FZFRun :Files<CR>
   " noremap <silent> <leader>ff :FZFRun :Files<CR>
   noremap <silent> <leader>fF :FZFRun :Files!<CR> " Full Screen
@@ -74,8 +74,9 @@ if exists('g:plugs["fzf"]')
     nnoremap <C-F> :FZFRun :Ag<SPACE>
     inoremap <C-F> <C-O>:FZFRun :Ag<SPACE>
   elseif executable('rg')
-    :let $FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
-    nnoremap <leader>s :FZFRun :FZFRun :Rg <C-R><C-W><CR>
+    " :let $FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+    :let $FZF_DEFAULT_COMMAND='rg --files --hidden'
+    nnoremap <leader>s :FZFRun :Rg <C-R><C-W><CR>
     nnoremap <leader>* :FZFRun :Rg <C-R><C-W><CR>
     nnoremap <leader>f :FZFRun :Rg<SPACE>
     nnoremap <C-F> :FZFRun :Rg<SPACE>
