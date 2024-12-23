@@ -9,7 +9,6 @@ require('mini.pairs').setup()
 
 -- require('mini.tabline').setup( { set_vim_settings = false })
 require('mini.extra').setup({})
-
 require('mini.move').setup()
 require('mini.bufremove').setup({})
 

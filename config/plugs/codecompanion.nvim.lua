@@ -7,6 +7,7 @@ codecompanion.setup({
     inline = { adapter = "copilot" },
   },
   display = {
+    action_palette = { provider = "mini_pick"},
     chat = {
       show_settings = true,
       render_headers = false,
