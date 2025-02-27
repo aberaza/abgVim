@@ -5,20 +5,24 @@ return {
   event = "BufReadPost",
   cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
   keys = {
-    { "<c-space>", desc = "Increment Selection" },
-    { "<bs>", desc = "Decrement Selection", mode = "x" },
+    { "<c-space>", mode = { "n", "x" }, desc = "Increment Selection" },
+    { "<bs>", mode = "x", desc = "Decrement Selection" },
   },
   opts_extend = { "ensure_installed" },
   opts = {
-    ensure_installed = { "bash", "lua", "javascript", "typescript", "tsx", "json", "json5","markdown", "vim", "yaml", "c_sharp" },
-    
+    ensure_installed = { "bash", "lua", "javascript", "typescript", "tsx", "json", "json5","jsdoc","markdown", "vim", "vimdoc", "c", "query", "yaml", "c_sharp", "go" },
     auto_install = true,
     incremental_selection = { enable = true },
     highlight = {
       enable = true,
-      -- disable = { "c", "rust" },
-      -- Next line prevents default syntax from working as it will colide with plugin
       additional_vim_regex_highlighting = false,
+      disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+          return true
+        end
+      end,
     },
     textobjects = { enable = false },
     indent = {

@@ -76,3 +76,6 @@ opt.termguicolors = true
 opt.timeoutlen = 500 -- Key sequence timeout
 opt.updatetime = 300
 opt.wildmode = "longest:full,full"
+
+-- avoid swap files
+opt.swapfile = false

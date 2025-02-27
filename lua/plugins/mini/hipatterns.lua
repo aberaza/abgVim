@@ -1,28 +1,23 @@
 return {
-  { 'echasnovski/mini.hipatterns', 
+  { 'nvim-mini/mini.hipatterns', 
     opts = {
       highlighters = {
-      --   hex_color = require('mini.hipatterns').gen_highlighter.hex_color({
-      --     style = "inline",
-      --     inline_text = "⬤ ",
-      --   }),
         fixme       = { pattern = "%f[%w]()FIXME()%f[%W]",   group = "MiniHipatternsFixme" },
-        hack        = { pattern = "()HACK():",    group = "MiniHipatternsHack" },
-        todo        = { pattern = "()TODO():",    group = "MiniHipatternsTodo" },
+        hack        = { pattern = "%f[%w]()HACK()%f[%W]",    group = "MiniHipatternsHack" },
+        todo        = { pattern = "%f[%w]()TODO()%f[%W]",    group = "MiniHipatternsTodo" },
         note        = { pattern = "%f[%w]()NOTE()%f[%W]",    group = "MiniHipatternsNote" },
         jira        = { pattern = "%f[%w]()JIRA()%f[%W]",    group = "MiniHipatternsNote" },
       }
     },
-    setup = function()
+    config = function(_, opts)
       local hi_patterns = require('mini.hipatterns')
-      hi_patterns.setup({
-        highlighters = {
-          hex_color = hi_patterns.gen_highlighter.hex_color({
-            style = "inline",
-            inline_text = "⬤ ",
-          }),
-        }
-      })
+      hi_patterns.setup( 
+        vim.tbl_deep_extend("force", opts, {
+          highlighters = {
+            hex_color = hi_patterns.gen_highlighter.hex_color({ style = "inline", inline_text = "⬤ " }),
+          }
+        })
+      )
     end
   }
 }

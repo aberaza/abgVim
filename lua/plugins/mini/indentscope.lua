@@ -7,12 +7,16 @@ return {
         try_as_border = true,
       }, 
     },
-    setup = function()
+    config = function(_, opts)
+      local miniindentscope = require('mini.indentscope')
+      miniindentscope.setup(opts)
+
       vim.api.nvim_create_autocmd({ "FileType" }, {
         desc = "Disable indentscope for certain filetypes",
         callback = function()
           local ignore_filetypes = {
             "aerial",
+            "avante",
             "dashboard",
             "help",
             "lazy",

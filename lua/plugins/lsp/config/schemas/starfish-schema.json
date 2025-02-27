@@ -1,0 +1,1077 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Starfish configuration",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "applications": {
+            "description": "Declare all your applications here",
+            "type": "object",
+            "patternProperties": {
+                "^[a-z][-a-z0-9]+$": {
+                    "type": "object",
+                    "description": "Application definition",
+                    "additionalProperties": false,
+                    "properties": {
+                        "applicationId": {
+                            "oneOf": [
+                                {
+                                    "type": "null"
+                                },
+                                {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "description": "UUID of the application in TechOrga referential"
+                                }
+                            ]
+                        },
+                        "chart": {
+                            "type": "object",
+                            "description": "Chart to deploy",
+                            "additionalProperties": false,
+                            "properties": {
+                                "name": {
+                                    "$ref": "#/$defs/lowercaseStringDashes",
+                                    "description": "Name of the chart to deploy. Check https://git.vptech.eu/veepee/vptech/sre/iac/helm-charts/ for available charts"
+                                },
+                                "version": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/$defs/semver"
+                                        },
+                                        {
+                                            "type": "string", "pattern": "^[-_a-z/]+$"
+                                        }
+                                    ],
+                                    "description": "for helm charts, it's a semver (eg: 3.16.2), for levant it could a branch also (main, my-feature-brach)"
+                                },
+                                "repository": {
+                                    "$ref": "#/$defs/url",
+                                    "description": "Source repository where to look for the chart. Defaults to https://registry.vptech.eu/artifactory/veepee-sre-helm"
+                                }
+                            }
+                        },
+                        "locations": {
+                            "type": "object",
+                            "description": "Select where your app will be deployed to",
+                            "properties": {
+                                "properties": {
+                                    "itemType": {
+                                        "$ref": "#/$defs/envZone"
+                                    },
+                                    "itemCount": {
+                                        "$ref": "#/$defs/envZone"
+                                    }
+                                }
+                            }
+                        },
+                        "info": {
+                            "$ref": "#/$defs/infoApp"
+                        },
+                        "valuesPath": {
+                            "$ref": "#/$defs/filesystemPath",
+                            "description": "Folder containing chart values.yml"
+                        },
+                        "applicationPath": {
+                            "$ref": "#/$defs/filesystemPath",
+                            "description": "Relative path to your application in your repository"
+                        },
+                        "global": {
+                            "type": "object",
+                            "description": "Global configuration for Starfish",
+                            "additionalProperties": false,
+                            "properties": {
+                                "vault": {
+                                    "type": "object",
+                                    "description": "Configuration to use Hashicorp Vault service",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "serverUrl": {
+                                            "$ref": "#/$defs/url",
+                                            "description": "URL of your Vault server"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "contract": {
+                            "type": "object",
+                            "description": "Availability contract for the application",
+                            "additionalProperties": false,
+                            "properties": {
+                                "sla": {
+                                    "type": "object",
+                                    "description": "Service Level Agreement definition",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "availability": {
+                                            "type": "number",
+                                            "description": "Service availability target (percentage 0-100)",
+                                            "exclusiveMinimum": 0,
+                                            "maximum": 100
+                                        }
+                                    }
+                                },
+                                "slo": {
+                                    "type": "object",
+                                    "description": "Service Level Objective definition",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "availability": {
+                                            "type": "number",
+                                            "description": "Service availability target (percentage 0-100)",
+                                            "exclusiveMinimum": 0,
+                                            "maximum": 100
+                                        },
+                                        "responseTime": {
+                                            "type": "string",
+                                            "pattern": "^[0-9]+(m|µ)?s$",
+                                            "description": "Service response time (i.e: 100ms)"
+                                        }
+                                    }
+                                },
+                                "sli": {
+                                    "type": "array",
+                                    "description": "Service Level Indicator"
+                                },
+                                "rto": {
+                                    "type": "object",
+                                    "description": "Recovery Time Objective: how fast we expect to recover the service in case of an issue",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "monday": {
+                                            "$ref": "#/$defs/rto"
+                                        },
+                                        "tuesday": {
+                                            "$ref": "#/$defs/rto"
+                                        },
+                                        "wednesday": {
+                                            "$ref": "#/$defs/rto"
+                                        },
+                                        "thursday": {
+                                            "$ref": "#/$defs/rto"
+                                        },
+                                        "friday": {
+                                            "$ref": "#/$defs/rto"
+                                        },
+                                        "saturday": {
+                                            "$ref": "#/$defs/rto"
+                                        },
+                                        "sunday": {
+                                            "$ref": "#/$defs/rto"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "ciConfig": {
+                            "type": "object",
+                            "description": "Customize the CI for this app",
+                            "additionalProperties": false,
+                            "properties": {
+                                "deployPerDc": {
+                                    "type": "boolean",
+                                    "description": "Deploy to each datacenter separately (nomad only)"
+                                },
+                                "variables": {
+                                  "type": "object",
+                                  "description": "Variables specific to this app",
+                                  "additionalProperties": { "type": "string" }
+                                },
+                                "build": {
+                                    "type": "object",
+                                    "description": "Configure build steps in CI",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "enable": {
+                                            "type": "boolean",
+                                            "description": "Enable/disable container build"
+                                        },
+                                        "dockerFilePath": {
+                                            "$ref": "#/$defs/filesystemPath",
+                                            "description": "Path to your Dockerfile (relative to applicationPath setting). Defaults to ./Dockerfile"
+                                        },
+                                        "dockerContextPath": {
+                                            "$ref": "#/$defs/filesystemPath",
+                                            "description": "Context to give to Docker when building your image. On monorepos, this is usually \".\""
+                                        },
+                                        "buildArgs": {
+                                            "type": "string",
+                                            "description": "Args that will be passed to Docker cli. You can set --build-arg key=value here"
+                                        },
+                                        "dependencies": {
+                                            "$ref": "#/$defs/buildDependencies",
+                                            "description": "Paths to watch for changes to trigger a new build and/or deploy. Overrides config.build.dependencies"
+                                        }
+                                    }
+                                },
+                                "test": {
+                                    "type": "object",
+                                    "description": "Configure test steps in CI",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "enable": {
+                                          "type": "boolean",
+                                          "description": "Enable/disable test"
+                                        },
+                                        "cmd": {
+                                            "type": "string",
+                                            "description": "Command line to execute in the test image to run the tests"
+                                        },
+                                        "dindEnable": {
+                                          "type": "boolean",
+                                          "description": "Enable/disable Docker-In-Docker for your test job. Useful if you use docker-compose"
+                                        },
+                                        "composePath": {
+                                          "type": "string",
+                                          "description": "Path of the docker-compose file to use (optionnal)"
+                                        },
+                                        "workdir": {
+                                          "type": "string"
+                                        },
+                                        "image": {
+                                            "description": "Container image to use to launch the tests",
+                                            "anyOf": [
+                                                { "type": "string", "pattern": "^[-_/.a-z0-9]+:(([_A-z0-9][-_.A-z0-9]{0,127})|[0-9]+)$" },
+                                                { "type": "string", "pattern": "^$" },
+                                                { "type": "string", "pattern": "^.*\\$\\{.*?\\}.*$" }
+                                            ]
+                                        },
+                                        "additionalReports": {
+                                          "type": "array",
+                                          "description": "List of additional reports to be uploaded to the test report",
+                                          "items":{
+                                            "type": "string"
+                                          }
+                                        }
+                                    }
+                                },
+                                "smartTemplate": {
+                                  "type": "string",
+                                  "description": "template to use"
+                                },
+                                "jobs": {
+                                  "type": "object",
+                                  "description": "Configure jobs in CI",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "compile": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure build steps in CI"
+                                    },
+                                    "publish": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure install steps in CI"
+                                    },
+                                    "test": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure test steps in CI"
+                                    },
+                                    "sonar": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure sonar steps in CI"
+                                    },
+                                    "lint": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure lint steps in CI"
+                                    },
+                                    "security": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure security steps in CI"
+                                    },
+                                    "validate-integration": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure validate steps in CI"
+                                    },
+                                    "validate-staging": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure validate steps in CI"
+                                    },
+                                    "validate-production": {
+                                      "$ref": "#/$defs/ciJob",
+                                      "description": "Configure validate steps in CI"
+                                    }
+                                  }
+                                },
+                                "sonar": {
+                                  "$ref": "#/$defs/sonar",
+                                  "description": "Configure Sonarqube steps in CI"
+                                },
+                                "argoStatusCallback": {
+                                  "$ref": "#/$defs/argoStatusCallback",
+                                  "description": "Configure argoStatusCallback in CI"
+                                }
+                              }
+                        },
+                        "monitoring": {
+                            "type": "object",
+                            "description": "Setup automatic monitoring of your application",
+                            "additionalProperties": false,
+                            "properties": {
+                                "probe": {
+                                    "type": "string",
+                                    "description": "BlackBox probe for the monitoring. Default to http_2xx",
+                                    "pattern": "^?[-A-z0-9]+$"
+                                },
+                                "healthCheckPath": {
+                                    "$ref": "#/$defs/urlPath",
+                                    "description": "Blackbox endpoint to monitor"
+                                },
+                                "defaultZone": {
+                                    "$ref": "#/$defs/zone",
+                                    "description": "Where do we monitor from? This applies to URLs without datacenter in it (default to nl1)"
+                                },
+                                "customConsulTags": {
+                                  "type": "object",
+                                  "patternProperties": {
+                                      "^([-a-zA-Z0-9_]+)$": {
+                                          "type": "string"
+                                      }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "locations": {
+            "type": "object",
+            "description": "Select where all yours app will be deployed to",
+            "properties": {
+                "properties": {
+                    "itemType": {
+                        "$ref": "#/$defs/envZone"
+                    },
+                    "itemCount": {
+                        "$ref": "#/$defs/envZone"
+                    }
+                }
+            }
+        },
+        "info": {
+            "$ref": "#/$defs/infoGlobal",
+            "description": "Several informations provided by Starfish to identify your apps once deployed"
+        },
+        "config": {
+            "description": "Customize starfish behaviour",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "build": {
+                    "type": "object",
+                    "description": "Customize builds globally",
+                    "additionalProperties": false,
+                    "properties": {
+                        "dependencies": {
+                            "$ref": "#/$defs/buildDependencies",
+                            "description": "Paths to watch for changes to trigger a new build and/or deploy. Can be overriden by <app>.ciConfig.build.dependencies"
+                        },
+                        "dockerReport": {
+                            "type": "boolean",
+                            "description": "Enable/disable docker report in MR"
+                        }
+                    }
+                },
+                "k8s": {
+                  "type": "object",
+                  "description": "Specific configuration for Kubernetes",
+                  "additionalProperties": false,
+                  "properties": {
+                    "environments": {
+                        "description": "Which environments should we deploy your apps to",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/$defs/additionalEnv"
+                        }
+                    }
+                  }
+                },
+                "nomad": {
+                    "$ref": "#/properties/config/properties/k8s",
+                    "description": "Specific configuration for Nomad"
+                },
+                "api": {
+                  "type": "object",
+                  "description": "Customize Api urls",
+                  "additionalProperties": false,
+                  "properties": {
+                      "n8n": {
+                          "type": "string",
+                          "description": "n8n url"
+                      },
+                      "techOrga": {
+                        "type": "string",
+                        "description": "TechOrga url"
+                      },
+                      "flipt": {
+                        "type": "string",
+                        "description": "flipt url"
+                      }
+                    }
+                },
+                "ci": {
+                    "type": "object",
+                    "description": "Customize some CI settings",
+                    "additionalProperties": false,
+                    "properties": {
+                        "badgeImg": {
+                            "type": "string",
+                            "description": "Badge url for starfish gitops link"
+                        },
+                        "badgeImgDash": {
+                          "type": "string",
+                          "description": "Badge url for starfish dashboard link"
+                        },
+                        "webHookPipelineURL": {
+                          "type": "string",
+                          "description": "Webhook pipeline url for gathering metrics about gitlab pipelines"
+                        },
+                        "branch": {
+                            "$ref": "#/$defs/lowercaseStringDashes",
+                            "description": "If set, the branch being used to compute the unique URL for your feature branch (uses $CI_COMMIT_REF_SLUG by default)"
+                        },
+                        "cacheFolder": {
+                            "$ref": "#/$defs/filesystemPath",
+                            "description": "Cache location for starfish operations"
+                        },
+                        "deployAllAtOnce": {
+                            "type": "boolean",
+                            "description": "Decides whether we deploy all applications at once or we deploy as soon as they're ready to deploy"
+                        },
+                        "featureBranchingEnable": {
+                            "type": "boolean",
+                            "description": "If set to true, this will enable a unique URL for the feature branch"
+                        },
+                        "deployFeatureBranchEnable": {
+                          "type": "boolean"
+                        },
+                        "lint": {
+                            "type": "object",
+                            "description": "Configure lint steps in CI",
+                            "additionalProperties": false,
+                            "properties": {
+                                "enable": {
+                                    "type": "boolean",
+                                    "description": "Enable/disable all linters"
+                                },
+                                "allowFailure": {
+                                    "type": "boolean",
+                                    "description": "Allow/forbid linters failure in CI"
+                                },
+                                "linters": {
+                                    "type": "object",
+                                    "description": "Configure linters settings",
+                                    "items": {
+                                        "$ref": "#/$defs/linter"
+                                    }
+                                }
+                            }
+                        },
+                        "techTemplates": {
+                          "type": "object",
+                          "description": "Configure templates steps in CI",
+                          "items": {
+                            "$ref": "#/$defs/techTemplates"
+                          }
+                        },
+                        "smartTemplate": {
+                          "type": "string",
+                          "description": "template to use"
+                        },
+                        "security": {
+                            "type": "object",
+                            "description": "Configure security steps in CI",
+                            "additionalProperties": false,
+                            "properties": {
+                                "enable": {
+                                    "type": "boolean",
+                                    "description": "Enable/disable security jobs"
+                                },
+                                "badgeImg": {
+                                  "type": "string",
+                                  "description": "Badge image for security ci"
+                                },
+                                "badgeUrl": {
+                                  "type": "string",
+                                  "description": "Badge URL for security ci"
+                                }
+                            }
+                        },
+                        "semantic": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                              "badgeImgDefault": {
+                                  "type": "string",
+                                  "description": "Badge image for semantic ci (default)"
+                              },
+                              "badgeImg": {
+                                "type": "string",
+                                "description": "Badge image for semantic ci"
+                              },
+                              "badgeUrl": {
+                                "type": "string",
+                                "description": "Badge URL for semantic ci"
+                              }
+                          }
+                        },
+                        "quality": {
+                            "type": "object",
+                            "description": "Configure quality steps in CI",
+                            "additionalProperties": false,
+                            "properties": {
+                                "enable": {
+                                    "type": "boolean",
+                                    "description": "Enable/disable quality jobs"
+                                }
+                            }
+                        },
+                        "sonar": {
+                          "$ref": "#/$defs/sonar",
+                          "description": "Configure Sonarqube steps in CI"
+                        },
+                        "smartChanges": {
+                            "type": "object",
+                            "description": "Configure smart changes detection",
+                            "additionalProperties": false,
+                            "properties": {
+                              "build": {
+                                "type": "string",
+                                "description": "Files that triggers a build. DO NOT USE: for starfish internal usage"
+                              },
+                              "deploy": {
+                                "type": "string",
+                                "description": "Files that triggers a deploy. DO NOT USE: for starfish internal usage"
+                              },
+                              "yamlLint": {
+                                "type": "string",
+                                "description": "Files that triggers yamllint. DO NOT USE: for starfish internal usage"
+                              },
+                              "markdownLint": {
+                                "type": "string",
+                                "description": "Files that triggers markdown-lint. DO NOT USE: for starfish internal usage"
+                              },
+                              "enable": {
+                                "type": "boolean",
+                                "description": "Enable changes detection, default false (gitlab feature flag)"
+                              },
+                              "mode": {
+                                "type": "string",
+                                "description": "lastCommitInBranch (default) or firstCommitInBranch"
+                              }
+                            }
+                        },
+                        "outputFolder": {
+                            "$ref": "#/$defs/filesystemPath",
+                            "description": "Folder for starfish output (rendered manifests, etc)"
+                        },
+                        "workflowName": {
+                            "$ref": "#/$defs/lowercaseStringDashes",
+                            "description": "Configure ci workflow template to be included"
+                        },
+                        "workflowRef": {
+                            "type": "string",
+                            "description": "Configure ci workflow template version (branch/tag) to be included"
+                        },
+                        "templates": {
+                            "type": "object",
+                            "description": "DO NOT USE: Starfish internal usage",
+                            "patternProperties": {
+                                "^([-a-z]+)$": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "location": {
+                                            "anyOf": [
+                                                {
+                                                    "$ref": "#/$defs/url"
+                                                },
+                                                {
+                                                    "$ref": "#/$defs/filesystemPath"
+                                                }
+                                            ]
+                                        },
+                                        "tag": {
+                                            "anyOf": [
+                                                {
+                                                    "$ref": "#/$defs/semver"
+                                                },
+                                                {
+                                                    "$ref": "#/$defs/lowercaseStringDashes"
+                                                },
+                                                {
+                                                    "$ref": "#/$defs/gitTag"
+                                                }
+                                            ]
+                                        },
+                                        "path": {
+                                            "$ref": "#/$defs/filesystemPath"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "deployment": {
+                            "type": "object",
+                            "description": "Controls how will be deployed your application",
+                            "additionalProperties": false,
+                            "properties": {
+                                "orchestrator": {
+                                    "type": "string",
+                                    "pattern": "^(k8s|nomad)$",
+                                    "description": "Orchestrator to use: k8s or nomad (default to k8s)"
+                                },
+                                "manual": {
+                                    "type": "object",
+                                    "description": "Decides which environment will be deployed manually or not. If not set, feature, integration and staging will be deployed automatically. Production would be manually deployed",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "feature": {
+                                            "type": "boolean",
+                                            "description": "Manually deploy feature branches (default: false)"
+                                        },
+                                        "integration": {
+                                            "type": "boolean",
+                                            "description": "Manually deploy integration (default: false)"
+                                        },
+                                        "staging": {
+                                            "type": "boolean",
+                                            "description": "Manually deploy staging (default: false)"
+                                        },
+                                        "production": {
+                                            "type": "boolean",
+                                            "description": "Manually deploy production (default: true)"
+                                        }
+                                    }
+                                },
+                                "allowFailure": {
+                                  "type": "object",
+                                  "description": "Decides which environment can block the pipeline in case of failure",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                      "integration": {
+                                          "type": "boolean",
+                                          "description": "Allow failure integration (default: true)"
+                                      },
+                                      "staging": {
+                                          "type": "boolean",
+                                          "description": "Allow failure staging (default: true)"
+                                      },
+                                      "production": {
+                                          "type": "boolean",
+                                          "description": "Allow failure production (default: true)"
+                                      }
+                                  }
+                                },
+                                "statusFile": {
+                                    "type": "string",
+                                    "description": "DO NOT USE: Starfish internal usage. This gives the path of the last deployment status file for the smart changes feature"
+                                }
+                            }
+                        },
+                        "argoStatusCallback": {
+                          "$ref": "#/$defs/argoStatusCallback",
+                          "description": "Configure argoStatusCallback in CI"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "required": [
+        "applications"
+    ],
+    "$defs": {
+        "infoApp": {
+            "description": "DO NOT USE: Starfish internal usage. This allows to give several informations about an app",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "contact": {
+                    "type": "string",
+                    "pattern": "^([-A-z0-9]+)$",
+                    "description": "Slack channel where to get support for this app"
+                },
+                "owner": {
+                    "$ref": "#/$defs/slackChannel",
+                    "description": "Slack channel of app's owner"
+                },
+                "sil": {
+                    "type": "string",
+                    "pattern": "^(1-VITAL|2-ESSENTIAL|3-NORMAL|0-UNKNOWN)$",
+                    "description": "Service Importance Level, check https://confluence.vptech.eu/x/v4yD"
+                },
+                "ownedComponents": {
+                    "$ref": "#/$defs/componentDependency",
+                    "description": "Map of internal product dependencies (our own DB, etc)"
+                },
+                "connectedComponents": {
+                    "type": "object",
+                    "description": "Map of external product dependencies (sso, other product api, etc)",
+                    "properties": {
+                        "itemType": {
+                            "$ref": "#/$defs/componentDependency"
+                        },
+                        "itemCount": {
+                            "$ref": "#/$defs/componentDependency"
+                        }
+                    }
+                },
+                "oncall": {
+                    "type": "boolean",
+                    "description": "Is the app on-call?"
+                },
+                "techOrga": {
+                  "$ref": "#/$defs/techOrga",
+                  "description": "techOrga fields"
+                }
+            }
+        },
+        "infoGlobal": {
+            "description": "DO NOT USE: Starfish internal usage. This allows to give several informations for the deployment",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "domain": {
+                    "type": "string",
+                    "description": "Veepee domain for this repository"
+                },
+                "product": {
+                    "type": "string",
+                    "description": "Veepee product for this repository"
+                },
+                "accountId": {
+                    "type": "string",
+                    "description": "VPCloud account ID for the product"
+                },
+                "domainAccountId": {
+                    "type": "string",
+                    "description": "VPCloud account ID for the domain"
+                },
+                "owner": {
+                    "$ref": "#/$defs/slackChannel",
+                    "description": "Slack channel of app's owner"
+                },
+                "contact": {
+                    "type": "string",
+                    "pattern": "^([-A-z0-9]+)$",
+                    "description": "Slack channel where to get support for this app"
+                },
+                "techOrga": {
+                  "$ref": "#/$defs/techOrga",
+                  "description": "techOrga fields"
+              }
+            }
+        },
+        "slackChannel": {
+            "type": "string",
+            "pattern": "^#?[-A-z0-9]+$"
+        },
+        "lowercaseStringDashes": {
+            "type": "string",
+            "pattern": "^([-a-z0-9]+)$"
+        },
+        "gitTag": {
+            "type": "string",
+            "pattern": "^tag\\(([a-zA-Z0-9.-]+)\\)$"
+        },
+        "lowercaseStringDashesOrEmpty": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/lowercaseStringDashes"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^$"
+                }
+            ]
+        },
+        "semver": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-(alpha|beta|next|major)\\.[0-9]+)?$"
+        },
+        "url": {
+            "type": "string",
+            "pattern": "^https?://[A-z0-9][-/.A-z0-9]+(:[0-9]{4,5})?$"
+        },
+        "buildDependencies": {
+            "type": "array",
+            "items": {
+              "anyOf":[
+                {
+                  "type": "string",
+                  "pattern": "^[-./_A-z0-9\\*]+$"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^glob\\(.*\\)$"
+                }
+              ]
+            }
+        },
+        "filesystemPath": {
+            "type": "string",
+            "pattern": "^[-./_A-z0-9]+$"
+        },
+        "filesystemPathOrEmpty": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/filesystemPath"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^$"
+                }
+            ]
+        },
+        "zone": {
+            "type": "string",
+            "description": "Location of deployment",
+            "pattern": "^(fr1|fr2|nl1|vp-fr-dc1|vp-fr-dc2|vp-nl-dc1)$"
+        },
+        "environments": {
+            "type": "string",
+            "description": "Environments for deployment",
+            "pattern": "^(integration|staging|production)$"
+        },
+        "envZone": {
+            "type": "object",
+            "description": "Map of deployment location (environment + zone)",
+            "additionalProperties": false,
+            "properties": {
+                "zoneList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/zone"
+                    }
+                }
+            }
+        },
+        "additionalEnv": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "shortname": {
+                  "type": "string"
+                },
+                "cluster": {
+                  "type": "string"
+                }
+            }
+        },
+        "techOrga" : {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+              "domain": {
+                  "type": "string"
+              },
+              "product": {
+                "type": "string"
+              },
+              "accountId": {
+                "type": "string"
+              },
+              "domainAccountId": {
+                "type": "string"
+              }
+          }
+        },
+        "componentDependency": {
+            "description": "Gives information about external dependencies such as APIs",
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "criticity": {
+                                    "type": "string",
+                                    "description": "Criticity of the dependency: mandatory or optional",
+                                    "pattern": "^(optional|mandatory)$"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "rto": {
+            "type": "string",
+            "description": "Recovery Time Objective",
+            "pattern": "^[0-9]+(h|m|s)$"
+        },
+        "urlPath": {
+            "type": "string",
+            "pattern": "^/([+-_A-z0-9]+)?$"
+        },
+        "linter": {
+            "type": "object",
+            "description": "Linter configuration",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "enable": {
+                        "type": "boolean",
+                        "description": "Enable/disable the linter"
+                    },
+                    "detectionRegex": {
+                        "type": "string",
+                        "description": "Regex to discover files for the linter. If files are found with the regex, the linter will be triggered on CI"
+                    },
+                    "import": {
+                        "$ref": "#/$defs/templateConfiguration",
+                        "description": "Gitlab configuration to include the linter"
+                    }
+                }
+            }
+        },
+        "techTemplates": {
+          "type": "object",
+          "description": "template configuration",
+          "additionalProperties": {
+              "type": "object",
+              "properties": {
+                  "import": {
+                      "$ref": "#/$defs/templateConfiguration",
+                      "description": "Gitlab configuration to include the template"
+                  }
+              }
+          }
+        },
+        "templateConfiguration": {
+            "type": "object",
+            "description": "Gitlab configuration to include the linter",
+            "additionalProperties": false,
+            "properties": {
+                "project": {
+                    "$ref": "#/$defs/urlPath",
+                    "description": "Gitlab path for the linter repository"
+                },
+                "ref": {
+                    "type": "string",
+                    "pattern": "^[0-9]+(\\.[0-9]+\\.[0-9]+|-latest)?$",
+                    "description": "Version of the linter CI to include (tag or branch)"
+                },
+                "file": {
+                    "type": "string",
+                    "pattern": "^[-./_A-z0-9]+\\.ya?ml$",
+                    "description": "File to load from the linter CI repository"
+                }
+            }
+        },
+        "ciJob": {
+          "type": "object",
+          "description": "Configure job in CI",
+          "additionalProperties": false,
+          "properties": {
+              "enable": {
+                "type": "boolean",
+                "description": "Enable/disable build"
+              },
+              "dindEnable": {
+                "type": "boolean",
+                "description": "Enable/disable docker in docker"
+              },
+              "cmd": {
+                  "type": "string",
+                  "description": "Command line to execute in the test image to run the tests"
+              },
+              "workdir": {
+                "type": "string"
+              },
+              "image": {
+                  "description": "Container image to use to launch the tests",
+                  "anyOf": [
+                      { "type": "string", "pattern": "^[-_/.a-z0-9]+:(([_A-z0-9][-_.A-z0-9]{0,127})|[0-9]+)$" },
+                      { "type": "string", "pattern": "^$" },
+                      { "type": "string", "pattern": "^.*\\$\\{.*?\\}.*$" }
+                  ]
+              },
+              "artifacts": {
+                "type": "array",
+                "description": "List of artifacts",
+                "items":{
+                  "type": "string"
+                }
+              },
+              "rules": {
+                "type": "array",
+                "description": "List of rules",
+                "items":{
+                  "type": "string"
+                }
+              },
+              "when": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              }
+
+          }
+        },
+        "sonar": {
+          "type": "object",
+          "description": "Configure Sonarqube steps in CI",
+          "additionalProperties": false,
+          "properties": {
+              "enable": {
+                  "type": "boolean",
+                  "description": "Enable/disable Sonarqube jobs"
+              },
+              "dindEnable": {
+                "type": "boolean",
+                "description": "Enable/disable Docker-In-Docker fot the scanner"
+              },
+              "type": {
+                "type": "string",
+                "description": "dotnet|java|disable, defaut to autodetection **.java or **.cs. If value = disable then remove the sonar check job"
+              },
+              "image": {
+                "type": "string",
+                "description": "override default image for the scanner"
+              },
+              "projectPath": {
+                "type": "string",
+                "description": "change to this directory before running the scanner"
+              },
+              "defaults": {
+                "type": ["object","null"]
+              },
+              "scannerOptions": {
+                "type": "string",
+                "description": "additional sonar command line options"
+              }
+          }
+        },
+        "argoStatusCallback": {
+          "type": "object",
+          "description": "Setup automatic monitoring of your application",
+          "additionalProperties": false,
+          "properties": {
+              "enable": {
+                  "type": "boolean",
+                  "description": "Enable Argo callbacks for the deployment (k8s only)"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+          }
+        }
+    }
+}
+

@@ -93,7 +93,6 @@ call plug#begin('~/.vim/bundle') " {
   Plug 'davidosomething/vim-colors-meh' " azules low contrast con más elementos,UI resaltados
   " UI Look & Feel
   VPlug 'itchyny/lightline.vim', { 'requires': 'ryanoasis/vim-devicons', 'post': 'josa42/nvim-lightline-lsp'}
-  VPlug 'liuchengxu/vim-which-key'
   VPlug 'Yggdroot/indentLine'
   VPlug 'luochen1990/rainbow' " Colorize parenthesis
   VPlug 'tpope/vim-commentary' " Comentarios

@@ -19,11 +19,15 @@ require("lazy").setup({
   spec = {
     -- import your plugins
     { import = "plugins" },
+    { import = "plugins.lsp" },
+    { import = "plugins.ai" },
+    { import = "plugins.debug" },
+    { import = "plugins.mini" },
   },
   defaults = { lazy = false, version = nil },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { missing = true, colorscheme = { "sonokai" } },
   -- automatically check for plugin updates
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false },
 })

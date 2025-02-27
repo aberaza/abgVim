@@ -29,18 +29,16 @@ return {
       highlight_opened_files = "none",
       highlight_git = false,
       icons = {
-        webdev_colors = true,
         show = {
-          git = false,
+          git = true,
         },
       },
       indent_markers = {
         enable = false,
       },
     },
-    filters = {
-      dotfiles = true,
-    },
+    filters = { dotfiles = true, },
+    diagnostics = { enable = true },
     actions = {
       change_dir = {
         enable = false,
