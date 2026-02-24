@@ -33,6 +33,10 @@ return {
         row = 'auto',
         col = 'auto',
         anchor = 'NW', -- North-West corner
+        config = {
+           width = 'auto',
+           border = 'rounded',
+         },
       },
     },
     config = function(_, opts)

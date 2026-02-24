@@ -72,7 +72,6 @@ opt.shiftround = true
 opt.shiftwidth = indent
 opt.sidescrolloff = 8
 opt.tabstop = indent
-opt.termguicolors = true
 opt.timeoutlen = 500 -- Key sequence timeout
 opt.updatetime = 300
 opt.wildmode = "longest:full,full"

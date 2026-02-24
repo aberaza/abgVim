@@ -3,7 +3,7 @@ return {
     lazy = true,
     cmd = { 'Aerial', 'AerialToggle', 'AerialOpen', 'AerialClose' },
     opts = {
-      placement = edge
+      placement = "edge"
     },
     dependencies = {
       'nvim-treesitter/nvim-treesitter',

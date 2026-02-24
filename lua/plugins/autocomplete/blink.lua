@@ -1,17 +1,11 @@
 return { 'saghen/blink.cmp',
   enabled = true,
-  -- optional: provides snippets for the snippet source
-  dependencies = { 
-    'rafamadriz/friendly-snippets', 
-    'Kaiser-Yang/blink-cmp-avante' 
+  dependencies = {
+    'rafamadriz/friendly-snippets',
+    'fang2hou/blink-copilot',
   },
-
   -- use a release tag to download pre-built binaries
   version = '1.*',
-  -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-  -- build = 'cargo build --release',
-  -- If you use nix, you can build from source using latest nightly rust with:
-  -- build = 'nix run .#build-plugin',
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
@@ -28,38 +22,37 @@ return { 'saghen/blink.cmp',
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
-    keymap = { preset = 'default' },
+    keymap = { preset = 'super-tab' },
 
     appearance = {
-      -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- Adjusts spacing to ensure icons are aligned
-      nerd_font_variant = 'mono'
+      nerd_font_variant = 'mono',
     },
 
-    -- (Default) Only show the documentation popup when manually triggered
-    completion = { documentation = { auto_show = false } },
+    completion = {
+      documentation = { auto_show = true, auto_show_delay_ms = 250 },
+      menu = { auto_show = true },
+      ghost_text = { enabled = false }, -- disabled in favor of copilot inline suggestions
+    },
 
-    -- Default list of enabled providers defined so that you can extend it
-    -- elsewhere in your config, without redefining it, due to `opts_extend`
+    signature = { enabled = true },
+
     sources = {
       per_filetype = {
-        codecompanion = { 'codecompanion'},
-        AvanteInput = { 'avante' },
+        codecompanion = { 'codecompanion' },
+        sql = { 'dadbod', 'buffer' },
       },
-      default = { 'codecompanion', 'lsp', 'path', 'snippets', 'buffer' },
+      default = { 'copilot', 'codecompanion', 'lsp', 'path', 'snippets', 'buffer' },
       providers = {
-        avante = { name = 'Avante', module = 'blink-cmp-avante' }
-      }
+        dadbod = { module = 'vim_dadbod_completion.blink', name = 'Dadbod' },
+        copilot = { name = 'Copilot', module = 'blink-copilot', score_offset = 100, async = true },
+      },
     },
 
-    -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-    -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-    -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-    --
-    -- See the fuzzy documentation for more information
     fuzzy = {
-      sorts = { 'exact', 'score', 'sort_text'},
-      implementation = "prefer_rust_with_warning" }
+      sorts = { 'exact', 'score', 'sort_text' },
+      implementation = 'prefer_rust_with_warning',
+    },
   },
-  opts_extend = { "sources.default" }
+  opts_extend = { 'sources.default' },
 }
+

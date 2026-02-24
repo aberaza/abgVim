@@ -1,5 +1,5 @@
 -- Some common plugins
 
 return {
-  { "nvim-lua/plenary.nvim", branch="master" },
+  { "nvim-lua/plenary.nvim", branch="master", lazy = true },
 }

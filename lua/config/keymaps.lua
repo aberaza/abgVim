@@ -1,5 +1,4 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
+-- Leader keys are set in init.lua before this file is loaded
 
 -- Avoid tying mistakes
 vim.cmd([[
@@ -15,13 +14,14 @@ vim.cmd([[
   cnoreabbrev Qall qall
 ]])
 
--- Some basic keybindings to match behavior or other editors
-vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true, desc = 'Save file' })
-vim.api.nvim_set_keymap('i', '<C-s>', '<Esc>:w<CR>a', { noremap = true, silent = true, desc = 'Save file' })
-vim.api.nvim_set_keymap('n', '<leader>w', ':w<CR>', { noremap = true, silent = true, desc = 'Save file' })
-vim.api.nvim_set_keymap('i', '<leader>w', '<Esc>:w<CR>a', { noremap = true, silent = true, desc = 'Save file' })
+-- Some basic keybindings to match behavior of other editors
+vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { noremap = true, silent = true, desc = 'Save file' })
+vim.keymap.set('i', '<C-s>', '<Esc><cmd>w<CR>a', { noremap = true, silent = true, desc = 'Save file' })
+vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { noremap = true, silent = true, desc = 'Save file' })
+vim.keymap.set('v', '<leader>w', '<cmd>w<CR>', { noremap = true, silent = true, desc = 'Save file' })
 
--- AI actions alternatives (keeping existing ga as primary)
-vim.api.nvim_set_keymap('v', '<C-g>', '<cmd>CodeCompanionChat Add<cr>', { noremap = true, silent = true, desc = 'Add to Chat' })
-vim.api.nvim_set_keymap('n', '<C-g>', '<cmd>CodeCompanionChat Toggle<cr>', { noremap = true, silent = true, desc = 'Toggle CodeCompanion Chat' })
+
+
+local ctx = require("core.context_keys")
+-- vim.keymap.set("n", "<leader>k", ctx.show({prefix_depth = 1}), { desc = "Show buffer contextual keymaps" })
 

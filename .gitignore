@@ -2,3 +2,5 @@
 bundle/
 *.old
 localconfig.vimrc
+.DS_Store
+*.bak

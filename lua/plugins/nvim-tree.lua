@@ -10,7 +10,7 @@ return {
     { '<C-b>', '<cmd>NvimTreeToggle<CR>', 'n', desc='FileTree Toggle', noremap = true, silent = true },
   },
   init = function()
-    vim.g.loaded = 1
+    vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
   end,
   opts = {
@@ -50,3 +50,4 @@ return {
     },
   },
 }
+

@@ -34,8 +34,8 @@
 | `gi` | n | Goto Implementation | LSP |
 | `gr` | n | Goto References | LSP |
 | `gs` | n | Signature Help | LSP |
-| `gO` | n | Document Symbols | LSP (Telescope) |
-| `gW` | n | Workspace Symbols | LSP (Telescope) |
+| `gO` | n | Document Symbols | LSP (fzf-lua) |
+| `gW` | n | Workspace Symbols | LSP (fzf-lua) |
 | `[d` | n | Previous Diagnostic | LSP |
 | `]d` | n | Next Diagnostic | LSP |
 | `[e` | n | Previous Error | LSP |
@@ -92,6 +92,7 @@
 | `<leader>ca` | n,v | Code Action | LSP |
 | `<leader>cA` | n | Source Action | LSP |
 | `<leader>cr` | n | Rename Symbol | LSP |
+| `<leader>cR` | n,v | Refactor Selected Code (AI) | codecompanion.nvim |
 | `<leader>cf` | n | Format Buffer | LSP |
 | `<leader>cF` | x | Format Selection | LSP |
 | `<leader>ci` | n | Import All Missing | LSP |
@@ -134,20 +135,22 @@
 ### Debugging
 | Key | Mode | Description | Plugin |
 |-----|------|-------------|--------|
-| `<leader>dR` | n,v | Run to Cursor | nvim-dap |
-| `<leader>db` | n | Step Back | nvim-dap |
-| `<leader>dc` | n | Continue | nvim-dap |
-| `<leader>dd` | n | Disconnect | nvim-dap |
-| `<leader>dg` | n | Get Session | nvim-dap |
+| `<leader>dc` | n | Continue / Start | nvim-dap |
 | `<leader>di` | n | Step Into | nvim-dap |
 | `<leader>do` | n | Step Over | nvim-dap |
-| `<leader>dq` | n | Quit | nvim-dap |
-| `<leader>ds` | n | Start | nvim-dap |
-| `<leader>dx` | n | Terminate | nvim-dap |
-| `<leader>dC` | n | Conditional Breakpoint | nvim-dap |
-| `<leader>dr` | n | Toggle Repl | nvim-dap |
-| `<leader>dt` | n,v | Toggle Breakpoint | nvim-dap |
 | `<leader>du` | n | Step Out | nvim-dap |
+| `<leader>db` | n | Step Back | nvim-dap |
+| `<leader>dR` | n,v | Run to Cursor | nvim-dap |
+| `<leader>dt` | n,v | Toggle Breakpoint | nvim-dap |
+| `<leader>dC` | n | Conditional Breakpoint | nvim-dap |
+| `<leader>dL` | n | Log Point | nvim-dap |
+| `<leader>dr` | n | Toggle REPL | nvim-dap |
+| `<leader>dg` | n | Get Session | nvim-dap |
+| `<leader>dd` | n | Disconnect | nvim-dap |
+| `<leader>dx` | n | Terminate | nvim-dap |
+| `<leader>dq` | n | Quit | nvim-dap |
+| `<leader>dU` | n | Toggle DAP UI | nvim-dap-ui |
+| `<leader>de` | n,v | Eval Expression | nvim-dap-ui |
 
 ## AI & Copilot
 
@@ -158,10 +161,8 @@
 | `<leader>cc` | n | Toggle CodeCompanion Chat | codecompanion.nvim |
 | `<C-g>` | n | Toggle CodeCompanion Chat (alternative) | codecompanion.nvim |
 | `<leader>ce` | v | Explain Selected Code | codecompanion.nvim |
-| `<leader>cr` | v | Refactor Selected Code | codecompanion.nvim |
+| `<leader>cR` | v | Refactor Selected Code (AI) | codecompanion.nvim |
 | `<leader>cg` | n | Generate Code Snippet | codecompanion.nvim |
-| `<leader>a+` | n | Select file in NvimTree | avante.nvim |
-| `<leader>a-` | n | Deselect file in NvimTree | avante.nvim |
 
 ## UI & Toggles
 
@@ -178,18 +179,16 @@
 
 ## Built-in Keymaps
 
-### Completion
+### Completion (blink.cmp — super-tab preset)
 | Key | Mode | Description | Plugin |
 |-----|------|-------------|--------|
-| `<C-n>` | i,c | Select Next Completion | nvim-cmp |
-| `<C-p>` | i,c | Select Previous Completion | nvim-cmp |
-| `<C-b>` | i,c | Scroll Documentation Up | nvim-cmp |
-| `<C-f>` | i,c | Scroll Documentation Down | nvim-cmp |
-| `<C-y>` | i,c | Confirm Completion | nvim-cmp |
-| `<C-Space>` | i,c | Trigger Completion | nvim-cmp |
-| `<CR>` | i | Confirm Selection | nvim-cmp |
-| `<Tab>` | i,s | Next Completion or Tab | nvim-cmp |
-| `<S-Tab>` | i,s | Previous Completion or Shift-Tab | nvim-cmp |
+| `<Tab>` | i,s | Accept completion / Next item | blink.cmp |
+| `<S-Tab>` | i,s | Previous item | blink.cmp |
+| `<C-n>` | i | Select Next Completion | blink.cmp |
+| `<C-p>` | i | Select Previous Completion | blink.cmp |
+| `<C-Space>` | i | Open menu / Show docs | blink.cmp |
+| `<C-e>` | i | Hide menu | blink.cmp |
+| `<C-k>` | i | Toggle signature help | blink.cmp |
 
 ## Mode Legend
 
@@ -206,7 +205,7 @@
 ### Prefix Groups
 - `g` - Go to/movement operations
 - `<leader>c` - Code-related actions
-- `<leader>d` - Diagnostic operations  
+- `<leader>d` - Debug / Diagnostic operations
 - `<leader>f` - File operations
 - `<leader>g` - Git operations
 - `<leader>l` - LSP server management
@@ -230,11 +229,12 @@
 
 ### Code Navigation & Editing
 - **nvim-treesitter**: Syntax highlighting and incremental selection
-- **nvim-cmp**: Autocompletion engine
+- **blink.cmp**: Autocompletion engine (with copilot, LSP, snippets, buffer sources)
 
 ### Testing & Debugging
-- **neotest**: Testing framework with DAP integration
-- **nvim-dap**: Debug Adapter Protocol for debugging
+- **neotest**: Testing framework with DAP integration (JS, Go, .NET, Vitest, Deno)
+- **nvim-dap**: Debug Adapter Protocol for debugging (JS/TS, Chrome, Firefox, Go, .NET)
+- **nvim-dap-ui**: Visual debugging interface with scopes, breakpoints, stacks, watches
 
 ### Git Integration
 - **gitsigns.nvim**: Git signs and blame information
@@ -243,7 +243,6 @@
 ### AI & Code Generation
 - **codecompanion.nvim**: AI chat and code assistance
 - **copilot.lua**: GitHub Copilot integration
-- **avante.nvim**: Advanced AI assistant
 
 ### Diagnostics & UI
 - **trouble.nvim**: Pretty diagnostics display

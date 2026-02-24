@@ -2,7 +2,7 @@ local H = {}
 
 H.get_git_info = function(args)
   local win_width = vim.api.nvim_win_get_width(0)
-  if (args and args.trunc_width and win_width < args.trunc_width ) or (vim.fn.exists('*FugiviteHead') ~= 1) then
+  if (args and args.trunc_width and win_width < args.trunc_width ) or (vim.fn.exists('*FugitiveHead') ~= 1) then
     return  ' '
   end
   -- get branch name from fugitive 

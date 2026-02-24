@@ -8,8 +8,12 @@ return {
     -- config = function()
     -- end
   },
-  { 'idanarye/vim-merginal' },
-  { 'lewis6991/gitsigns.nvim', enabled = false,
+  { 'idanarye/vim-merginal',
+    lazy = true,
+    cmd = { 'Merginal', 'MerginalToggle' },
+  },
+  { 'lewis6991/gitsigns.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       signcolumn = true,
       numhl = true,

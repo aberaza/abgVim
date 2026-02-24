@@ -23,14 +23,15 @@ It uses Lazy plugin manager.
 
 - `<leader> go` -> Toggle Diff overlay (show what has changed)
 
-### Autocomplete Suggestions & Snippets (CMP)
+### Autocomplete Suggestions & Snippets (blink.cmp — super-tab preset)
 
-- `Down` -> Next suggestion
-- `Up` -> Previous suggestion
-- `<C-n>` -> Open Suggestions / Next suggestion
-- `<C-p>` -> Open Suggestions / Previous suggestion
-- `<C-y>` -> Accept suggestion
-- `<C-e>` -> Abort
+- `Tab` -> Accept completion / Next item
+- `S-Tab` -> Previous item
+- `<C-n>` -> Next suggestion
+- `<C-p>` -> Previous suggestion
+- `<C-Space>` -> Open menu / Show docs
+- `<C-e>` -> Hide menu
+- `<C-k>` -> Toggle signature help
 
 ### Copilot Suggestions (shadow text)
 
@@ -76,7 +77,115 @@ It uses Lazy plugin manager.
 - Motion as in any other buffer
 
 
-## Flows & Tools
+## Testing (Neotest)
+
+All languages share the same keymaps via **neotest**. Open a test file first.
+
+| Key | Action |
+|-----|--------|
+| `<leader>tn` | Run nearest test (under cursor) |
+| `<leader>tf` | Run all tests in current file |
+| `<leader>tx` | Run entire test suite |
+| `<leader>tl` | Re-run last test |
+| `<leader>tv` | Run test & enter output |
+| `<leader>ta` | Attach to running test process |
+| `<leader>ts` | Stop running tests |
+| `<leader>tS` | Toggle test summary panel |
+| `<leader>to` | Open test output window |
+
+> Append `d` to most run keymaps to launch with DAP attached (e.g. `<leader>tnd`, `<leader>tfd`, `<leader>tld`).
+
+### Per-language adapters
+
+| Language | Adapter | Notes |
+|----------|---------|-------|
+| **TypeScript / JavaScript** | `neotest-jest` | Detects Jest config automatically |
+| **TypeScript / JavaScript** | `neotest-vitest` | Detects Vitest config automatically |
+| **TypeScript (Deno)** | `neotest-deno` | Detected when `deno.json` present |
+| **C# / .NET** | `neotest-dotnet` | Works with xUnit, NUnit, MSTest |
+| **Go** | `neotest-golang` | Uses `go test` under the hood |
+| **Other** | `neotest-vim-test` | Fallback for any vim-test compatible runner |
+
+---
+
+## Debugging (nvim-dap + nvim-dap-ui)
+
+The DAP UI opens/closes automatically when a session starts or ends.
+
+### Execution
+
+| Key | Action |
+|-----|--------|
+| `<leader>dc` | Continue / Start session |
+| `<leader>di` | Step Into |
+| `<leader>do` | Step Over |
+| `<leader>du` | Step Out |
+| `<leader>db` | Step Back |
+| `<leader>dR` | Run to cursor |
+
+### Breakpoints
+
+| Key | Action |
+|-----|--------|
+| `<leader>dt` | Toggle breakpoint |
+| `<leader>dC` | Conditional breakpoint (prompts for expression) |
+| `<leader>dL` | Log point (prints message without stopping) |
+
+### Session & UI
+
+| Key | Action |
+|-----|--------|
+| `<leader>dU` | Toggle DAP UI manually |
+| `<leader>de` | Evaluate expression under cursor / selection |
+| `<leader>dr` | Toggle REPL |
+| `<leader>dg` | Get current session info |
+| `<leader>dd` | Disconnect (keep process running) |
+| `<leader>dx` | Terminate session |
+| `<leader>dq` | Quit / Close DAP |
+
+### Per-language debug configurations
+
+Select a configuration with `<leader>dc` — a picker appears when multiple configs exist.
+
+#### JavaScript / TypeScript (js-debug)
+
+> Requires `~/bin/js-debug/src/dapDebugServer.js` (manually installed).
+
+| Config name | Description |
+|-------------|-------------|
+| Launch file (Node) | Runs the current file with Node.js |
+| Attach to Node process | Attach to an already-running Node process (process picker) |
+| Launch via npm (debug) | Runs `npm run debug` |
+| Launch Chrome | Opens Chrome at `http://localhost:3000` |
+| Attach Chrome | Attaches to Chrome started with `--remote-debugging-port=9222` |
+| Launch Firefox | Opens Firefox at `http://localhost:3000` |
+| Attach Firefox | Attaches to a running Firefox debug session |
+
+#### C# / .NET (netcoredbg)
+
+> Install debugger: `:MasonInstall netcoredbg`
+
+| Config name | Description |
+|-------------|-------------|
+| Launch (.NET) | Runs the built DLL (auto-detects in `bin/Debug/`) |
+| Attach (.NET) | Attaches to a running .NET process (process picker) |
+| Build & Launch (.NET) | Runs `dotnet build` first, then launches |
+
+#### Go (Delve)
+
+> Install debugger: `:MasonInstall delve` or `go install github.com/go-delve/delve/cmd/dlv@latest`
+
+| Config name | Description |
+|-------------|-------------|
+| Launch file (Go) | Debugs the current file |
+| Launch package (Go) | Debugs the current package |
+| Debug test (Go) | Debugs the test function under cursor |
+| Debug test suite (Go) | Debugs the entire test suite (`./...`) |
+| Attach to process (Go) | Attaches to a running Go process (process picker) |
+
+---
+
+
 
 ### Git & Fugitive
 

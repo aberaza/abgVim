@@ -10,7 +10,12 @@ return {
   },
   opts_extend = { "ensure_installed" },
   opts = {
-    ensure_installed = { "bash", "lua", "javascript", "typescript", "tsx", "json", "json5","jsdoc","markdown", "vim", "vimdoc", "c", "query", "yaml", "c_sharp", "go" },
+    ensure_installed = {
+      'bash', 'lua', 'javascript', 'typescript', 'tsx', 'json', 'json5', 'jsdoc',
+      'markdown', 'markdown_inline', 'vim', 'vimdoc', 'c', 'query', 'yaml',
+      'c_sharp', 'go', 'gomod', 'gowork', 'gosum',
+      'css', 'html', 'sql', 'dockerfile', 'graphql', 'regex', 'toml',
+    },
     auto_install = true,
     incremental_selection = { enable = true },
     highlight = {
@@ -26,16 +31,7 @@ return {
     },
     textobjects = { enable = false },
     indent = {
-      enable = true
-    },
-    context_commentstring = {
       enable = true,
-      enable_autocmd = false,
     },
-    rainbow = {
-      enable = true,
-      extended_mode = true,
-      max_file_lines = nil,
-    }
-  }
+  },
 }

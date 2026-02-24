@@ -20,6 +20,7 @@ require("lazy").setup({
     -- import your plugins
     { import = "plugins" },
     { import = "plugins.lsp" },
+    { import = "plugins.autocomplete" },
     { import = "plugins.ai" },
     { import = "plugins.debug" },
     { import = "plugins.mini" },
