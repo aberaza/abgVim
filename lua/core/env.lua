@@ -21,6 +21,7 @@ function M.load(path)
       if k and v then
         -- remove surrounding quotes if present
         v = v:gsub('^"(.*)"$', "%1"):gsub("^'(.*)'$", "%1")
+        v = trim(v)
         vim.env[k] = v
       end
     end
@@ -29,4 +30,3 @@ function M.load(path)
 end
 
 return M
-

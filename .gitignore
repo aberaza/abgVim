@@ -4,3 +4,8 @@ bundle/
 localconfig.vimrc
 .DS_Store
 *.bak
+
+.codegraph/ 
+memories/
+lazy-lock.json
+
