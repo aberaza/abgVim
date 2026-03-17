@@ -1,5 +1,6 @@
 return {
   "nvim-mini/mini.icons",
+  optional = true,
   opts = {
     file = {
       [".eslintrc.js"] = { glyph = "󰱺", hl = "MiniIconsYellow" },

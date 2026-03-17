@@ -6,6 +6,8 @@ return { 'saghen/blink.cmp',
   },
   -- use a release tag to download pre-built binaries
   version = '1.*',
+  event = {"InsertEnter", "CmdlineEnter"},
+  
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
@@ -29,13 +31,14 @@ return { 'saghen/blink.cmp',
     },
 
     completion = {
+      accept = { auto_brackets = { enabled = true }},
       documentation = { auto_show = true, auto_show_delay_ms = 250 },
       menu = { auto_show = true },
       ghost_text = { enabled = false }, -- disabled in favor of copilot inline suggestions
     },
 
     signature = { enabled = true },
-
+ 
     sources = {
       per_filetype = {
         codecompanion = { 'codecompanion' },

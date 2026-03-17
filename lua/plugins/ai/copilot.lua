@@ -3,7 +3,7 @@ return {
     "zbirenbaum/copilot.lua",
     lazy = true,
     cmd = "Copilot",
-    event = "InsertEnter",
+    event = { "InsertEnter", "BufEnter" },
     build = ":Copilot auth",
     init = function()
       vim.g.copilot_assume_mapped = true
@@ -36,6 +36,9 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     lazy = true,
+    -- Also load when entering a buffer so features (inline/commands) are
+    -- available for already-open buffers and non-insert workflows.
+    event = { "BufEnter", "InsertEnter" },
     config = function(_, opts)
       require("codecompanion").setup(opts)
 
@@ -79,13 +82,23 @@ return {
         end,
       })
 
-      -- Clean up the winbar when the diff is accepted or rejected.
+      local function close_diff_windows(bufnr)
+        if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then return end
+        vim.schedule(function()
+          for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
+            pcall(vim.api.nvim_win_close, win, true)
+          end
+        end)
+      end
+
+      -- Clean up the winbar and close diff windows when accepted or rejected.
       vim.api.nvim_create_autocmd("User", {
         pattern = { "CodeCompanionDiffAccepted", "CodeCompanionDiffRejected" },
         group = augroup,
         callback = function(ev)
           local bufnr = ev.data and ev.data.bufnr
           if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then return end
+          close_diff_windows(bufnr)
           vim.schedule(function()
             for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
               pcall(vim.api.nvim_set_option_value, "winbar", "", { win = win })
@@ -164,6 +177,7 @@ return {
             intro_message = "Welcome to CodeCompanion ✨! Press ? for options  │  gty YOLO mode (skip approvals)  │  gD Super Diff (review all edits)",
           },
           diff = {
+            enabled = true,
             provider = "mini_diff",
             provider_opts = {
               mini_diff = {

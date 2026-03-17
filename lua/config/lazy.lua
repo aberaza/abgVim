@@ -25,7 +25,7 @@ require("lazy").setup({
     { import = "plugins.debug" },
     { import = "plugins.mini" },
   },
-  defaults = { lazy = false, version = nil },
+  -- defaults = { lazy = true, version = nil },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { missing = true, colorscheme = { "sonokai" } },
