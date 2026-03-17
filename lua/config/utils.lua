@@ -138,7 +138,7 @@ H.setup_keymaps = function(p_buffer)
   end, key_opts('Organize Imports'))
 
   -- Diagnostics (leader d prefix)
-  keymap.set('n', '<leader>dd', vim.diagnostic.open_float, key_opts('Line Diagnostics'))
+  keymap.set('n', '<leader>dl', vim.diagnostic.open_float, key_opts('Line Diagnostics'))
   keymap.set('n', 'gl', vim.diagnostic.open_float, key_opts('Line Diagnostics'))
   keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1 }) end, key_opts('Previous Diagnostic'))
   keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1 }) end, key_opts('Next Diagnostic'))
@@ -158,10 +158,7 @@ H.setup_keymaps = function(p_buffer)
   keymap.set('n', '<leader>uh', function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
   end, key_opts('Toggle Inlay Hints'))
-  -- keymap.set('n', '<leader>uv', H.toggle_virtual_text, key_opts('Toggle Diagnostic Virtual Text'))
-  -- keymap.set('n', '<leader>uV', H.cycle_virtual_text, key_opts('Cycle Diagnostic Virtual Text'))
-
-  keymap.set('n', '<leader>us', function()
+  keymap.set('n', '<leader>us',
     vim.b.semantic_tokens_enabled = not vim.b.semantic_tokens_enabled
     vim.cmd('syntax sync fromstart')
   end, key_opts('Toggle Semantic Tokens'))

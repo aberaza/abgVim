@@ -80,7 +80,7 @@
 
 | Key | Mode | Description | Plugin |
 |-----|------|-------------|--------|
-| `<leader>dd` | n | Line Diagnostics | LSP |
+| `<leader>dl` | n | Line Diagnostics | LSP |
 | `<leader>xx` | n | Diagnostics Toggle (Trouble) | trouble.nvim |
 | `<leader>sd` | n | Find Document Diagnostics | fzf-lua |
 | `<leader>sD` | n | Find Workspace Diagnostics | fzf-lua |
