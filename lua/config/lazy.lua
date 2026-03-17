@@ -26,6 +26,7 @@ require("lazy").setup({
     { import = "plugins.mini" },
     { import = "plugins.conform" },
     { import = "plugins.overseer" },
+    { import = "plugins.satellite" },
   },
   -- defaults = { lazy = true, version = nil },
   -- Configure any other settings here. See the documentation for more details.
