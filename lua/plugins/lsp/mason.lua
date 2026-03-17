@@ -37,6 +37,8 @@ return {
         'lua_ls',
         -- Vim
         'vimls',
+        -- Bash / Shell
+        'bashls',
       },
       automatic_installation = true,
     },
@@ -61,6 +63,21 @@ return {
               diagnostics = {
                 globals = { 'vim', 'MiniFiles', 'MiniStatusline' },
               },
+            },
+          },
+        },
+        bashls = {
+          settings = {
+            bashIde = {
+              -- shellcheck is the linter backend; mason installs it separately
+              -- below via mason-tool-installer or manually via :MasonInstall shellcheck
+              shellcheckPath = vim.fn.exepath('shellcheck') ~= '' and vim.fn.exepath('shellcheck') or '',
+              -- shfmt for formatting (install via :MasonInstall shfmt)
+              shfmt = {
+                path = vim.fn.exepath('shfmt') ~= '' and vim.fn.exepath('shfmt') or '',
+              },
+              -- Glob patterns to treat as bash (not sh)
+              globPattern = '**/*@(.sh|.inc|.bash|.command|.zsh)',
             },
           },
         },
@@ -116,6 +133,27 @@ return {
         vim.lsp.config(server_name, server_opts)
         vim.lsp.enable(server_name)
       end
+    end,
+  },
+  {
+    -- Ensure non-LSP/DAP mason tools are installed (linters, formatters)
+    'williamboman/mason.nvim',
+    -- Re-declared here just to piggyback an after-setup autocmd;
+    -- the main mason spec is the one above with cmd = {'Mason', ...}.
+    optional = true,
+    config = function()
+      -- Install shellcheck and shfmt on first launch if not present.
+      -- They back bashls and conform.nvim respectively.
+      local registry = require('mason-registry')
+      local ensure = { 'shellcheck', 'shfmt' }
+      registry.refresh(function()
+        for _, tool in ipairs(ensure) do
+          local ok, pkg = pcall(registry.get_package, tool)
+          if ok and not pkg:is_installed() then
+            pkg:install()
+          end
+        end
+      end)
     end,
   },
 }
