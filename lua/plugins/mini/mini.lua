@@ -1,24 +1,43 @@
--- local H = {}
--- H.get_git_info = function(args)
---   local win_width = vim.api.nvim_win_get_width(0)
---   if args and args.trunc_width and win_width < args.trunc_width then
---     return  ' '
---   end
---   -- get branch name from fugitive 
---   return ' '..vim.fn.FugitiveHead()
--- end
-
-
 return {
+  { 'echasnovski/mini.extra', version = false, opts = {} },
   { 'nvim-mini/mini.comment', opts={} },
   { 'nvim-mini/mini.cursorword', opts={} },
   { 'nvim-mini/mini.surround', opts={} },
   { 'nvim-mini/mini.pairs', opts={} },
-  { 'nvim-mini/mini.extra', opts={} },
   { 'nvim-mini/mini.move', opts={} },
   { 'nvim-mini/mini.bufremove', opts={} },
-  {
-    'nvim-mini/mini.pick',
+  -- { 'nvim-mini/mini-git', opts = {}, main= 'mini.git' },
+  { 'nvim-mini/mini.statusline',
+    depends = { 'nvim-mini/mini.icons'},
+    lazy = false,
+    version = false,
+    opts={},
+    main='mini.statusline'
+  },
+  { 'nvim-mini/mini.indentscope', opts={ symbol = '┆', options = { border = "top", try_as_border = true } },
+      event= "BufEnter",
+      init = function()
+        vim.api.nvim_create_autocmd("FileType", {
+          desc = "Disable indentscope for certain filetypes",
+          pattern={
+            "aerial",
+            "codecompanion",
+            "help",
+            "lazy",
+            "leetcode.nvim",
+            "mason",
+            "NvimTree",
+            "neogitstatus",
+            "notify",
+            "Trouble"
+          },
+          callback = function()
+            vim.b.miniindentscope_disable = true
+          end,
+        })
+      end
+  },
+  { 'nvim-mini/mini.pick',
     version = false,
     opts = {},
     config = function(_, opts)
@@ -85,10 +104,4 @@ return {
       vim.keymap.set({ 'n', 'v' }, "<leader>fbs", "<cmd>Pick buf_lines scope='current'<CR>", vim.tbl_extend('force', map_opts, { desc = 'Search buffer' }))
     end,
   },
-  -- { import =  'plugins.mini.statusline' },
-  -- { import =  'plugins.mini.diff' },
-  -- { import =  'plugins.mini.files' },
-  -- { import =  'plugins.mini.indentscope' },
-  -- { import =  'plugins.mini.clue' },
-  -- { import =  'plugins.mini.hipatterns' },
 }
