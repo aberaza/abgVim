@@ -2,8 +2,8 @@
 
 ## Repository Structure
 This repository contains TWO separate configurations:
-1. **VimScript Configuration** - Entry points: `vimrc` (Vim) / `ginit.vim` (GUI)
-2. **Lua Configuration** - Entry point: `init.lua` (Neovim only)
+1. **VimScript Configuration** - Entry points: `vimrc` (Vim) / `ginit.vim` (GUI) and with subfiles in `config/` for plugins and settings
+2. **Lua Configuration** - Entry point: `init.lua` (Neovim only) with subfiles in `lua/` for plugins and settings
 
 ## Build/Lint/Test Commands
 
