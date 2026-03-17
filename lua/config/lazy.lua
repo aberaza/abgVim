@@ -24,6 +24,8 @@ require("lazy").setup({
     { import = "plugins.ai" },
     { import = "plugins.debug" },
     { import = "plugins.mini" },
+    { import = "plugins.conform" },
+    { import = "plugins.overseer" },
   },
   -- defaults = { lazy = true, version = nil },
   -- Configure any other settings here. See the documentation for more details.

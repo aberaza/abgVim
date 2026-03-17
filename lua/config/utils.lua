@@ -105,8 +105,10 @@ H.setup_keymaps = function(p_buffer)
     vim.lsp.buf.code_action({ context = { only = { 'source' } } })
   end, key_opts('Source Action'))
   keymap.set('n', '<leader>cr', vim.lsp.buf.rename, key_opts('Rename Symbol'))
-  keymap.set('n', '<leader>cf', function() vim.lsp.buf.format({ async = true }) end, key_opts('Format Buffer'))
-  keymap.set('x', '<leader>cF', vim.lsp.buf.format, key_opts('Format Selection'))
+  -- Note: <leader>cf is owned by conform.nvim (format with formatter chain + LSP fallback).
+  -- This binding invokes LSP format directly, useful when conform is toggled off.
+  keymap.set('n', '<leader>cF', function() vim.lsp.buf.format({ async = true }) end, key_opts('Format Buffer (LSP direct)'))
+  keymap.set('x', '<leader>cx', vim.lsp.buf.format, key_opts('Format Selection (LSP direct)'))
 
   -- Import management (if supported by LSP)
   keymap.set('n', '<leader>ci', function()
