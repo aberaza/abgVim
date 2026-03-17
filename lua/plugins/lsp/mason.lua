@@ -1,28 +1,36 @@
 return {
   {
+    'williamboman/mason.nvim',
+    cmd = {
+      'Mason',
+      'MasonInstall',
+      'MasonUpdate',
+      'MasonUninstall',
+      'MasonUninstallAll',
+      'MasonLog',
+    },
+    opts = {},
+  },
+  {
     'neovim/nvim-lspconfig',
     lazy = true,
     event = { 'BufReadPre', 'BufNewFile' },
   },
   {
     'williamboman/mason-lspconfig.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'williamboman/mason.nvim', opts = {} },
       'neovim/nvim-lspconfig',
+      'saghen/blink.cmp', -- for enhanced capabilities if available
     },
     opts = {
       ensure_installed = {
         -- TypeScript / JavaScript
-        'ts_ls',
-        'vtsls',
-        'eslint',
+        'ts_ls', 'vtsls', 'eslint',
         -- Web
-        'html',
-        'cssls',
-        'jsonls',
-        'yamlls',
+        'html', 'cssls', 'jsonls', 'yamlls',
         -- C# / .NET
-        'omnisharp',
+        'csharp_ls',
         -- Go
         'gopls',
         -- Lua (for neovim config)
@@ -34,6 +42,7 @@ return {
     },
     config = function(_, opts)
       require('mason-lspconfig').setup(opts)
+      require('lspconfig')
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
 
@@ -48,7 +57,6 @@ return {
         lua_ls = {
           settings = {
             Lua = {
-              workspace = { checkThirdParty = false },
               telemetry = { enable = false },
               diagnostics = {
                 globals = { 'vim', 'MiniFiles', 'MiniStatusline' },
@@ -65,15 +73,6 @@ return {
               },
               staticcheck = true,
               gofumpt = true,
-            },
-          },
-        },
-        omnisharp = {
-          settings = {
-            omnisharp = {
-              enableRoslynAnalyzers = true,
-              organizeImportsOnFormat = true,
-              enableEditorConfigSupport = true,
             },
           },
         },

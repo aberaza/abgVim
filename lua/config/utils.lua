@@ -18,6 +18,74 @@ H.dap = {
     Rejected            = " ", 
   }
 
+-- local virtual_text_mode = "full" -- full | minimal | off
+local severity_to_name = {
+  [severity.ERROR] = "Error",
+  [severity.WARN] = "Warn",
+  [severity.HINT] = "Hint",
+  [severity.INFO] = "Info",
+}
+
+-- local function virtual_text_prefix(diagnostic)
+--   local icon = "● "
+--   local name = severity_to_name[diagnostic.severity] or "Info"
+--   return { 
+--     { icon, "DiagnosticVirtualText" .. name },
+--     { (diagnostic.message or ""):gsub("\n.*", ""), "DiagnosticVirtualText" .. name },
+--   }
+-- end
+--
+--
+-- local function virtual_text_format(diagnostic)
+--   if virtual_text_mode == "minimal" then
+--     return ""
+--   end
+--   return (diagnostic.message or ""):gsub("\n.*", "")
+-- end
+--
+-- H.set_virtual_text_mode = function(mode)
+--   local allowed = { full = true, minimal = true, off = true }
+--   if not allowed[mode] then
+--     return
+--   end
+--
+--   virtual_text_mode = mode
+--
+--   if mode == "off" then
+--     vim.diagnostic.config({ virtual_text = false })
+--     return
+--   end
+--
+--   vim.diagnostic.config({
+--     virtual_text = {
+--       spacing = 2,
+--       prefix = virtual_text_prefix,
+--       virtual_text = virtual_text_prefix
+--       format = virtual_text_format,
+--       source = mode == "full" and "if_many" or false,
+--     },
+--   })
+-- end
+--
+-- H.toggle_virtual_text = function()
+--   if virtual_text_mode == "off" then
+--     H.set_virtual_text_mode("full")
+--   else
+--     H.set_virtual_text_mode("off")
+--   end
+--   vim.notify("Virtual text: " .. virtual_text_mode, vim.log.levels.INFO)
+-- end
+--
+-- H.cycle_virtual_text = function()
+--   local next_mode = {
+--     full = "minimal",
+--     minimal = "off",
+--     off = "full",
+--   }
+--   H.set_virtual_text_mode(next_mode[virtual_text_mode] or "full")
+--   vim.notify("Virtual text: " .. virtual_text_mode, vim.log.levels.INFO)
+-- end
+--
 
 H.setup_keymaps = function(p_buffer)
   local buffer = p_buffer and p_buffer.buffer or 0
@@ -71,6 +139,7 @@ H.setup_keymaps = function(p_buffer)
 
   -- Diagnostics (leader d prefix)
   keymap.set('n', '<leader>dd', vim.diagnostic.open_float, key_opts('Line Diagnostics'))
+  keymap.set('n', 'gl', vim.diagnostic.open_float, key_opts('Line Diagnostics'))
   keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1 }) end, key_opts('Previous Diagnostic'))
   keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1 }) end, key_opts('Next Diagnostic'))
   keymap.set('n', '[e', function() vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR }) end, key_opts('Previous Error'))
@@ -78,13 +147,19 @@ H.setup_keymaps = function(p_buffer)
 
   -- LSP Management (leader l prefix)
   keymap.set('n', '<leader>li', vim.lsp.buf.incoming_calls, key_opts('Incoming Calls'))
-  keymap.set('n', '<leader>lr', function() vim.lsp.stop_client(vim.lsp.get_clients()) end, key_opts('Stop LSP'))
+  keymap.set('n', '<leader>lr', function()
+    for _, client in pairs(vim.lsp.get_clients({ bufnr = buffer })) do
+      client.stop()
+    end
+  end, key_opts('Stop LSP'))
   keymap.set('n', '<leader>ll', function() vim.cmd('LspLog') end, key_opts('LSP Log'))
 
   -- UI/Toggles (leader u prefix)
   keymap.set('n', '<leader>uh', function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
   end, key_opts('Toggle Inlay Hints'))
+  -- keymap.set('n', '<leader>uv', H.toggle_virtual_text, key_opts('Toggle Diagnostic Virtual Text'))
+  -- keymap.set('n', '<leader>uV', H.cycle_virtual_text, key_opts('Cycle Diagnostic Virtual Text'))
 
   keymap.set('n', '<leader>us', function()
     vim.b.semantic_tokens_enabled = not vim.b.semantic_tokens_enabled

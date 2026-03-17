@@ -5,6 +5,7 @@ if not ok then
 end
 local setup_keymaps = utils.setup_keymaps
 local diagnostic_icons = utils.diagnostics
+local set_virtual_text_mode = utils.set_virtual_text_mode
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -14,7 +15,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover,
+  { border = "rounded" }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help,
+  { border = "rounded" }
+)
+
 local severity = vim.diagnostic.severity
+-- Define diagnostic signs explicitly for broader compatibility across Neovim versions.
+for name, icon in pairs({
+  Error = diagnostic_icons[severity.ERROR],
+  Warn = diagnostic_icons[severity.WARN],
+  Hint = diagnostic_icons[severity.HINT],
+  Info = diagnostic_icons[severity.INFO],
+}) do
+  vim.fn.sign_define("DiagnosticSign" .. name, { text = icon, texthl = "DiagnosticSign" .. name })
+end
 vim.diagnostic.config({
   signs = {
     text = {
@@ -24,5 +44,10 @@ vim.diagnostic.config({
       [severity.INFO]  = diagnostic_icons[severity.INFO],
     },
   },
+  float = {
+    border = "rounded",
+    source = "if_many",
+  },
 })
 
+-- set_virtual_text_mode("full")
