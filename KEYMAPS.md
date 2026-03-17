@@ -169,6 +169,8 @@
 | Key | Mode | Description | Context |
 |-----|------|-------------|---------|
 | `<leader>uh` | n | Toggle Inlay Hints | LSP |
+| `<leader>uv` | n | Toggle Diagnostic Virtual Text (on/off) | LSP |
+| `<leader>uV` | n | Cycle Diagnostic Virtual Text (full→minimal→off) | LSP |
 | `<leader>us` | n | Toggle Semantic Tokens | LSP |
 
 ## Windows & Tabs

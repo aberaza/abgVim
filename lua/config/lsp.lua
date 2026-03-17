@@ -5,7 +5,9 @@ if not ok then
 end
 local setup_keymaps = utils.setup_keymaps
 local diagnostic_icons = utils.diagnostics
-local set_virtual_text_mode = utils.set_virtual_text_mode
+
+-- Activate virtual text at "full" mode on startup (icon + message, source shown when multiple LSPs)
+utils.set_virtual_text_mode('full')
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -49,5 +51,3 @@ vim.diagnostic.config({
     source = "if_many",
   },
 })
-
--- set_virtual_text_mode("full")
