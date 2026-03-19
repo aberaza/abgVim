@@ -135,25 +135,4 @@ return {
       end
     end,
   },
-  {
-    -- Ensure non-LSP/DAP mason tools are installed (linters, formatters)
-    'williamboman/mason.nvim',
-    -- Re-declared here just to piggyback an after-setup autocmd;
-    -- the main mason spec is the one above with cmd = {'Mason', ...}.
-    optional = true,
-    config = function()
-      -- Install shellcheck and shfmt on first launch if not present.
-      -- They back bashls and conform.nvim respectively.
-      local registry = require('mason-registry')
-      local ensure = { 'shellcheck', 'shfmt' }
-      registry.refresh(function()
-        for _, tool in ipairs(ensure) do
-          local ok, pkg = pcall(registry.get_package, tool)
-          if ok and not pkg:is_installed() then
-            pkg:install()
-          end
-        end
-      end)
-    end,
-  },
 }
