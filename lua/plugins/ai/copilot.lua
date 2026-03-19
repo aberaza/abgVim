@@ -36,8 +36,6 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     lazy = true,
-    -- Also load when entering a buffer so features (inline/commands) are
-    -- available for already-open buffers and non-insert workflows.
     event = { "BufEnter", "InsertEnter" },
     config = function(_, opts)
       require("codecompanion").setup(opts)
@@ -120,6 +118,26 @@ return {
     },
     opts = function(_, opts)
       local extras = require("plugins.ai.codecompanion_extras.extras")
+
+      -- Conditionally enable mcphub extension only if the mcphub module is available
+      local extensions = {}
+      do
+        local ok = pcall(require, "mcphub")
+        if ok then
+          extensions.mcphub = {
+            callback = "mcphub.extensions.codecompanion",
+            opts = {
+              make_tools = true,           -- Convert resources to mcp tools
+              show_server_tools_in_chat = true,  -- Show mcp server tools in chat
+              add_mcp_prefix_to_tool_names = true,  -- Prefix mcp tools with "mcp:" in chat
+              show_result_in_chat = true,  -- Show mcp tool results in chat
+              make_vars = false,            -- Convert resources to #variables. Temporarily Set to false to fix bug -- TODO: revert to true
+              make_slash_commands = true,  -- Add prompts as /slash commands
+            }
+          }
+        end
+      end
+
       local base_opts = {
         http = {
           timeout = 60000,  -- 60 seconds
@@ -140,19 +158,7 @@ return {
             end,
           }
         },
-        extensions = {
-          mcphub = {
-            callback = "mcphub.extensions.codecompanion",
-            opts = {
-              make_tools = true,           -- Convert resources to mcp tools
-              show_server_tools_in_chat = true,  -- Show mcp server tools in chat
-              add_mcp_prefix_to_tool_names = true,  -- Prefix mcp tools with "mcp:" in chat
-              show_result_in_chat = true,  -- Show mcp tool results in chat
-              make_vars = true,            -- Convert resources to #variables
-              make_slash_commands = true,  -- Add prompts as /slash commands
-            }
-          }
-        },
+        extensions = extensions,
         strategies = {
           chat = { 
             adapter = {
@@ -267,6 +273,7 @@ return {
     end
   },{
     "ravitemer/mcphub.nvim",
+    enabled = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
@@ -277,3 +284,4 @@ return {
   }
 
 }
+
