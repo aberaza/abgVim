@@ -72,30 +72,37 @@ lua/
 | Completion | blink.cmp (super-tab preset) |
 | Snippets | friendly-snippets |
 | Syntax | nvim-treesitter + textobjects |
+| Text objects | mini.ai (treesitter-backed F/C/o + builtins + custom L/I/n/W) |
 | Fuzzy find | fzf-lua (primary), mini.pick (secondary / ui.select) |
 | File explorer | mini.files |
 | Git | gitsigns, mini.diff, vim-fugitive, vim-merginal |
 | Debugging | nvim-dap + dap-ui + dap-virtual-text + mason-nvim-dap |
 | Testing | neotest + jest/vitest/dotnet/golang/deno adapters |
+| Formatting | conform.nvim (prettier, csharpier, gofumpt, shfmt, stylua, sql_formatter) |
+| Task runner | overseer.nvim (npm/dotnet/go templates, `:OverseerRun`) |
 | AI | copilot.lua + codecompanion.nvim + mcphub.nvim (MCP) |
 | DB | vim-dadbod + dadbod-ui + dadbod-completion |
 | Markdown | render-markdown.nvim + live-preview.nvim |
 | Diagnostics | trouble.nvim |
 | Outline | aerial.nvim |
-| UI lib | mini.* (clue, diff, files, hipatterns, icons, indentscope, statusline, etc.) |
-| Theme | sonokai (active), tokyonight (lazy alt) |
+| Scrollbar | satellite.nvim (diag ● + git ▎ + search marks) |
+| Statusline | mini.statusline (custom: mode icon, branch, ●N diags, LSP, fileinfo) |
+| Tabline | mini.tabline (icons, ● modified marker, tabpage section) |
+| Notifications | mini.notify (icon-prefixed levels, LSP progress, rounded float) |
+| UI lib | mini.ai, mini.clue, mini.diff, mini.extra, mini.files, mini.hipatterns, mini.icons, mini.indentscope, mini.pick |
+| Theme | sonokai (default), catppuccin-mocha (alt), tokyonight-storm (alt) |
 
 ## Language / Tooling Coverage
 | Lang | LSP | Debug | Test | Lint/Format |
 |---|---|---|---|---|
-| TypeScript / JS | ts_ls + vtsls + eslint | pwa-node/chrome | jest + vitest | eslint (auto-fix on save) |
-| C# / .NET | csharp_ls | netcoredbg (coreclr) | neotest-dotnet | — |
-| Go | gopls | delve | neotest-golang | gofumpt |
-| Bash/Shell | — | — | — | — |
-| Lua | lua_ls | — | — | — |
-| SQL/PostgreSQL | — (dadbod) | — | — | — |
-| HTML/CSS/JSON/YAML | html, cssls, jsonls, yamlls | — | — | — |
-| Markdown | — | — | — | render-markdown, live-preview |
+| TypeScript / JS | ts_ls + vtsls + eslint | pwa-node/chrome | jest + vitest | eslint (auto-fix on save) + prettier (conform) |
+| C# / .NET | csharp_ls | netcoredbg (coreclr) | neotest-dotnet | csharpier (conform) |
+| Go | gopls | delve | neotest-golang | gofumpt + goimports (conform) |
+| Bash/Shell | bashls + shellcheck | — | — | shfmt (conform) |
+| Lua | lua_ls | — | — | stylua (conform) |
+| SQL/PostgreSQL | — (dadbod) | — | — | sql_formatter (conform) |
+| HTML/CSS/JSON/YAML | html, cssls, jsonls, yamlls | — | — | prettier (conform) |
+| Markdown | — | — | — | render-markdown, live-preview, prettier (conform) |
 
 ## Keymaps Summary (leaders: Space / ,)
 - `<leader>c*` — code actions, format, rename, AI
@@ -113,26 +120,17 @@ lua/
 - See `KEYMAPS.md` for full table
 
 ## Gaps / Known Issues (pre-improvement)
-- No `bashls` / `shellcheck` LSP for shell scripting
-- No REST client (http file runner or curl-style)
-- No JSON tooling (jq integration, jsonpath)
-- No code-lens (e.g. `nvim-lenses` or LSP codelens display)
-- `virtual_text` in `utils.lua` is fully commented out — diagnostics show only signs
-- `statusline.lua` and `indentscope.lua` are empty placeholders
-- `nvim-tree.lua` is disabled but not removed
-- `git_branch_watch.lua` exists but is never required
+- No REST client (http file runner or curl-style) — kulala.nvim planned
+- No JSON tooling (jq integration, jsonpath) — planned
+- No code-lens (LSP codelens display) — planned
+- No window/session management (persistence.nvim or similar) — planned
+- No terminal integration (toggleterm.nvim) — planned
+- Treesitter textobjects `enable = false` in opts (queries still used by mini.ai)
+- `nvim-tree.lua` is disabled but not removed (dead file)
+- `git_branch_watch.lua` exists but is never required (dead file)
 - `neotest` bash/shell adapter missing
-- No build task runner (`:make` / overseer.nvim / toggleterm)
-- No terminal integration beyond DAP REPL
-- No `noice.nvim` or styled cmdline/notifications (uses default)
 - Trouble.nvim has only one keymap wired (`<leader>xx`)
-- `<leader>dd` conflicts: both DAP disconnect and LSP line diagnostics
-- Copilot model set to `gpt-5-mini` (non-existent model name — likely a typo for `gpt-4o-mini`)
-- `mini.pick` configured as `ui.select` but fzf-lua is primary; potential picker conflicts
-- No `.editorconfig` or `conform.nvim` for formatter management beyond LSP format
-- No window/session management (persistence.nvim or similar)
-- Treesitter textobjects enabled in dependency but disabled in opts (`enable = false`)
-- `vim.loop` deprecation warning (should use `vim.uv` in Neovim 0.10+)
+- `mini.pick` configured as `ui.select` but fzf-lua is primary; potential picker conflicts on some actions
 
 ## Code Style (Lua)
 - 2-space indent, single quotes preferred
