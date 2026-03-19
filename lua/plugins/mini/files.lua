@@ -5,6 +5,8 @@ return {
     keys = {
       { "<leader>e", function() require("mini.files").toggle() end, desc = "Explorer (mini.files)" },
       { "<leader>E", function() require("mini.files").toggle(vim.api.nvim_buf_get_name(0)) end, desc = "Explorer (current file)" },
+      { "<C-b>", function() require("mini.files").toggle(vim.fn.getcwd()) end, desc = "Explorer (cwd)" },
+      { "-", function() require("mini.files").toggle(vim.fn.getcwd()) end, desc = "Explorer (cwd)" },
     },
     opts = {
       mappings = {

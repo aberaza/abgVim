@@ -14,7 +14,7 @@ return {
         auto_trigger = true,
         hide_during_completion = true,
         debounce = 150,
-        keymap = {	 
+        keymap = { 	 
           accept = "<M-l>",
           next = "<M-j>",
           prev = "<M-k>",

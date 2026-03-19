@@ -19,7 +19,7 @@ return {
       {'<leader>tfd', "<cmd>lua require('neotest').run.run({vim.fn.expand('%'), strategy = 'dap'})<cr>", mode='n', desc = "Test File with DAP"},
       {'<leader>tx', "<cmd>lua require('neotest').run.run({ suite = true })<CR>", mode='n', desc = "Test Suite"},
       {'<leader>tl', "<cmd>lua require('neotest').run.run_last()<CR>", mode='n', desc = "Test Last"},
-      {'<leader>tld', "<cmd>lua require('neotest').run.last({ strategy = 'dap' })<cr>", mode='n', desc = "Test Last with DAP"},
+      {'<leader>tld', "<cmd>lua require('neotest').run.run_last({ strategy = 'dap' })<cr>", mode='n', desc = "Test Last with DAP"},
       {'<leader>tn', "<cmd>lua require('neotest').run.run()<CR>", mode='n', desc = "Test Nearest"},
       {'<leader>tnd', "<cmd>lua require('neotest').run.run({strategy = 'dap'})<cr>", mode='n', desc = "Test Nearest with DAP"},
       {'<leader>tv', "<cmd>lua require('neotest').run.run({ enter = true })<CR>", mode='n', desc = "Test Visit"},
@@ -29,19 +29,19 @@ return {
       {'<leader>to', "<cmd>lua require('neotest').output.open()<CR>", mode='n', desc = "Test Output"},
     }, 
     opts = {
-      -- Can be a list of adapters like what neotest expects,
-      -- or a table of adapter names, mapped to adapter configs.
-      -- The adapter will then be automatically loaded with the config.
       adapters = {
         ["neotest-deno"] = {},
         ["neotest-jest"] = {},
         ["neotest-vitest"] = {},
-        ["neotest-vim-test"] = {
-          ignore_file_types = { "python", "vim", "lua", "go", "rust" },
-        },
+        ["neotest-vim-test"] = { ignore_file_types = { "python", "vim", "lua", "go", "rust" } },
         ["neotest-dotnet"] = {},
         ["neotest-golang"] = {},
       },
+      status = { virtual_text = true },
+      output = { open_on_run = true },
     },
+    config = function(_, opts)
+      require("neotest").setup(opts)
+    end,
   },
 }
